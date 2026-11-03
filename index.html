@@ -128,6 +128,7 @@ h3{font-size:1.05em; font-stretch:85%; font-weight:750; text-transform:uppercase
 .dcl{margin:0; display:flex; flex-direction:column; gap:3px; min-width:0}
 .dcl figcaption{font-size:.8em; line-height:1.3; color:var(--muted)}
 .dcl figcaption b{color:var(--ink)}
+.nw{white-space:nowrap}
 .dcl2{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px}
 .s2-grid{font-size:min(1em,1.7vh)}
 .steps{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:clamp(5px,1vh,12px); min-width:0}
@@ -194,7 +195,6 @@ input[type=range]{width:100%; margin:0; accent-color:var(--accent)}
 .cmp .val{font-family:var(--mono); font-weight:700; white-space:nowrap}
 .cmp .lim{font-size:.76em; color:var(--muted); text-align:right; line-height:1.25}
 .cmp .lim b{font-family:var(--mono); color:var(--ink)}
-.cmp .row.bad .val{color:var(--bad)}
 .cta{
   font:inherit; font-family:var(--display); font-stretch:85%; font-weight:750; letter-spacing:.06em; text-transform:uppercase;
   font-size:1em; padding:12px 16px; cursor:pointer; text-align:left;
@@ -261,16 +261,16 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
         <div class="head">
           <p class="eyebrow">Tema</p>
           <h1>Trabajo y energía, conservación de la energía</h1>
-          <p class="app">Lo aplicamos a Ingeniería de Sistemas: el software que lee el código de barras de cada paquete y decide a qué ruta va.</p>
+          <p class="app">Aplicado a Ingeniería de Sistemas: el software que lee el código de barras y decide la ruta de cada paquete.</p>
         </div>
         <div class="enun">
           <h3>Enunciado</h3>
-          <p>En un centro de distribución, los paquetes bajan del mezanine por una rampa de lámina inclinada <b>30°</b>, cuya parte alta está a <b>1,8 m</b> del piso. Un paquete de <b>4,0 kg</b> se suelta desde el reposo. Abajo sigue un tramo plano de la misma lámina: a <b>1,0 m</b> del pie de la rampa está el lector de código de barras, que solo lee bien si el paquete pasa a <b>3,0 m/s</b> o menos, y a <b>1,5 m</b> está el tope, un resorte de <b>1200 N/m</b>. El coeficiente de fricción cinética con la lámina es <b>0,35</b> en todo el recorrido: en la rampa, en el plano y mientras comprime el resorte. Determine:</p>
+          <p>En un centro de distribución, los paquetes bajan del mezanine por una rampa de lámina inclinada <b>30°</b>, con la parte alta a <b>1,8 m</b> del piso. Un paquete de <b>4,0 kg</b> se suelta desde el reposo. Sigue un plano de la misma lámina: a <b>1,0 m</b> del pie está el lector de código de barras, que lee bien hasta <b>3,0 m/s</b>, y a <b>1,5 m</b>, el tope: un resorte de <b>1200 N/m</b>. El coeficiente de fricción cinética es <b>0,35</b> en todo el recorrido (rampa, plano y resorte). Determine:</p>
           <ol class="qs" aria-label="Preguntas">
-            <li><span>¿Con qué rapidez llega el paquete al pie de la rampa? <i>→ De ahí sale todo lo demás.</i></span></li>
+            <li><span>¿Con qué rapidez llega al pie de la rampa? <i>→ De ahí sale todo lo demás.</i></span></li>
             <li><span>¿Cuánta energía se pierde por fricción en la rampa? <i>→ Mide cuánto frena la lámina, sin motores.</i></span></li>
-            <li><span>¿Con qué rapidez pasa por el lector? ¿Se lee la etiqueta? <i>→ Si no lee, el paquete se va a revisión manual.</i></span></li>
-            <li><span>¿Cuánto se comprime el resorte hasta detener el paquete? <i>→ Dice cuánto recorrido necesita el tope y si frena sin dañar el paquete.</i></span></li>
+            <li><span>¿Con qué rapidez pasa por el lector? ¿Se lee la etiqueta? <i>→ Si no, el paquete va a revisión manual.</i></span></li>
+            <li><span>¿Cuánto se comprime el resorte al detenerlo? <i>→ El recorrido que necesita el tope y si frena sin dañar el paquete.</i></span></li>
           </ol>
         </div>
       </div>
@@ -343,14 +343,14 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
             <div><dt>Partida</dt><dd>v<sub>1</sub> = 0</dd></div>
           </dl>
         </div>
-        <p class="real"><b>¿Los valores son reales?</b> Son valores posibles, pero no los medimos en una bodega de verdad. v<sub>máx</sub> y μ<sub>k</sub> sí están cerca de datos reales: los túneles de lectura llegan a unos 3,3 m/s y el cartón corrugado contra cartón da cerca de 0,35. Lo demás lo supusimos para el ejercicio; una rampa comercial suele ser menos inclinada (16–20°).</p>
+        <p class="real"><b>¿Los valores son reales?</b> Los supusimos; no los medimos en una bodega. v<sub>máx</sub> y μ<sub>k</sub> sí se acercan a datos reales (túneles de lectura de unos 3,3 m/s; cartón contra cartón ≈ 0,35). Una rampa comercial suele ser menos inclinada (16–20°).</p>
       </div>
     </section>
 
     <!-- ================= 2 · SOLUCIÓN ================= -->
     <section class="slide" id="s2" aria-label="Solución paso a paso">
       <div class="head">
-        <p class="eyebrow">Solución paso a paso · la energía va bajando lo que se lleva la fricción</p>
+        <p class="eyebrow">Solución paso a paso</p>
         <h2>Energía punto a punto: E<sub>B</sub> = E<sub>A</sub> + W<sub>fk</sub></h2>
       </div>
       <div class="s2-grid">
@@ -374,7 +374,7 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
                 <text x="52" y="38" class="t-muted" style="font-size:14px">+x</text><text x="30" y="-40" class="t-muted" style="font-size:14px">+y</text>
               </g>
             </svg>
-            <figcaption><b>En la rampa.</b> El paquete baja porque la parte del peso que va a lo largo de la rampa, m g sen θ = 19,6 N, es mayor que la fricción, f<sub>k</sub> = μ<sub>k</sub> n = 11,88 N. La normal vale n = m g cos θ = 33,95 N.</figcaption>
+            <figcaption><b>En la rampa.</b> Baja porque la parte del peso a lo largo de la rampa, <span class="nw">m g sen θ = 19,6 N</span>, supera la fricción <span class="nw">f<sub>k</sub> = μ<sub>k</sub> n = 11,88 N</span>, con <span class="nw">n = m g cos θ = 33,95 N</span>.</figcaption>
           </figure>
           <div class="dcl2">
             <figure class="fig dcl">
@@ -390,7 +390,7 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
                 <g transform="translate(14 186)"><path class="s-muted" stroke-width="1.8" d="M0 0H38" marker-end="url(#m-muted)"/><path class="s-muted" stroke-width="1.8" d="M0 0V-38" marker-end="url(#m-muted)"/>
                 <text x="42" y="5" class="t-muted" style="font-size:14px">+x</text><text x="6" y="-30" class="t-muted" style="font-size:14px">+y</text></g>
               </svg>
-              <figcaption><b>En el plano.</b> La fricción sigue ahí y lo va frenando: n = m g = 39,2 N y f<sub>k</sub> = 13,72 N.</figcaption>
+              <figcaption><b>En el plano.</b> La fricción lo frena: <span class="nw">n = m g = 39,2 N</span> y <span class="nw">f<sub>k</sub> = 13,72 N</span>.</figcaption>
             </figure>
             <figure class="fig dcl">
               <svg viewBox="0 0 230 200" role="img" aria-label="Diagrama de cuerpo libre del paquete comprimiendo el resorte: normal hacia arriba, peso hacia abajo, y fricción y fuerza del resorte hacia atrás.">
@@ -405,7 +405,7 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
                 <path class="s-violet" stroke-width="4" d="M112 112H16" marker-end="url(#m-violet)"/>
                 <text x="0" y="138"><tspan class="t-name">Resorte </tspan><tspan class="t-violet">F</tspan><tspan class="t-violet" font-size="12" dy="4">e</tspan><tspan class="t-violet" dy="-4"> = k x</tspan></text>
               </svg>
-              <figcaption><b>Comprimiendo el resorte.</b> El resorte y la fricción empujan hacia atrás: entre los dos lo frenan.</figcaption>
+              <figcaption><b>En el resorte.</b> El resorte y la fricción lo frenan juntos.</figcaption>
             </figure>
           </div>
         </div>
@@ -480,7 +480,6 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
                 <span class="name">Energía en 5, con K<sub>5</sub> = 0 <i>· ec. (3) y (5)</i></span>
                 <span class="f">½ k x² = E<sub>4</sub> − μ<sub>k</sub> m g x</span>
                 <span class="f">(600 N/m) x² + (13,72 N) x − 7,20 J = 0</span>
-                <span class="f">Mientras comprime, la fricción sigue actuando.</span>
               </div>
               <div class="law">
                 <span class="name">Ecuación cuadrática <i>· ec. (11)</i></span>
@@ -488,7 +487,7 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
                 <span class="f">x = [−b + √(b² − 4 a c)] / (2 a)</span>
                 <span class="f">x = (−13,72 N + 132,17 N) / (1200 N/m) = <b>0,0987 m</b></span>
               </div>
-              <div class="result"><span class="v">x = 9,9 cm</span><span class="w">La raíz negativa no sirve: el paquete comprime el resorte, no lo estira.</span></div>
+              <div class="result"><span class="v">x = 9,9 cm</span><span class="w">La otra raíz es negativa y no sirve.</span></div>
             </div>
           </li>
           <li class="step">
@@ -499,7 +498,7 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
                 <span class="f">F<sub>e</sub> = k x = (1200 N/m)(0,0987 m) = 118,5 N</span>
                 <span class="f">ΣF<sub>x</sub> = −F<sub>e</sub> − f<sub>k</sub> = m a</span>
                 <span class="f">a = −(118,5 N + 13,72 N) / (4,0 kg) = <b>−33,1 m/s²</b></span>
-                <span class="f">El signo − dice que frena. (33,1 m/s²) / (9,8 m/s²) = <b>3,4 veces g</b></span>
+                <span class="f">Frena (signo −): (33,1 m/s²) / (9,8 m/s²) = <b>3,4 g</b></span>
               </div>
               <div class="law">
                 <span class="name">Balance de energía hasta el punto 5</span>
@@ -508,7 +507,7 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
                 <span class="f">Total = 42,78 J + 13,72 J + 6,86 J + 1,35 J = <b>64,71 J</b></span>
                 <span class="f">(64,71 J / 70,56 J) × 100 % = <b>91,7 %</b></span>
               </div>
-              <div class="result"><span class="v">3,4 g</span><span class="w">Frena suave. La fricción se lleva el 91,7 % de la energía.</span></div>
+              <div class="result"><span class="v">3,4 g</span><span class="w">Frena suave; la fricción se lleva el 91,7 %.</span></div>
             </div>
           </li>
         </ol>
@@ -518,7 +517,7 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
     <!-- ================= 3 · SIMULACIÓN Y CONCLUSIONES ================= -->
     <section class="slide" id="s3" aria-label="Simulación y conclusiones">
       <div class="head">
-        <p class="eyebrow">Simulación · cambie los parámetros</p>
+        <p class="eyebrow">Simulación</p>
         <h2>¿Qué pasa si cambiamos la rampa o la lámina?</h2>
       </div>
       <div class="s3-grid">
@@ -545,11 +544,11 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
             <button type="button" class="chip speed" data-s="0.25" aria-pressed="false">¼×</button>
             <button type="button" class="chip" id="replay">Repetir</button>
           </div>
-          <p class="note">La simulación usa μ<sub>k</sub> en todo el recorrido, no pierde energía al pasar de la rampa al plano y toma el resorte como ideal. Como el enunciado no da μ<sub>s</sub>, también usamos μ<sub>k</sub> para ver si el paquete arranca o se queda quieto.</p>
+          <p class="note">Supuestos: μ<sub>k</sub> en todo el recorrido (también para ver si arranca, porque no dan μ<sub>s</sub>), sin pérdidas al pasar de la rampa al plano y resorte ideal.</p>
         </div>
 
         <div class="side">
-          <div class="verdict" id="verdict" aria-live="polite"><span class="vt" id="vt">Lee la etiqueta</span><span class="vs" id="vs">pasa por el lector a 2,65 m/s, por debajo de 3,0 m/s</span></div>
+          <div class="verdict" id="verdict" aria-live="polite"><span class="vt" id="vt">Lee la etiqueta</span><span class="vs" id="vs">el software lo manda a su ruta</span></div>
           <div class="gauge">
             <div class="grow"><span>Rapidez en el lector<br><b id="g-v">2,65 m/s</b></span><span style="text-align:right">Límite del lector<br><b>3,0 m/s</b></span></div>
             <div class="track" role="img" id="track" aria-label="Rapidez en el lector frente al límite"><div class="fill" id="fill"></div><div class="limit" id="limit"></div></div>
@@ -557,13 +556,12 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
           <div class="cmp">
             <h3>Rapidez del paquete</h3>
             <div class="row"><span class="k">Al pie de la rampa</span><span class="val" id="r-v2">3,73 m/s</span><span class="lim">sin fricción <b id="r-v0">5,94 m/s</b></span></div>
-            <div class="row" id="row-v3"><span class="k">En el lector</span><span class="val" id="r-v3">2,65 m/s</span><span class="lim">máx. <b>3,0 m/s</b></span></div>
             <div class="row"><span class="k">Al tocar el resorte</span><span class="val" id="r-v4">1,90 m/s</span><span class="lim">le quedan <b id="r-e4">7,2 J</b></span></div>
           </div>
           <div class="cmp">
             <h3>Tope y energía</h3>
             <div class="row"><span class="k">Compresión máxima</span><span class="val" id="r-x">9,9 cm</span><span class="lim">fuerza <b id="r-fe">118,5 N</b></span></div>
-            <div class="row"><span class="k">Desaceleración máxima</span><span class="val" id="r-a">33,1 m/s²</span><span class="lim">equivale a <b id="r-g">3,4 g</b></span></div>
+            <div class="row"><span class="k">Desaceleración máxima</span><span class="val" id="r-a">33,1 m/s²</span><span class="lim">= <b id="r-g">3,4 g</b></span></div>
             <div class="row"><span class="k">Perdida por fricción</span><span class="val" id="r-l">64,71 J</span><span class="lim"><span id="r-pl">hasta el punto 5:</span> <b id="r-p">91,7 %</b></span></div>
           </div>
           <button type="button" class="cta" id="open-concl" aria-controls="cpanel">Ver conclusiones →</button>
@@ -580,24 +578,24 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
         </div>
         <div class="cgrid">
           <article>
-            <h3>El lector sí alcanza a leer la etiqueta, pero por poco</h3>
-            <p>El paquete pasa a <b>2,65 m/s</b> y el lector aguanta hasta <b>3,0 m/s</b>. Sobran 3,0 m/s − 2,65 m/s = 0,35 m/s, apenas un 12 % del límite. Esto es lo que más importa: si el lector no alcanza a leer, el software manda el paquete a revisión manual y el despacho se demora.</p>
+            <h3>El lector sí lee la etiqueta, pero por poco</h3>
+            <p>El paquete pasa a <b>2,65 m/s</b> y el lector aguanta hasta <b>3,0 m/s</b>: sobran 3,0 m/s − 2,65 m/s = 0,35 m/s, apenas el 12 % del límite. Si no lee, el software manda el paquete a revisión manual y el despacho se demora.</p>
           </article>
           <article>
             <h3>La fricción es el freno del sistema</h3>
-            <p>De los <b>70,56 J</b> del inicio, la fricción se lleva <b>64,71 J (91,7 %)</b> antes de que el paquete se detenga contra el tope: 42,78 J en la rampa, 13,72 J hasta el lector, 6,86 J hasta el resorte y 1,35 J comprimiéndolo. Los otros 5,85 J (8,3 %) quedan guardados en el resorte. Y todo eso sin motores.</p>
+            <p>De los <b>70,56 J</b> iniciales, hasta que el resorte lo detiene, la fricción se lleva <b>64,71 J (91,7 %)</b>, la mayor parte en la rampa (42,78 J). Los otros 5,85 J quedan en el resorte. Todo sin motores.</p>
           </article>
           <article>
             <h3>El tope necesita unos 10 cm y no frena tan duro</h3>
-            <p>El resorte se comprime <b>9,9 cm</b> y el paquete frena como máximo a <b>33,1 m/s² (3,4 g)</b>. El problema es que no lo deja quieto: le devuelve 5,85 J − 1,35 J = 4,50 J, el paquete sale a √(2(4,50 J) / (4,0 kg)) = 1,50 m/s y se devuelve (4,50 J) / (13,72 N) = 0,33 m. Por eso en la práctica el tope necesita un amortiguador.</p>
+            <p>El resorte se comprime <b>9,9 cm</b> y frena como máximo a <b>33,1 m/s² (3,4 g)</b>. Pero no lo deja quieto: le devuelve 5,85 J − 1,35 J = 4,50 J, así que sale a √(2(4,50 J) / (4,0 kg)) = 1,50 m/s y retrocede (4,50 J) / (13,72 N) = 0,33 m. Al tope le falta un amortiguador.</p>
           </article>
           <article>
             <h3>Todo depende de la lámina y de la altura</h3>
-            <p>El lector deja de leer cuando E<sub>3</sub> = ½ (4,0 kg)(3,0 m/s)² = 18,0 J. Eso pasa con μ<sub>k</sub> = (70,56 J − 18,0 J) / [(39,2 N)(4,118 m)] = <b>0,326</b>: basta con que la lámina se pula un 7 %. Con la misma cuenta, también pasa si la rampa sube de <b>2,05 m</b>. Por eso toca revisar la lámina y poner una alarma en el software si aumentan los paquetes en revisión manual.</p>
+            <p>Deja de leer si E<sub>3</sub> pasa de ½ (4,0 kg)(3,0 m/s)² = 18,0 J. Eso pasa si μ<sub>k</sub> baja a (70,56 J − 18,0 J) / [(39,2 N)(4,118 m)] = <b>0,326</b>, apenas un 7 % menos, o si la rampa sube de <b>2,05 m</b>. Toca revisar la lámina y poner una alarma en el software si aumentan los paquetes en revisión manual.</p>
           </article>
           <article>
             <h3>Utilidad de la física</h3>
-            <p>Con trabajo y energía podemos saber, antes de instalar el lector y programar el software, a qué rapidez van a pasar los paquetes, si la etiqueta se va a poder leer y cuánto recorrido necesita el tope. También podemos ver qué pasa si cambia la altura o se gasta la lámina, sin hacer pruebas con paquetes reales.</p>
+            <p>Con trabajo y energía sabemos, antes de instalar el lector y programar el software, a qué rapidez pasan los paquetes, si se leen y cuánto recorrido necesita el tope, y podemos probar otra altura u otra lámina sin usar paquetes reales.</p>
           </article>
         </div>
       </div>
@@ -767,7 +765,6 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
     var dash = '—';
     $('r-v0').textContent = fmt(A.v0, 2) + ' m/s';
     $('r-v2').textContent = A.v2 === null ? dash : fmt(A.v2, 2) + ' m/s';
-    $('r-v3').textContent = A.v3 === null ? dash : fmt(A.v3, 2) + ' m/s';
     $('r-v4').textContent = A.v4 === null ? dash : fmt(A.v4, 2) + ' m/s';
     $('r-e4').textContent = A.E4 === null || A.E4 <= 0 ? dash : fmt(A.E4, 1) + ' J';
     $('r-x').textContent = A.x === null ? dash : fmt(A.x * 100, 1) + ' cm';
@@ -785,15 +782,14 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
     $('limit').style.left = (VMAX / scale * 100) + '%';
     $('g-v').textContent = A.v3 === null ? dash : fmt(v3, 2) + ' m/s';
     $('track').setAttribute('aria-label', 'Rapidez en el lector ' + fmt(v3, 2) + ' m/s; límite 3,0 m/s');
-    $('row-v3').classList.toggle('bad', over);
 
     var vd = $('verdict'), vt = $('vt'), vs = $('vs'), bad = true;
-    if (!A.moves) { vt.textContent = 'No baja'; vs.textContent = 'la parte del peso a lo largo de la rampa no alcanza a vencer la fricción'; }
+    if (!A.moves) { vt.textContent = 'No baja'; vs.textContent = 'la parte del peso a lo largo de la rampa no vence la fricción'; }
     else if (A.v3 === null) { vt.textContent = 'No llega al lector'; vs.textContent = 'se detiene a ' + fmt(A.stopD, 2) + ' m del pie de la rampa'; }
-    else if (over) { vt.textContent = 'No lee la etiqueta'; vs.textContent = 'pasa a ' + fmt(v3, 2) + ' m/s, por encima de 3,0 m/s: va a revisión manual'; }
+    else if (over) { vt.textContent = 'No lee la etiqueta'; vs.textContent = 'pasa muy rápido y va a revisión manual'; }
     else {
       bad = false; vt.textContent = 'Lee la etiqueta';
-      vs.textContent = 'pasa por el lector a ' + fmt(v3, 2) + ' m/s, por debajo de 3,0 m/s';
+      vs.textContent = 'el software lo manda a su ruta';
       if (A.v4 === null) vs.textContent += '; se detiene antes del tope';
     }
     vd.classList.toggle('bad', bad);
