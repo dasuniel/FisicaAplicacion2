@@ -3,15 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Arranque de un AMR</title>
+<title>Rampa de paquetes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=JetBrains+Mono:wght@400;500;700&display=swap">
 <style>
-/* Layout: presentación de 3 láminas a pantalla completa (problema → solución → simulación); franja superior con autores, pie con navegación. */
+/* Layout: presentación de 3 láminas a pantalla completa (tema y enunciado → solución → simulación); franja superior con autores, pie con navegación. */
 :root{
   --bg:#e7eaea; --panel:#f5f6f5; --ink:#16202a; --muted:#52606c; --line:#c3cbcf;
   --accent:#d9480f; --accent-ink:#ad3809; --force:#1f5f96; --bad:#c22f2a; --good:#1b7547;
+  --violet:#6d3fb5;
   --display:"Archivo","Arial Narrow",Arial,sans-serif;
   --body:"Archivo",Arial,sans-serif;
   --mono:"JetBrains Mono",Consolas,"Courier New",monospace;
@@ -20,13 +21,13 @@
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#11161b; --panel:#192027; --ink:#e5e9eb; --muted:#9aa6b0; --line:#2c3640;
-    --accent:#ff7a33; --accent-ink:#ff9459; --force:#6fb0e8; --bad:#ff6f66; --good:#4fc48a;
+    --accent:#ff7a33; --accent-ink:#ff9459; --force:#6fb0e8; --bad:#ff6f66; --good:#4fc48a; --violet:#b596ec;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#11161b; --panel:#192027; --ink:#e5e9eb; --muted:#9aa6b0; --line:#2c3640;
-  --accent:#ff7a33; --accent-ink:#ff9459; --force:#6fb0e8; --bad:#ff6f66; --good:#4fc48a;
+  --accent:#ff7a33; --accent-ink:#ff9459; --force:#6fb0e8; --bad:#ff6f66; --good:#4fc48a; --violet:#b596ec;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -38,6 +39,7 @@ body{
   -webkit-font-smoothing:antialiased; overflow:hidden;
 }
 sub{font-size:.7em; line-height:0}
+sup{font-size:.7em; line-height:0}
 b{font-weight:650}
 
 /* ---------- marco ---------- */
@@ -54,8 +56,8 @@ b{font-weight:650}
 .stage{position:relative; min-height:0}
 .slide{
   position:absolute; inset:0; overflow-y:auto;
-  padding:clamp(14px,2.6vh,34px) var(--gut);
-  display:flex; flex-direction:column; gap:clamp(10px,2vh,26px);
+  padding:clamp(12px,2.2vh,30px) var(--gut);
+  display:flex; flex-direction:column; gap:clamp(8px,1.6vh,20px);
   opacity:0; visibility:hidden; transition:opacity .3s ease, visibility 0s linear .3s;
 }
 .slide.on{opacity:1; visibility:visible; transition:opacity .3s ease}
@@ -66,83 +68,89 @@ b{font-weight:650}
   letter-spacing:.16em; text-transform:uppercase; font-size:.78em; color:var(--accent-ink);
 }
 h1,h2,h3{font-family:var(--display); font-stretch:78%; font-weight:800; margin:0; line-height:.98; text-wrap:balance}
-h1{font-size:clamp(36px,5.6vw,98px); letter-spacing:-.01em}
-h2{font-size:clamp(24px,2.8vw,50px)}
+h1{font-size:clamp(28px,3.3vw,60px); letter-spacing:-.01em}
+h2{font-size:clamp(24px,2.6vw,46px)}
 h3{font-size:1.05em; font-stretch:85%; font-weight:750; text-transform:uppercase; letter-spacing:.06em}
 .head{display:flex; flex-direction:column; gap:6px}
 
+/* dibujos */
 .fig svg{display:block; width:100%; height:auto}
 .fig text{fill:var(--ink); font-family:var(--mono); font-size:16px}
 .fig .t-muted{fill:var(--muted)}
-.fig .t-acc{fill:var(--accent-ink)}
+.fig .t-acc{fill:var(--accent-ink); font-weight:700}
 .fig .t-force{fill:var(--force)}
+.fig .t-violet{fill:var(--violet); font-weight:700}
 .fig .t-title{font-family:var(--display); font-weight:700; letter-spacing:.08em; font-size:15px; fill:var(--muted)}
+.fig .t-name{font-family:var(--display); font-stretch:82%; font-size:17px; fill:var(--muted)}
+.fig .t-pt{font-family:var(--mono); font-weight:700; font-size:14px; fill:var(--bg)}
+.fig .t-sym{font-weight:700}
 .s-ink{stroke:var(--ink); fill:none}
 .s-muted{stroke:var(--muted); fill:none}
 .s-line{stroke:var(--line); fill:none}
+.s-acc{stroke:var(--accent); fill:none}
+.s-force{stroke:var(--force); fill:none}
+.s-violet{stroke:var(--violet); fill:none}
 .f-panel{fill:var(--panel)}
 .f-bg{fill:var(--bg)}
 .f-ink{fill:var(--ink)}
-.s-acc{stroke:var(--accent); fill:none}
 .f-acc{fill:var(--accent)}
-.s-force{stroke:var(--force); fill:none}
 .f-force{fill:var(--force)}
-.f-accsoft{fill:var(--accent); fill-opacity:.14}
+.f-violet{fill:var(--violet)}
+.f-muted{fill:var(--muted)}
+.f-box{fill:var(--accent); fill-opacity:.16}
 
 /* ---------- lámina 1 ---------- */
-.s1{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(18px,3.4vw,64px); align-items:center}
-.s1 .left{display:flex; flex-direction:column; gap:clamp(12px,2.4vh,28px); min-width:0}
-.s1 h1{font-size:clamp(28px,3.3vw,60px)}
-.app{margin:0; font-size:1.02em; color:var(--muted); max-width:52ch}
+.s1{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(18px,3vw,56px); align-items:center}
+.s1 .left{display:flex; flex-direction:column; gap:clamp(10px,2vh,24px); min-width:0}
+.app{margin:0; font-size:1.02em; color:var(--muted); max-width:56ch}
 .enun{display:flex; flex-direction:column; gap:8px}
-.enun p{margin:0; max-width:64ch}
+.enun p{margin:0; max-width:68ch}
 .enun b{font-family:var(--mono); font-weight:700; font-size:.94em; color:var(--accent-ink)}
-.data{
-  margin:0; display:grid; grid-template-columns:repeat(4,minmax(0,1fr));
-  border-top:2px solid var(--ink);
-}
-.data div{padding:8px 10px 8px 0; border-bottom:1px solid var(--line)}
-.data dt{font-size:.7em; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); line-height:1.25}
-.data dd{margin:2px 0 0; font-family:var(--mono); font-weight:600; font-size:1em; white-space:nowrap}
-.s1 .right{display:flex; flex-direction:column; gap:clamp(12px,2vh,22px); min-width:0}
-.block{display:flex; flex-direction:column; gap:8px}
-.qs{list-style:none; margin:4px 0 0; padding:0; display:flex; flex-direction:column; gap:8px; counter-reset:q}
-.qs li{counter-increment:q; display:flex; gap:10px; font-size:.95em; line-height:1.3}
+.data{margin:0; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); border-top:2px solid var(--ink)}
+.data div{padding:6px 8px 6px 0; border-bottom:1px solid var(--line)}
+.data dt{font-size:.68em; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); line-height:1.2}
+.data dd{margin:2px 0 0; font-family:var(--mono); font-weight:600; font-size:.92em; white-space:nowrap}
+.s1 .right{display:flex; flex-direction:column; gap:clamp(8px,1.6vh,18px); min-width:0}
+.block{display:flex; flex-direction:column; gap:6px}
+.qs{list-style:none; margin:2px 0 0; padding:0; display:flex; flex-direction:column; gap:7px; counter-reset:q}
+.qs li{counter-increment:q; display:flex; gap:10px; font-size:.95em; line-height:1.28}
 .qs li::before{
   content:counter(q); flex:none; width:1.7em; height:1.7em; display:grid; place-items:center;
   font-family:var(--mono); font-weight:700; font-size:.85em; background:var(--accent); color:var(--bg);
 }
-.src{margin:0; font-size:.7em; color:var(--muted)}
+.qs i{font-style:normal; color:var(--muted)}
+.real{margin:0; font-size:.8em; line-height:1.35; color:var(--muted); border-left:3px solid var(--accent); padding-left:10px}
+.real b{color:var(--ink)}
 
 /* ---------- lámina 2 ---------- */
-.s2-grid{display:grid; grid-template-columns:minmax(0,.72fr) minmax(0,1.75fr); gap:clamp(16px,2.6vw,48px); align-items:start}
-.dcls{display:flex; flex-direction:column; gap:clamp(10px,2vh,22px); min-width:0}
-.dcl{margin:0; display:flex; flex-direction:column; gap:4px}
-.dcl figcaption{font-size:.8em; line-height:1.38; color:var(--muted)}
+.s2-grid{display:grid; grid-template-columns:minmax(0,.66fr) minmax(0,1.9fr); gap:clamp(14px,2vw,36px); align-items:start}
+.dcls{display:flex; flex-direction:column; gap:clamp(6px,1.2vh,14px); min-width:0}
+.dcl{margin:0; display:flex; flex-direction:column; gap:3px; min-width:0}
+.dcl figcaption{font-size:.8em; line-height:1.3; color:var(--muted)}
 .dcl figcaption b{color:var(--ink)}
-.fig .t-name{font-family:var(--display); font-stretch:82%; font-size:15px; fill:var(--muted)}
-.fig .t-sym{font-weight:700}
-.steps{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:clamp(8px,1.4vh,16px)}
-.step{display:flex; flex-direction:column; gap:6px; min-width:0}
-.step h3{display:flex; align-items:center; gap:10px; font-size:.95em}
+.dcl2{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px}
+.s2-grid{font-size:min(1em,1.7vh)}
+.steps{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:clamp(5px,1vh,12px); min-width:0}
+.step{display:flex; flex-direction:column; gap:4px; min-width:0}
+.step h3{display:flex; align-items:center; gap:9px; font-size:.92em}
 .step h3 span{
-  flex:none; width:1.7em; height:1.7em; display:grid; place-items:center;
+  flex:none; width:1.6em; height:1.6em; display:grid; place-items:center;
   font-family:var(--mono); background:var(--accent); color:var(--bg); letter-spacing:0;
 }
-.laws{display:flex; gap:clamp(6px,.8vw,12px); min-width:0}
-.law{flex:1 1 0; min-width:0; display:flex; flex-direction:column; background:var(--panel); border:1px solid var(--line); padding:7px 11px 8px}
-.law .name{font-size:.68em; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--accent-ink); line-height:1.3; margin-bottom:2px}
+.laws{display:flex; gap:clamp(5px,.6vw,10px); min-width:0}
+.law{flex:1 1 0; min-width:0; display:flex; flex-direction:column; background:var(--panel); border:1px solid var(--line); padding:5px 9px 6px}
+.law .name{font-size:.68em; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--accent-ink); line-height:1.25; margin-bottom:1px}
 .law .name i{font-style:normal; font-weight:500; color:var(--muted); text-transform:none; letter-spacing:.02em}
-.law .f{font-family:var(--mono); font-size:.82em; line-height:1.55}
+.law .f{font-size:.92em; line-height:1.42; font-variant-numeric:tabular-nums}
 .law .f b{font-weight:700}
-.result{flex:0 0 clamp(150px,12.5vw,230px); display:flex; flex-direction:column; justify-content:center; gap:3px; border:2px solid var(--ink); padding:7px 11px}
-.result .v{font-family:var(--mono); font-weight:700; font-size:1.18em; line-height:1.2}
+.result{flex:0 0 clamp(130px,10.6vw,204px); display:flex; flex-direction:column; justify-content:center; gap:2px; border:2px solid var(--ink); padding:5px 9px}
+.result .v{font-family:var(--mono); font-weight:700; font-size:1.12em; line-height:1.18}
 .result .v.ok{color:var(--good)}
-.result .w{font-size:.74em; color:var(--muted); line-height:1.3}
+.result .w{font-size:.76em; color:var(--muted); line-height:1.25}
 
 /* ---------- lámina 3 ---------- */
-.s3-grid{flex:1; min-height:0; display:grid; grid-template-columns:minmax(0,1.8fr) minmax(0,1fr); gap:clamp(14px,2.2vw,40px)}
-.sim{display:grid; grid-template-rows:minmax(150px,1.4fr) minmax(110px,.85fr) auto auto auto; gap:10px; min-height:0; min-width:0}
+.s3-grid{flex:1; min-height:0; display:grid; grid-template-columns:minmax(0,1.85fr) minmax(0,1fr); gap:clamp(14px,2vw,36px)}
+.sim{display:grid; grid-template-rows:minmax(170px,1.65fr) minmax(100px,.8fr) auto auto auto; gap:9px; min-height:0; min-width:0}
 .cbox{position:relative; border:1px solid var(--line); background:var(--panel); min-height:0}
 .cbox canvas{position:absolute; inset:0; width:100%; height:100%; display:block}
 .flag{
@@ -151,23 +159,23 @@ h3{font-size:1.05em; font-stretch:85%; font-weight:750; text-transform:uppercase
   border:1.5px solid currentColor; background:var(--panel); color:var(--good);
 }
 .flag.bad{color:var(--bad)}
-.controls{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px 20px}
+.controls{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px 16px}
 .ctl{display:flex; flex-direction:column; gap:4px; min-width:0}
-.ctl label{display:flex; justify-content:space-between; align-items:baseline; gap:8px; font-size:.78em; color:var(--muted)}
+.ctl label{display:flex; justify-content:space-between; align-items:baseline; gap:6px; font-size:.76em; color:var(--muted)}
 .ctl output{font-family:var(--mono); font-weight:700; color:var(--ink); white-space:nowrap}
 input[type=range]{width:100%; margin:0; accent-color:var(--accent)}
-.btns{display:flex; flex-wrap:wrap; align-items:center; gap:8px 8px}
-.btns .lbl{font-size:.74em; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; margin-right:2px}
+.btns{display:flex; flex-wrap:wrap; align-items:center; gap:7px}
+.btns .lbl{font-size:.72em; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; margin-right:2px}
 .btns .sep{flex:1}
 .chip{
-  font:inherit; font-size:.78em; line-height:1.2; padding:5px 10px; cursor:pointer;
+  font:inherit; font-size:.76em; line-height:1.2; padding:5px 9px; cursor:pointer;
   border:1px solid var(--line); background:transparent; color:var(--ink); border-radius:2px;
 }
 .chip:hover{border-color:var(--ink)}
 .chip[aria-pressed="true"]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
-.side{display:flex; flex-direction:column; gap:clamp(10px,1.8vh,20px); min-width:0}
+.side{display:flex; flex-direction:column; gap:clamp(9px,1.6vh,18px); min-width:0}
 .verdict{border:2px solid var(--good); padding:10px 14px; display:flex; flex-direction:column; gap:4px}
-.verdict .vt{font-family:var(--display); font-stretch:78%; font-weight:800; font-size:clamp(26px,2.5vw,46px); text-transform:uppercase; line-height:1; color:var(--good)}
+.verdict .vt{font-family:var(--display); font-stretch:78%; font-weight:800; font-size:clamp(24px,2.3vw,42px); text-transform:uppercase; line-height:1; color:var(--good)}
 .verdict .vs{font-size:.9em; color:var(--muted)}
 .verdict.bad{border-color:var(--bad)}
 .verdict.bad .vt{color:var(--bad)}
@@ -180,7 +188,7 @@ input[type=range]{width:100%; margin:0; accent-color:var(--accent)}
 .grow b{font-family:var(--mono); color:var(--ink)}
 .cmp{display:flex; flex-direction:column}
 .cmp h3{margin-bottom:5px}
-.cmp .row{display:grid; grid-template-columns:minmax(0,1.35fr) auto minmax(0,1fr); gap:10px; align-items:baseline; padding:5px 0; border-bottom:1px solid var(--line)}
+.cmp .row{display:grid; grid-template-columns:minmax(0,1.3fr) auto minmax(0,1fr); gap:10px; align-items:baseline; padding:5px 0; border-bottom:1px solid var(--line)}
 .cmp .row:first-of-type{border-top:2px solid var(--ink)}
 .cmp .k{font-size:.84em; line-height:1.25}
 .cmp .val{font-family:var(--mono); font-weight:700; white-space:nowrap}
@@ -193,35 +201,29 @@ input[type=range]{width:100%; margin:0; accent-color:var(--accent)}
   background:var(--ink); color:var(--bg); border:2px solid var(--ink);
 }
 .cta:hover{background:var(--accent); border-color:var(--accent)}
+.note{margin:0; font-size:.7em; color:var(--muted); line-height:1.35}
 .cpanel{
   position:absolute; inset:0; z-index:5; overflow-y:auto; background:var(--bg);
-  padding:clamp(14px,2.6vh,34px) var(--gut);
-  display:flex; flex-direction:column; gap:clamp(12px,2.4vh,28px);
+  padding:clamp(12px,2.2vh,30px) var(--gut);
+  display:flex; flex-direction:column; gap:clamp(10px,2vh,24px);
 }
 .chead{display:flex; justify-content:space-between; align-items:flex-end; gap:12px 20px; flex-wrap:wrap}
 .chead .chip{font-size:.9em; padding:8px 14px}
-.cgrid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:clamp(10px,1.6vw,24px)}
-.cgrid article{background:var(--panel); border-top:3px solid var(--accent); padding:clamp(12px,2vh,22px) clamp(14px,1.5vw,24px); display:flex; flex-direction:column; gap:8px; min-width:0}
+.cgrid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:clamp(10px,1.4vw,22px)}
+.cgrid article{background:var(--panel); border-top:3px solid var(--accent); padding:clamp(10px,1.7vh,20px) clamp(14px,1.4vw,22px); display:flex; flex-direction:column; gap:7px; min-width:0}
 .cgrid article:first-child{grid-column:1 / -1; border-top-color:var(--good)}
-.cgrid h3{font-size:clamp(19px,1.6vw,28px); text-transform:none; letter-spacing:0; font-stretch:80%; font-weight:800; color:var(--ink)}
-.cgrid p{margin:0; font-size:1.02em; line-height:1.5; max-width:70ch}
+.cgrid h3{font-size:clamp(19px,1.55vw,27px); text-transform:none; letter-spacing:0; font-stretch:80%; font-weight:800; color:var(--ink)}
+.cgrid p{margin:0; font-size:1.06em; line-height:1.46}
 .cgrid b{font-family:var(--mono); font-size:.94em}
-.note{margin:0; font-size:.7em; color:var(--muted); line-height:1.35}
 
 /* ---------- navegación ---------- */
-.nav{
-  display:flex; justify-content:space-between; align-items:center; gap:12px;
-  padding:8px var(--gut) 10px; border-top:1px solid var(--line);
-}
+.nav{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:8px var(--gut) 10px; border-top:1px solid var(--line)}
 .dots{display:flex; gap:8px}
 .dot{width:34px; height:6px; padding:0; border:0; background:var(--line); cursor:pointer}
 .dot[aria-current="true"]{background:var(--accent)}
 .navr{display:flex; align-items:center; gap:10px}
 .counter{font-family:var(--mono); font-size:.8em; color:var(--muted); font-variant-numeric:tabular-nums}
-.nbtn{
-  min-width:36px; height:30px; padding:0 10px; cursor:pointer; font:inherit; font-size:.85em;
-  border:1px solid var(--line); background:transparent; color:var(--ink);
-}
+.nbtn{min-width:36px; height:30px; padding:0 10px; cursor:pointer; font:inherit; font-size:.85em; border:1px solid var(--line); background:transparent; color:var(--ink)}
 .nbtn[disabled]{opacity:.35; cursor:default}
 button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
 
@@ -230,219 +232,283 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
   .data{grid-template-columns:repeat(2,minmax(0,1fr))}
   .laws{flex-direction:column}
   .result{flex-basis:auto}
-  .sim{grid-template-rows:230px 170px auto auto auto}
+  .sim{grid-template-rows:240px 170px auto auto auto}
   .controls{grid-template-columns:repeat(2,minmax(0,1fr))}
   .s3-grid{flex:none}
   .cgrid{grid-template-columns:minmax(0,1fr)}
 }
 </style>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <marker id="m-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto"><path class="f-acc" d="M0 0L10 5L0 10z"/></marker>
+  <marker id="m-force" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto"><path class="f-force" d="M0 0L10 5L0 10z"/></marker>
+  <marker id="m-violet" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto"><path class="f-violet" d="M0 0L10 5L0 10z"/></marker>
+  <marker id="m-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="f-muted" d="M0 0L10 5L0 10z"/></marker>
+  <marker id="m-dim" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="f-muted" d="M0 1L10 5L0 9z"/></marker>
+</defs></svg>
+
 <div class="deck">
   <header class="top">
-    <div class="brand"><span class="tape" aria-hidden="true"></span>Ejercicio de aplicación · Leyes de Newton</div>
+    <div class="brand"><span class="tape" aria-hidden="true"></span>Ejercicio de aplicación · Trabajo y energía</div>
     <div>Juan David Rincón Muñoz · Daniel Santiago Rosas Osorio · Ingeniería de Sistemas</div>
   </header>
 
   <main class="stage">
 
-    <!-- ================= 1 · PROBLEMA ================= -->
+    <!-- ================= 1 · TEMA Y ENUNCIADO ================= -->
     <section class="slide s1 on" id="s1" aria-label="Tema y enunciado">
       <div class="left">
         <div class="head">
           <p class="eyebrow">Tema</p>
-          <h1>Leyes de Newton: equilibrio, no equilibrio y fricción</h1>
-          <p class="app">Aplicación en Ingeniería de Sistemas: control de flotas de robots móviles autónomos (AMR) en bodegas.</p>
+          <h1>Trabajo y energía, conservación de la energía</h1>
+          <p class="app">Lo aplicamos a Ingeniería de Sistemas: el software que lee el código de barras de cada paquete y decide a qué ruta va.</p>
         </div>
         <div class="enun">
           <h3>Enunciado</h3>
-          <p>En una bodega de comercio electrónico, un robot móvil autónomo de <b>145 kg</b> transporta una estiba con cajas de <b>150 kg</b>, apoyada sin sujeción sobre su plataforma, por un pasillo recto y horizontal de concreto pulido. El control de flota tiene programado un arranque que lleva al robot del reposo a <b>1,5 m/s</b> en <b>0,8 s</b>. Entre la estiba y la plataforma el coeficiente de fricción estática es <b>0,30</b>, y entre las ruedas y el piso el de resistencia a la rodadura es <b>0,02</b>. Tratando el robot y la carga como partículas, y con aceleración constante en el arranque, determine:</p>
+          <p>En un centro de distribución, los paquetes bajan del mezanine por una rampa de lámina inclinada <b>30°</b>, cuya parte alta está a <b>1,8 m</b> del piso. Un paquete de <b>4,0 kg</b> se suelta desde el reposo. Abajo sigue un tramo plano de la misma lámina: a <b>1,0 m</b> del pie de la rampa está el lector de código de barras, que solo lee bien si el paquete pasa a <b>3,0 m/s</b> o menos, y a <b>1,5 m</b> está el tope, un resorte de <b>1200 N/m</b>. El coeficiente de fricción cinética con la lámina es <b>0,35</b> en todo el recorrido: en la rampa, en el plano y mientras comprime el resorte. Determine:</p>
           <ol class="qs" aria-label="Preguntas">
-            <li>¿Qué fuerza de tracción deben entregar los motores durante el arranque?</li>
-            <li>¿La estiba se desliza sobre la plataforma con ese perfil?</li>
-            <li>¿Cuál es la máxima aceleración programable y el menor tiempo de arranque admisible?</li>
-            <li>En crucero, ¿qué fuerza dan los motores? ¿Qué coeficiente de fricción mínimo debe garantizar el mantenimiento?</li>
+            <li><span>¿Con qué rapidez llega el paquete al pie de la rampa? <i>→ De ahí sale todo lo demás.</i></span></li>
+            <li><span>¿Cuánta energía se pierde por fricción en la rampa? <i>→ Mide cuánto frena la lámina, sin motores.</i></span></li>
+            <li><span>¿Con qué rapidez pasa por el lector? ¿Se lee la etiqueta? <i>→ Si no lee, el paquete se va a revisión manual.</i></span></li>
+            <li><span>¿Cuánto se comprime el resorte hasta detener el paquete? <i>→ Dice cuánto recorrido necesita el tope y si frena sin dañar el paquete.</i></span></li>
           </ol>
         </div>
       </div>
       <div class="right">
         <figure class="fig" style="margin:0">
-          <svg viewBox="0 0 660 310" role="img" aria-label="Robot visto de lado con una estiba de cajas apoyada sobre la plataforma; acelera hacia la derecha de 0 a 1,5 m/s en 0,8 s">
+          <svg viewBox="0 0 800 340" role="img" aria-label="Dibujo a escala: mezanine a 1,8 m, rampa de 30 grados, tramo plano con el lector a 1,0 m del pie y el tope con resorte a 1,5 m. Los puntos 1 a 5 marcan los momentos que se comparan.">
             <!-- piso -->
-            <path class="s-muted" stroke-width="2" d="M20 280 H620"/>
-            <path class="s-line" stroke-width="2" d="M30 294 l12-12 M70 294 l12-12 M110 294 l12-12 M150 294 l12-12 M190 294 l12-12 M230 294 l12-12 M270 294 l12-12 M310 294 l12-12 M350 294 l12-12 M390 294 l12-12 M430 294 l12-12 M470 294 l12-12 M510 294 l12-12 M550 294 l12-12 M590 294 l12-12"/>
-            <!-- cajas -->
-            <g class="f-panel s-ink" stroke-width="2">
-              <rect x="182" y="92" width="134" height="72" style="fill:var(--panel)"/>
-              <rect x="324" y="92" width="134" height="72" style="fill:var(--panel)"/>
-              <rect x="232" y="32" width="176" height="60" style="fill:var(--panel)"/>
+            <path class="s-muted" stroke-width="2" d="M20 292H790"/>
+            <path class="s-line" stroke-width="2" d="M30 304l11-11M70 304l11-11M110 304l11-11M150 304l11-11M190 304l11-11M230 304l11-11M270 304l11-11M310 304l11-11M350 304l11-11M390 304l11-11M430 304l11-11M470 304l11-11M510 304l11-11M550 304l11-11M590 304l11-11M630 304l11-11M670 304l11-11M710 304l11-11M750 304l11-11"/>
+            <!-- mezanine -->
+            <rect x="52" y="90" width="66" height="8" class="s-ink" stroke-width="2" style="fill:var(--panel)"/>
+            <path class="s-ink" stroke-width="3" d="M62 98V292M108 98V292"/>
+            <text x="46" y="80" class="t-name">mezanine</text>
+            <!-- rampa -->
+            <path class="s-force" stroke-width="5" d="M118 90L468 292"/>
+            <!-- paquete -->
+            <g transform="translate(161 92) rotate(30)">
+              <rect x="-27" y="-16" width="54" height="32" class="f-box"/><rect x="-27" y="-16" width="54" height="32" class="s-acc" stroke-width="2"/>
+              <text x="0" y="6" text-anchor="middle" class="t-acc">m</text>
             </g>
-            <!-- estiba -->
-            <rect x="170" y="164" width="300" height="20" class="f-accsoft"/>
-            <rect x="170" y="164" width="300" height="20" class="s-acc" stroke-width="2"/>
-            <path class="s-acc" stroke-width="1.5" d="M220 164v20 M320 164v20 M420 164v20"/>
-            <!-- plataforma y cuerpo -->
-            <rect x="170" y="184" width="300" height="11" class="s-force" stroke-width="2" style="fill:var(--bg)"/>
-            <rect x="160" y="195" width="320" height="62" rx="10" class="s-ink" stroke-width="2" style="fill:var(--panel)"/>
-            <circle cx="215" cy="262" r="18" class="s-ink" stroke-width="2" style="fill:var(--bg)"/>
-            <circle cx="425" cy="262" r="18" class="s-ink" stroke-width="2" style="fill:var(--bg)"/>
-            <circle cx="215" cy="262" r="4" class="f-ink"/><circle cx="425" cy="262" r="4" class="f-ink"/>
-            <!-- rótulos izquierda -->
-            <path class="s-muted" stroke-width="1.2" d="M112 118 H182 M112 226 H160"/>
-            <text x="20" y="112" class="t-muted">Estiba</text>
-            <text x="20" y="132">m<tspan font-size="12" dy="4">C</tspan><tspan dy="-4"> 150 kg</tspan></text>
-            <text x="20" y="220" class="t-muted">Robot</text>
-            <text x="20" y="240">m<tspan font-size="12" dy="4">R</tspan><tspan dy="-4"> 145 kg</tspan></text>
-            <!-- rótulos derecha -->
-            <path class="s-muted" stroke-width="1.2" d="M470 184 H500 M443 250 H500"/>
-            <text x="506" y="182">μ<tspan font-size="12" dy="4">s</tspan><tspan dy="-4"> = 0,30</tspan></text>
-            <text x="506" y="201" class="t-name">estiba–plataforma</text>
-            <text x="506" y="248">μ<tspan font-size="12" dy="4">r</tspan><tspan dy="-4"> = 0,02</tspan></text>
-            <text x="506" y="266" class="t-name">ruedas–piso</text>
-            <!-- arranque -->
-            <path class="s-acc" stroke-width="4" d="M478 62 H596"/>
-            <polygon points="612,62 594,52 594,72" class="f-acc"/>
-            <text x="478" y="44" class="t-acc" style="font-weight:700">a</text>
-            <text x="478" y="96" class="t-muted" font-size="14">0 → 1,5 m/s</text>
-            <text x="478" y="114" class="t-muted" font-size="14">en 0,8 s</text>
+            <text x="205" y="62"><tspan class="t-name">paquete </tspan><tspan>m = 4,0 kg</tspan></text>
+            <text x="205" y="82" class="t-name">se suelta desde el reposo</text>
+            <!-- h -->
+            <path class="s-muted" stroke-width="1.6" d="M28 96V286" marker-start="url(#m-dim)" marker-end="url(#m-dim)"/>
+            <text transform="translate(20 236) rotate(-90)">h = 1,8 m</text>
+            <!-- angulo -->
+            <path class="s-ink" stroke-width="1.6" d="M422 292A46 46 0 0 1 428 269"/>
+            <text x="374" y="285">30°</text>
+            <!-- friccion -->
+            <text transform="translate(246 138) rotate(30)"><tspan class="t-name">lámina con fricción: </tspan><tspan class="t-acc">μ</tspan><tspan class="t-acc" font-size="12" dy="4">k</tspan><tspan class="t-acc" dy="-4"> = 0,35</tspan></text>
+            <!-- lector -->
+            <path class="s-acc" stroke-width="3" d="M556 292V222M604 292V222"/>
+            <path class="s-acc" stroke-width="7" d="M548 220H612"/>
+            <path class="s-acc" stroke-width="1.6" stroke-dasharray="5 5" d="M580 226V290"/>
+            <text x="612" y="186" text-anchor="end" class="t-name">lector de código de barras</text>
+            <text x="612" y="206" text-anchor="end">lee hasta 3,0 m/s</text>
+            <!-- tope -->
+            <path class="s-ink" stroke-width="7" d="M712 216V292"/>
+            <path class="s-force" stroke-width="2.4" fill="none" d="M636 272L642 262L654 282L666 262L678 282L690 262L702 282L709 272"/>
+            <path class="s-force" stroke-width="5" d="M636 250V292"/>
+            <text x="636" y="186" class="t-name">tope con resorte</text>
+            <text x="636" y="206">k = 1200 N/m</text>
+            <!-- puntos -->
+            <circle cx="122" cy="62" r="13" class="f-ink"/><text x="122" y="67" text-anchor="middle" class="t-pt">1</text>
+            <circle cx="468" cy="262" r="13" class="f-ink"/><text x="468" y="267" text-anchor="middle" class="t-pt">2</text>
+            <circle cx="580" cy="256" r="13" class="f-ink"/><text x="580" y="261" text-anchor="middle" class="t-pt">3</text>
+            <circle cx="636" cy="232" r="13" class="f-ink"/><text x="636" y="237" text-anchor="middle" class="t-pt">4</text>
+            <!-- cotas -->
+            <path class="s-muted" stroke-width="1.6" d="M470 322H578" marker-start="url(#m-dim)" marker-end="url(#m-dim)"/>
+            <text x="524" y="316" text-anchor="middle" style="font-size:14px">1,0 m</text>
+            <path class="s-muted" stroke-width="1.6" d="M582 322H634" marker-start="url(#m-dim)" marker-end="url(#m-dim)"/>
+            <text x="608" y="316" text-anchor="middle" style="font-size:14px">0,5 m</text>
+            <circle cx="656" cy="322" r="12" class="f-ink"/><text x="656" y="327" text-anchor="middle" class="t-pt">5</text>
+            <text x="674" y="327" class="t-name">resorte comprimido</text>
+            <text x="130" y="326" class="t-name">nivel de referencia: y = 0 en el piso</text>
           </svg>
         </figure>
         <div class="block">
           <h3>Datos</h3>
           <dl class="data">
-            <div><dt>Masa del robot</dt><dd>m<sub>R</sub> = 145 kg</dd></div>
-            <div><dt>Masa de la estiba</dt><dd>m<sub>C</sub> = 150 kg</dd></div>
-            <div><dt>Velocidad de crucero</dt><dd>v = 1,5 m/s</dd></div>
-            <div><dt>Tiempo de arranque</dt><dd>t<sub>a</sub> = 0,8 s</dd></div>
-            <div><dt>Fricción estática</dt><dd>μ<sub>s</sub> = 0,30</dd></div>
-            <div><dt>Resist. a la rodadura</dt><dd>μ<sub>r</sub> = 0,02</dd></div>
+            <div><dt>Masa</dt><dd>m = 4,0 kg</dd></div>
+            <div><dt>Altura</dt><dd>h = 1,8 m</dd></div>
+            <div><dt>Inclinación</dt><dd>θ = 30°</dd></div>
+            <div><dt>Fricción cinética</dt><dd>μ<sub>k</sub> = 0,35</dd></div>
             <div><dt>Gravedad</dt><dd>g = 9,8 m/s²</dd></div>
-            <div><dt>Velocidad inicial</dt><dd>v<sub>0</sub> = 0</dd></div>
+            <div><dt>Pie → lector</dt><dd>Δx<sub>23</sub> = 1,0 m</dd></div>
+            <div><dt>Lector → resorte</dt><dd>Δx<sub>34</sub> = 0,5 m</dd></div>
+            <div><dt>Resorte</dt><dd>k = 1200 N/m</dd></div>
+            <div><dt>Límite del lector</dt><dd>v<sub>máx</sub> = 3,0 m/s</dd></div>
+            <div><dt>Partida</dt><dd>v<sub>1</sub> = 0</dd></div>
           </dl>
         </div>
+        <p class="real"><b>¿Los valores son reales?</b> Son valores posibles, pero no los medimos en una bodega de verdad. v<sub>máx</sub> y μ<sub>k</sub> sí están cerca de datos reales: los túneles de lectura llegan a unos 3,3 m/s y el cartón corrugado contra cartón da cerca de 0,35. Lo demás lo supusimos para el ejercicio; una rampa comercial suele ser menos inclinada (16–20°).</p>
       </div>
     </section>
 
     <!-- ================= 2 · SOLUCIÓN ================= -->
     <section class="slide" id="s2" aria-label="Solución paso a paso">
       <div class="head">
-        <p class="eyebrow">Solución paso a paso · +x en el sentido del movimiento, +y hacia arriba</p>
-        <h2>Segunda ley en dos sistemas: la estiba sola y el robot con la estiba</h2>
+        <p class="eyebrow">Solución paso a paso · la energía va bajando lo que se lleva la fricción</p>
+        <h2>Energía punto a punto: E<sub>B</sub> = E<sub>A</sub> + W<sub>fk</sub></h2>
       </div>
       <div class="s2-grid">
         <div class="dcls">
           <figure class="fig dcl">
-            <svg viewBox="0 0 440 230" role="img" aria-label="Diagrama de cuerpo libre de la estiba: normal hacia arriba, peso hacia abajo y fricción estática hacia adelante">
-              <text x="0" y="18" class="t-title">(A) ESTIBA</text>
-              <rect x="150" y="90" width="120" height="60" class="s-ink" stroke-width="2" style="fill:var(--panel)"/>
-              <path class="s-force" stroke-width="3" d="M210 90 V46"/><polygon points="210,32 203,46 217,46" class="f-force"/>
-              <text x="222" y="50"><tspan class="t-name">Normal </tspan><tspan class="t-sym t-force">n</tspan></text>
-              <path class="s-force" stroke-width="3" d="M210 150 V194"/><polygon points="210,208 203,194 217,194" class="f-force"/>
-              <text x="222" y="204"><tspan class="t-name">Peso </tspan><tspan class="t-sym t-force">m</tspan><tspan class="t-force" font-size="12" dy="4">C</tspan><tspan class="t-sym t-force" dy="-4">·g</tspan></text>
-              <path class="s-acc" stroke-width="4" d="M270 120 H356"/><polygon points="372,120 354,111 354,129" class="f-acc"/>
-              <text x="276" y="106"><tspan class="t-name">Fricción estática </tspan><tspan class="t-sym t-acc">f</tspan><tspan class="t-acc" font-size="12" dy="4">s</tspan></text>
-              <path class="s-muted" stroke-width="1.5" d="M24 200 H64 M24 200 V160"/>
-              <polygon points="72,200 62,195 62,205" style="fill:var(--muted)"/><polygon points="24,152 19,162 29,162" style="fill:var(--muted)"/>
-              <text x="44" y="220" class="t-muted" font-size="13">+x</text><text x="32" y="158" class="t-muted" font-size="13">+y</text>
+            <svg viewBox="0 0 460 236" role="img" aria-label="Diagrama de cuerpo libre del paquete en la rampa: normal perpendicular a la rampa, fricción cinética rampa arriba y peso vertical con sus dos componentes.">
+              <text x="0" y="16" class="t-title">(A) EN LA RAMPA</text>
+              <g transform="translate(205 118) rotate(30)"><rect x="-30" y="-20" width="60" height="40" class="s-ink" stroke-width="2" style="fill:var(--panel)"/></g>
+              <path class="s-force" stroke-width="3" d="M215 101L250 40" marker-end="url(#m-force)"/>
+              <text x="258" y="46"><tspan class="t-name">Normal </tspan><tspan class="t-force t-sym">n</tspan></text>
+              <path class="s-acc" stroke-width="4" d="M179 103L112 64" marker-end="url(#m-acc)"/>
+              <text x="4" y="52"><tspan class="t-name">Fricción cinética </tspan><tspan class="t-acc">f</tspan><tspan class="t-acc" font-size="12" dy="4">k</tspan></text>
+              <path class="s-force" stroke-width="3" d="M205 138V226" marker-end="url(#m-force)"/>
+              <text x="214" y="226"><tspan class="t-name">Peso </tspan><tspan class="t-force t-sym">w = m g</tspan></text>
+              <path class="s-muted" stroke-width="2" stroke-dasharray="6 4" d="M231 133L284 164"/>
+              <text x="290" y="172" class="t-muted" style="font-size:15px">m g sen θ</text>
+              <path class="s-muted" stroke-width="2" stroke-dasharray="6 4" d="M195 135L164 188"/>
+              <text x="70" y="202" class="t-muted" style="font-size:15px">m g cos θ</text>
+              <g transform="translate(372 78)">
+                <path class="s-muted" stroke-width="1.8" d="M0 0L48 28" marker-end="url(#m-muted)"/><path class="s-muted" stroke-width="1.8" d="M0 0L24 -42" marker-end="url(#m-muted)"/>
+                <text x="52" y="38" class="t-muted" style="font-size:14px">+x</text><text x="30" y="-40" class="t-muted" style="font-size:14px">+y</text>
+              </g>
             </svg>
-            <figcaption><b>(a) Estiba.</b> En y no acelera: la normal equilibra el peso. En x la única fuerza es la fricción estática; es la que la empuja hacia adelante para que acelere junto con el robot.</figcaption>
+            <figcaption><b>En la rampa.</b> El paquete baja porque la parte del peso que va a lo largo de la rampa, m g sen θ = 19,6 N, es mayor que la fricción, f<sub>k</sub> = μ<sub>k</sub> n = 11,88 N. La normal vale n = m g cos θ = 33,95 N.</figcaption>
           </figure>
-          <figure class="fig dcl">
-            <svg viewBox="0 0 440 240" role="img" aria-label="Diagrama de cuerpo libre del robot con la estiba: normal del piso hacia arriba, peso total hacia abajo, tracción hacia adelante y resistencia a la rodadura hacia atrás">
-              <text x="0" y="18" class="t-title">(B) ROBOT + ESTIBA</text>
-              <rect x="170" y="78" width="100" height="22" class="s-acc" stroke-width="2" style="fill:var(--bg)"/>
-              <rect x="140" y="100" width="160" height="50" rx="8" class="s-ink" stroke-width="2" style="fill:var(--panel)"/>
-              <circle cx="175" cy="158" r="10" class="s-ink" stroke-width="2" style="fill:var(--bg)"/>
-              <circle cx="265" cy="158" r="10" class="s-ink" stroke-width="2" style="fill:var(--bg)"/>
-              <path class="s-muted" stroke-width="1.5" d="M60 168 H400"/>
-              <path class="s-force" stroke-width="3" d="M220 78 V48"/><polygon points="220,34 213,48 227,48" class="f-force"/>
-              <text x="232" y="52"><tspan class="t-name">Normal del piso </tspan><tspan class="t-sym t-force">n</tspan><tspan class="t-force" font-size="12" dy="4">p</tspan></text>
-              <path class="s-force" stroke-width="3" d="M220 125 V214"/><polygon points="220,228 213,214 227,214" class="f-force"/>
-              <text x="232" y="222"><tspan class="t-name">Peso </tspan><tspan class="t-sym t-force">(m</tspan><tspan class="t-force" font-size="12" dy="4">R</tspan><tspan class="t-sym t-force" dy="-4">+m</tspan><tspan class="t-force" font-size="12" dy="4">C</tspan><tspan class="t-sym t-force" dy="-4">)·g</tspan></text>
-              <path class="s-acc" stroke-width="4" d="M300 125 H376"/><polygon points="392,125 374,116 374,134" class="f-acc"/>
-              <text x="306" y="112"><tspan class="t-name">Tracción </tspan><tspan class="t-sym t-acc">F</tspan></text>
-              <path class="s-acc" stroke-width="3" d="M140 125 H62"/><polygon points="46,125 64,116 64,134" class="f-acc"/>
-              <text x="20" y="92" class="t-name">Resistencia a la</text>
-              <text x="20" y="110"><tspan class="t-name">rodadura </tspan><tspan class="t-sym t-acc">f</tspan><tspan class="t-acc" font-size="12" dy="4">r</tspan></text>
-            </svg>
-            <figcaption><b>(b) Robot + estiba.</b> Las fuerzas entre el robot y la estiba son internas y no aparecen. Adelante empuja la tracción F (el piso reacciona al empuje de las ruedas, tercera ley); atrás frena la resistencia a la rodadura f<sub>r</sub>.</figcaption>
-          </figure>
+          <div class="dcl2">
+            <figure class="fig dcl">
+              <svg viewBox="0 0 230 200" role="img" aria-label="Diagrama de cuerpo libre del paquete en el plano: normal hacia arriba, peso hacia abajo y fricción hacia atrás.">
+                <text x="0" y="16" class="t-title">(B) EN EL PLANO</text>
+                <rect x="96" y="82" width="58" height="40" class="s-ink" stroke-width="2" style="fill:var(--panel)"/>
+                <path class="s-force" stroke-width="3" d="M125 82V34" marker-end="url(#m-force)"/>
+                <text x="133" y="46"><tspan class="t-name">Normal </tspan><tspan class="t-force t-sym">n</tspan></text>
+                <path class="s-force" stroke-width="3" d="M125 122V186" marker-end="url(#m-force)"/>
+                <text x="133" y="184"><tspan class="t-name">Peso </tspan><tspan class="t-force t-sym">w</tspan></text>
+                <path class="s-acc" stroke-width="4" d="M96 102H26" marker-end="url(#m-acc)"/>
+                <text x="4" y="90"><tspan class="t-name">Fricción </tspan><tspan class="t-acc">f</tspan><tspan class="t-acc" font-size="12" dy="4">k</tspan></text>
+                <g transform="translate(14 186)"><path class="s-muted" stroke-width="1.8" d="M0 0H38" marker-end="url(#m-muted)"/><path class="s-muted" stroke-width="1.8" d="M0 0V-38" marker-end="url(#m-muted)"/>
+                <text x="42" y="5" class="t-muted" style="font-size:14px">+x</text><text x="6" y="-30" class="t-muted" style="font-size:14px">+y</text></g>
+              </svg>
+              <figcaption><b>En el plano.</b> La fricción sigue ahí y lo va frenando: n = m g = 39,2 N y f<sub>k</sub> = 13,72 N.</figcaption>
+            </figure>
+            <figure class="fig dcl">
+              <svg viewBox="0 0 230 200" role="img" aria-label="Diagrama de cuerpo libre del paquete comprimiendo el resorte: normal hacia arriba, peso hacia abajo, y fricción y fuerza del resorte hacia atrás.">
+                <text x="0" y="16" class="t-title">(C) EN EL RESORTE</text>
+                <rect x="112" y="82" width="58" height="40" class="s-ink" stroke-width="2" style="fill:var(--panel)"/>
+                <path class="s-force" stroke-width="3" d="M141 82V34" marker-end="url(#m-force)"/>
+                <text x="149" y="46"><tspan class="t-name">Normal </tspan><tspan class="t-force t-sym">n</tspan></text>
+                <path class="s-force" stroke-width="3" d="M141 122V186" marker-end="url(#m-force)"/>
+                <text x="149" y="184"><tspan class="t-name">Peso </tspan><tspan class="t-force t-sym">w</tspan></text>
+                <path class="s-acc" stroke-width="4" d="M112 92H48" marker-end="url(#m-acc)"/>
+                <text x="0" y="80"><tspan class="t-name">Fricción </tspan><tspan class="t-acc">f</tspan><tspan class="t-acc" font-size="12" dy="4">k</tspan></text>
+                <path class="s-violet" stroke-width="4" d="M112 112H16" marker-end="url(#m-violet)"/>
+                <text x="0" y="138"><tspan class="t-name">Resorte </tspan><tspan class="t-violet">F</tspan><tspan class="t-violet" font-size="12" dy="4">e</tspan><tspan class="t-violet" dy="-4"> = k x</tspan></text>
+              </svg>
+              <figcaption><b>Comprimiendo el resorte.</b> El resorte y la fricción empujan hacia atrás: entre los dos lo frenan.</figcaption>
+            </figure>
+          </div>
         </div>
 
         <ol class="steps">
           <li class="step">
-            <h3><span>1</span>Tracción al arrancar</h3>
+            <h3><span>1</span>Rapidez al pie de la rampa · punto 1 → 2</h3>
             <div class="laws">
               <div class="law">
-                <span class="name">Aceleración constante <i>· ec. (6)</i></span>
-                <span class="f">a = v / t<sub>a</sub></span>
-                <span class="f">a = (1,5 m/s) / (0,8 s)</span>
-                <span class="f">a = <b>1,875 m/s²</b></span>
+                <span class="name">Energía en el punto 1 <i>· K<sub>1</sub> = 0, U<sub>e</sub> = 0, ec. (2)</i></span>
+                <span class="f">E<sub>1</sub> = m g h</span>
+                <span class="f">E<sub>1</sub> = (4,0 kg)(9,8 m/s²)(1,8 m)</span>
+                <span class="f">E<sub>1</sub> = <b>70,56 J</b></span>
               </div>
               <div class="law">
-                <span class="name">Resistencia a la rodadura <i>· ec. (5)</i></span>
-                <span class="f">f<sub>r</sub> = μ<sub>r</sub>·(m<sub>R</sub>+m<sub>C</sub>)·g</span>
-                <span class="f">f<sub>r</sub> = (0,02)(295 kg)(9,8 m/s²)</span>
-                <span class="f">f<sub>r</sub> = <b>57,8 N</b></span>
+                <span class="name">Trabajo de la fricción <i>· ec. (6) y (9)</i></span>
+                <span class="f">Δx<sub>12</sub> = h / tan θ = (1,8 m) / (tan 30°) = 3,118 m</span>
+                <span class="f">W<sub>fk</sub> = −μ<sub>k</sub> m g Δx<sub>12</sub></span>
+                <span class="f">W<sub>fk</sub> = −(0,35)(4,0 kg)(9,8 m/s²)(3,118 m)</span>
+                <span class="f">W<sub>fk</sub> = <b>−42,78 J</b></span>
               </div>
               <div class="law">
-                <span class="name">Segunda ley, robot + estiba <i>· ec. (4)</i></span>
-                <span class="f">F − f<sub>r</sub> = (m<sub>R</sub>+m<sub>C</sub>)·a</span>
-                <span class="f">F = (295 kg)(1,875 m/s²) + 57,8 N</span>
-                <span class="f">F = 553,1 N + 57,8 N</span>
+                <span class="name">Energía y rapidez en 2 <i>· ec. (5) y (10)</i></span>
+                <span class="f">E<sub>2</sub> = E<sub>1</sub> + W<sub>fk</sub></span>
+                <span class="f">E<sub>2</sub> = 70,56 J − 42,78 J = 27,78 J</span>
+                <span class="f">v<sub>2</sub> = √( 2 E<sub>2</sub> / m )</span>
+                <span class="f">v<sub>2</sub> = √( 2(27,78 J) / (4,0 kg) ) = <b>3,73 m/s</b></span>
               </div>
-              <div class="result"><span class="v">F = 611 N</span><span class="w">Casi toda la fuerza se va en acelerar la masa.</span></div>
+              <div class="result"><span class="v">3,73 m/s</span><span class="w">Sin fricción sería √(2 g h) = 5,94 m/s.</span></div>
             </div>
           </li>
           <li class="step">
-            <h3><span>2</span>¿Se desliza la estiba?</h3>
+            <h3><span>2</span>Energía perdida por fricción en la rampa</h3>
             <div class="laws">
               <div class="law">
-                <span class="name">Segunda ley, estiba <i>· ec. (2)</i></span>
-                <span class="f">ΣF<sub>x</sub> = m<sub>C</sub>·a → f<sub>s</sub> = m<sub>C</sub>·a</span>
-                <span class="f">f<sub>s</sub> = (150 kg)(1,875 m/s²)</span>
-                <span class="f">f<sub>s</sub> = <b>281,3 N</b> <span style="color:var(--muted)">(necesaria)</span></span>
+                <span class="name">Diferencia de energía entre 1 y 2</span>
+                <span class="f">E<sub>1</sub> − E<sub>2</sub> = 70,56 J − 27,78 J = <b>42,78 J</b> = |W<sub>fk</sub>|</span>
               </div>
               <div class="law">
-                <span class="name">Fricción estática máxima <i>· ec. (1) y (3)</i></span>
-                <span class="f">f<sub>s,máx</sub> = μ<sub>s</sub>·n = μ<sub>s</sub>·m<sub>C</sub>·g</span>
-                <span class="f">f<sub>s,máx</sub> = (0,30)(150 kg)(9,8 m/s²)</span>
-                <span class="f">f<sub>s,máx</sub> = <b>441 N</b> <span style="color:var(--muted)">(disponible)</span></span>
+                <span class="name">Porcentaje de la energía inicial</span>
+                <span class="f">(42,78 J / 70,56 J) × 100 % = <b>60,6 %</b></span>
               </div>
-              <div class="result"><span class="v ok">No desliza</span><span class="w">281,3 N &lt; 441 N: usa el 64 % del agarre.</span></div>
+              <div class="result"><span class="v">42,78 J</span><span class="w">60,6 %; se vuelven calor.</span></div>
             </div>
           </li>
           <li class="step">
-            <h3><span>3</span>Aceleración máxima y tiempo mínimo</h3>
+            <h3><span>3</span>Rapidez al pasar por el lector · punto 2 → 3</h3>
             <div class="laws">
               <div class="law">
-                <span class="name">Condición límite <i>· ec. (2) = (3)</i></span>
-                <span class="f">m<sub>C</sub>·a<sub>máx</sub> = μ<sub>s</sub>·m<sub>C</sub>·g</span>
-                <span class="f">a<sub>máx</sub> = μ<sub>s</sub>·g = (0,30)(9,8 m/s²)</span>
-                <span class="f">a<sub>máx</sub> = <b>2,94 m/s²</b></span>
+                <span class="name">Trabajo de la fricción en el plano <i>· ec. (6)</i></span>
+                <span class="f">W<sub>fk</sub> = −μ<sub>k</sub> m g Δx<sub>23</sub></span>
+                <span class="f">W<sub>fk</sub> = −(0,35)(4,0 kg)(9,8 m/s²)(1,0 m) = <b>−13,72 J</b></span>
               </div>
               <div class="law">
-                <span class="name">Aceleración constante <i>· ec. (6)</i></span>
-                <span class="f">t<sub>mín</sub> = v / a<sub>máx</sub></span>
-                <span class="f">t<sub>mín</sub> = (1,5 m/s) / (2,94 m/s²)</span>
-                <span class="f">t<sub>mín</sub> = <b>0,51 s</b></span>
+                <span class="name">Energía y rapidez en 3 <i>· ec. (5) y (10)</i></span>
+                <span class="f">E<sub>3</sub> = E<sub>2</sub> + W<sub>fk</sub> = 27,78 J − 13,72 J = 14,06 J</span>
+                <span class="f">v<sub>3</sub> = √( 2(14,06 J) / (4,0 kg) ) = <b>2,65 m/s</b></span>
               </div>
-              <div class="result"><span class="v">2,94 m/s²<br>0,51 s</span><span class="w">La masa se cancela: el límite es igual para cualquier carga.</span></div>
+              <div class="result"><span class="v ok">Sí lee</span><span class="w">2,65 m/s &lt; 3,0 m/s</span></div>
             </div>
           </li>
           <li class="step">
-            <h3><span>4</span>Crucero y fricción mínima</h3>
+            <h3><span>4</span>Compresión máxima del resorte · punto 3 → 4 → 5</h3>
             <div class="laws">
               <div class="law">
-                <span class="name">Primera ley: equilibrio <i>· a = 0 · ec. (4) y (2)</i></span>
-                <span class="f">F − f<sub>r</sub> = 0 → F = f<sub>r</sub> = <b>57,8 N</b></span>
-                <span class="f">f<sub>s</sub> = m<sub>C</sub>·(0) = <b>0 N</b></span>
+                <span class="name">Energía al tocar el resorte <i>· ec. (6) y (5)</i></span>
+                <span class="f">W<sub>fk</sub> = −(0,35)(4,0 kg)(9,8 m/s²)(0,5 m)</span>
+                <span class="f">W<sub>fk</sub> = −6,86 J</span>
+                <span class="f">E<sub>4</sub> = 14,06 J − 6,86 J = <b>7,20 J</b></span>
               </div>
               <div class="law">
-                <span class="name">Condición de no deslizamiento <i>· a ≤ μ<sub>s</sub>·g</i></span>
-                <span class="f">μ<sub>mín</sub> = a / g = (1,875 m/s²) / (9,8 m/s²)</span>
-                <span class="f">μ<sub>mín</sub> = <b>0,19</b></span>
+                <span class="name">Energía en 5, con K<sub>5</sub> = 0 <i>· ec. (3) y (5)</i></span>
+                <span class="f">½ k x² = E<sub>4</sub> − μ<sub>k</sub> m g x</span>
+                <span class="f">(600 N/m) x² + (13,72 N) x − 7,20 J = 0</span>
+                <span class="f">Mientras comprime, la fricción sigue actuando.</span>
               </div>
-              <div class="result"><span class="v">57,8 N<br>μ<sub>mín</sub> = 0,19</span><span class="w">En crucero ΣF = 0: la estiba ya no necesita fricción.</span></div>
+              <div class="law">
+                <span class="name">Ecuación cuadrática <i>· ec. (11)</i></span>
+                <span class="f">a = 600 N/m;  b = 13,72 N;  c = −7,20 J</span>
+                <span class="f">x = [−b + √(b² − 4 a c)] / (2 a)</span>
+                <span class="f">x = (−13,72 N + 132,17 N) / (1200 N/m) = <b>0,0987 m</b></span>
+              </div>
+              <div class="result"><span class="v">x = 9,9 cm</span><span class="w">La raíz negativa no sirve: el paquete comprime el resorte, no lo estira.</span></div>
+            </div>
+          </li>
+          <li class="step">
+            <h3><span>5</span>Desaceleración en el tope y balance de energía</h3>
+            <div class="laws">
+              <div class="law">
+                <span class="name">Segunda ley en x <i>· compresión máxima</i></span>
+                <span class="f">F<sub>e</sub> = k x = (1200 N/m)(0,0987 m) = 118,5 N</span>
+                <span class="f">ΣF<sub>x</sub> = −F<sub>e</sub> − f<sub>k</sub> = m a</span>
+                <span class="f">a = −(118,5 N + 13,72 N) / (4,0 kg) = <b>−33,1 m/s²</b></span>
+                <span class="f">El signo − dice que frena. (33,1 m/s²) / (9,8 m/s²) = <b>3,4 veces g</b></span>
+              </div>
+              <div class="law">
+                <span class="name">Balance de energía hasta el punto 5</span>
+                <span class="f">U<sub>e</sub> = ½ (1200 N/m)(0,0987 m)² = 5,85 J</span>
+                <span class="f">|W<sub>fk</sub>| al comprimir = 7,20 J − 5,85 J = 1,35 J</span>
+                <span class="f">Total = 42,78 J + 13,72 J + 6,86 J + 1,35 J = <b>64,71 J</b></span>
+                <span class="f">(64,71 J / 70,56 J) × 100 % = <b>91,7 %</b></span>
+              </div>
+              <div class="result"><span class="v">3,4 g</span><span class="w">Frena suave. La fricción se lleva el 91,7 % de la energía.</span></div>
             </div>
           </li>
         </ol>
@@ -453,24 +519,25 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
     <section class="slide" id="s3" aria-label="Simulación y conclusiones">
       <div class="head">
         <p class="eyebrow">Simulación · cambie los parámetros</p>
-        <h2>¿Qué le pasa a la estiba si cambiamos el arranque o el piso?</h2>
+        <h2>¿Qué pasa si cambiamos la rampa o la lámina?</h2>
       </div>
       <div class="s3-grid">
         <div class="sim">
-          <div class="cbox"><canvas id="scene" aria-label="Animación del robot arrancando con la estiba encima"></canvas><p class="flag" id="flag">Arrancando</p></div>
-          <div class="cbox"><canvas id="chart" aria-label="Gráfica de velocidad contra tiempo del robot y de la carga"></canvas></div>
+          <div class="cbox"><canvas id="scene" aria-label="Animación del paquete bajando por la rampa hasta el tope con resorte"></canvas><p class="flag" id="flag">Bajando</p></div>
+          <div class="cbox"><canvas id="chart" aria-label="Gráfica de energía contra tiempo: gravitacional, cinética, elástica y perdida por fricción"></canvas></div>
           <div class="controls">
-            <div class="ctl"><label for="p-ta">Tiempo de arranque <output id="o-ta" for="p-ta">0,80 s</output></label><input type="range" id="p-ta" min="0.2" max="2" step="0.05" value="0.8"></div>
-            <div class="ctl"><label for="p-mus"><span>μ<sub>s</sub> estiba–plataforma</span> <output id="o-mus" for="p-mus">0,30</output></label><input type="range" id="p-mus" min="0.1" max="0.6" step="0.01" value="0.3"></div>
-            <div class="ctl"><label for="p-mc">Masa de la estiba <output id="o-mc" for="p-mc">150 kg</output></label><input type="range" id="p-mc" min="30" max="250" step="10" value="150"></div>
-            <div class="ctl"><label for="p-v">Velocidad de crucero <output id="o-v" for="p-v">1,5 m/s</output></label><input type="range" id="p-v" min="0.5" max="2" step="0.1" value="1.5"></div>
+            <div class="ctl"><label for="p-h"><span>Altura h</span> <output id="o-h" for="p-h">1,8 m</output></label><input type="range" id="p-h" min="1" max="3" step="0.05" value="1.8"></div>
+            <div class="ctl"><label for="p-th"><span>Inclinación θ</span> <output id="o-th" for="p-th">30°</output></label><input type="range" id="p-th" min="15" max="45" step="1" value="30"></div>
+            <div class="ctl"><label for="p-mu"><span>Fricción μ<sub>k</sub></span> <output id="o-mu" for="p-mu">0,35</output></label><input type="range" id="p-mu" min="0.1" max="0.6" step="0.01" value="0.35"></div>
+            <div class="ctl"><label for="p-m"><span>Masa m</span> <output id="o-m" for="p-m">4,0 kg</output></label><input type="range" id="p-m" min="1" max="20" step="0.5" value="4"></div>
+            <div class="ctl"><label for="p-k"><span>Resorte k</span> <output id="o-k" for="p-k">1200 N/m</output></label><input type="range" id="p-k" min="200" max="3000" step="50" value="1200"></div>
           </div>
           <div class="btns">
             <span class="lbl">Casos</span>
-            <button type="button" class="chip preset" data-p='{"ta":0.8,"mus":0.3,"mc":150,"v":1.5}' aria-pressed="true">Ejercicio</button>
-            <button type="button" class="chip preset" data-p='{"ta":0.8,"mus":0.3,"mc":30,"v":1.5}' aria-pressed="false">Estiba de 30 kg</button>
-            <button type="button" class="chip preset" data-p='{"ta":0.8,"mus":0.15,"mc":150,"v":1.5}' aria-pressed="false">Piso con grasa (μ 0,15)</button>
-            <button type="button" class="chip preset" data-p='{"ta":0.4,"mus":0.3,"mc":150,"v":1.5}' aria-pressed="false">Arranque brusco (0,4 s)</button>
+            <button type="button" class="chip preset" data-p='{"h":1.8,"th":30,"mu":0.35,"m":4,"k":1200}' aria-pressed="true">Ejercicio</button>
+            <button type="button" class="chip preset" data-p='{"h":1.8,"th":30,"mu":0.35,"m":15,"k":1200}' aria-pressed="false">Paquete de 15 kg</button>
+            <button type="button" class="chip preset" data-p='{"h":1.8,"th":30,"mu":0.3,"m":4,"k":1200}' aria-pressed="false">Lámina pulida (μ 0,30)</button>
+            <button type="button" class="chip preset" data-p='{"h":2.5,"th":30,"mu":0.35,"m":4,"k":1200}' aria-pressed="false">Mezanine de 2,5 m</button>
             <span class="sep"></span>
             <span class="lbl">Velocidad</span>
             <button type="button" class="chip speed" data-s="1" aria-pressed="false">1×</button>
@@ -478,25 +545,26 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
             <button type="button" class="chip speed" data-s="0.25" aria-pressed="false">¼×</button>
             <button type="button" class="chip" id="replay">Repetir</button>
           </div>
-          <p class="note">Si la estiba desliza, la simulación usa fricción cinética μ<sub>k</sub> = 0,8·μ<sub>s</sub> (supuesto: el enunciado no la da). La estiba cae si su centro pasa el borde de la plataforma (0,40 m, robot de 0,8 m).</p>
+          <p class="note">La simulación usa μ<sub>k</sub> en todo el recorrido, no pierde energía al pasar de la rampa al plano y toma el resorte como ideal. Como el enunciado no da μ<sub>s</sub>, también usamos μ<sub>k</sub> para ver si el paquete arranca o se queda quieto.</p>
         </div>
 
         <div class="side">
-          <div class="verdict" id="verdict" aria-live="polite"><span class="vt" id="vt">No desliza</span><span class="vs" id="vs">usa el 64 % de la fricción disponible</span></div>
+          <div class="verdict" id="verdict" aria-live="polite"><span class="vt" id="vt">Lee la etiqueta</span><span class="vs" id="vs">pasa por el lector a 2,65 m/s, por debajo de 3,0 m/s</span></div>
           <div class="gauge">
-            <div class="grow"><span>Fricción que necesita la estiba<br><b id="g-need">281 N</b></span><span style="text-align:right">Máxima que da la plataforma<br><b id="g-max">441 N</b></span></div>
-            <div class="track" role="img" id="track" aria-label="Fricción necesaria frente a la disponible"><div class="fill" id="fill"></div><div class="limit" id="limit"></div></div>
+            <div class="grow"><span>Rapidez en el lector<br><b id="g-v">2,65 m/s</b></span><span style="text-align:right">Límite del lector<br><b>3,0 m/s</b></span></div>
+            <div class="track" role="img" id="track" aria-label="Rapidez en el lector frente al límite"><div class="fill" id="fill"></div><div class="limit" id="limit"></div></div>
           </div>
           <div class="cmp">
-            <h3>Programado frente al límite</h3>
-            <div class="row" id="row-a"><span class="k">Aceleración del arranque</span><span class="val" id="r-a">1,875 m/s²</span><span class="lim">máx. <b id="r-amax">2,94 m/s²</b></span></div>
-            <div class="row" id="row-t"><span class="k">Tiempo de arranque</span><span class="val" id="r-ta">0,80 s</span><span class="lim">mín. <b id="r-tmin">0,51 s</b></span></div>
-            <div class="row" id="row-mu"><span class="k">Fricción estiba–plataforma μ<sub>s</sub></span><span class="val" id="r-mus">0,30</span><span class="lim">mín. <b id="r-mumin">0,19</b></span></div>
+            <h3>Rapidez del paquete</h3>
+            <div class="row"><span class="k">Al pie de la rampa</span><span class="val" id="r-v2">3,73 m/s</span><span class="lim">sin fricción <b id="r-v0">5,94 m/s</b></span></div>
+            <div class="row" id="row-v3"><span class="k">En el lector</span><span class="val" id="r-v3">2,65 m/s</span><span class="lim">máx. <b>3,0 m/s</b></span></div>
+            <div class="row"><span class="k">Al tocar el resorte</span><span class="val" id="r-v4">1,90 m/s</span><span class="lim">le quedan <b id="r-e4">7,2 J</b></span></div>
           </div>
           <div class="cmp">
-            <h3>Fuerza que dan los motores</h3>
-            <div class="row"><span class="k">Arrancando</span><span class="val" id="r-F">611 N</span><span class="lim" id="r-Fnote">acelera robot y estiba</span></div>
-            <div class="row"><span class="k">En crucero</span><span class="val" id="r-Fc">57,8 N</span><span class="lim">solo vence la rodadura</span></div>
+            <h3>Tope y energía</h3>
+            <div class="row"><span class="k">Compresión máxima</span><span class="val" id="r-x">9,9 cm</span><span class="lim">fuerza <b id="r-fe">118,5 N</b></span></div>
+            <div class="row"><span class="k">Desaceleración máxima</span><span class="val" id="r-a">33,1 m/s²</span><span class="lim">equivale a <b id="r-g">3,4 g</b></span></div>
+            <div class="row"><span class="k">Perdida por fricción</span><span class="val" id="r-l">64,71 J</span><span class="lim"><span id="r-pl">hasta el punto 5:</span> <b id="r-p">91,7 %</b></span></div>
           </div>
           <button type="button" class="cta" id="open-concl" aria-controls="cpanel">Ver conclusiones →</button>
         </div>
@@ -512,24 +580,24 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
         </div>
         <div class="cgrid">
           <article>
-            <h3>El arranque programado es seguro, pero no de sobra</h3>
-            <p>La estiba necesita <b>281 N</b> de fricción y la plataforma puede darle hasta <b>441 N</b>: se usa el <b>64&nbsp;%</b> del agarre disponible. El mismo margen se ve en la aceleración (1,875 frente a 2,94 m/s² admisibles) y en el tiempo (0,8 s programados frente a 0,51 s mínimos).</p>
+            <h3>El lector sí alcanza a leer la etiqueta, pero por poco</h3>
+            <p>El paquete pasa a <b>2,65 m/s</b> y el lector aguanta hasta <b>3,0 m/s</b>. Sobran 3,0 m/s − 2,65 m/s = 0,35 m/s, apenas un 12 % del límite. Esto es lo que más importa: si el lector no alcanza a leer, el software manda el paquete a revisión manual y el despacho se demora.</p>
           </article>
           <article>
-            <h3>Los motores trabajan casi todo al arrancar</h3>
-            <p>Dan <b>611 N</b> en el arranque y apenas <b>57,8 N</b> en crucero, más de diez veces menos: casi toda la fuerza se va en acelerar la masa, no en vencer la rodadura. En crucero la estiba ya no necesita fricción: va a velocidad constante (a = 0), así que ΣF = 0 y sigue moviéndose por inercia.</p>
+            <h3>La fricción es el freno del sistema</h3>
+            <p>De los <b>70,56 J</b> del inicio, la fricción se lleva <b>64,71 J (91,7 %)</b> antes de que el paquete se detenga contra el tope: 42,78 J en la rampa, 13,72 J hasta el lector, 6,86 J hasta el resorte y 1,35 J comprimiéndolo. Los otros 5,85 J (8,3 %) quedan guardados en el resorte. Y todo eso sin motores.</p>
           </article>
           <article>
-            <h3>La masa de la carga se cancela</h3>
-            <p>Como a<sub>máx</sub> = μ<sub>s</sub>·g, una estiba de 30 kg y una de 250 kg empiezan a deslizar con la misma aceleración. Al aumentar la masa crece la fricción disponible, pero crece en la misma proporción la fuerza que se necesita.</p>
+            <h3>El tope necesita unos 10 cm y no frena tan duro</h3>
+            <p>El resorte se comprime <b>9,9 cm</b> y el paquete frena como máximo a <b>33,1 m/s² (3,4 g)</b>. El problema es que no lo deja quieto: le devuelve 5,85 J − 1,35 J = 4,50 J, el paquete sale a √(2(4,50 J) / (4,0 kg)) = 1,50 m/s y se devuelve (4,50 J) / (13,72 N) = 0,33 m. Por eso en la práctica el tope necesita un amortiguador.</p>
           </article>
           <article>
-            <h3>Lo que manda es la fricción: criterio de mantenimiento</h3>
-            <p>Para no deslizar se necesita μ<sub>s</sub> ≥ a / g = <b>0,19</b>. Con polvo, grasa o humedad el coeficiente puede bajar a 0,15 sin que nadie lo note, y desde ahí la estiba se corre en cada arranque. El mismo límite aplica al frenar, y en las curvas es más exigente.</p>
+            <h3>Todo depende de la lámina y de la altura</h3>
+            <p>El lector deja de leer cuando E<sub>3</sub> = ½ (4,0 kg)(3,0 m/s)² = 18,0 J. Eso pasa con μ<sub>k</sub> = (70,56 J − 18,0 J) / [(39,2 N)(4,118 m)] = <b>0,326</b>: basta con que la lámina se pula un 7 %. Con la misma cuenta, también pasa si la rampa sube de <b>2,05 m</b>. Por eso toca revisar la lámina y poner una alarma en el software si aumentan los paquetes en revisión manual.</p>
           </article>
           <article>
             <h3>Utilidad de la física</h3>
-            <p>El perfil de velocidad del robot se escribe en un archivo de configuración, pero no se elige probando el software: lo fija la fricción. Con la segunda ley y f<sub>s</sub> ≤ μ<sub>s</sub>·n se calculan, antes de mover el primer robot, la aceleración máxima, el tiempo mínimo de arranque, la fuerza de los motores y el umbral de limpieza del piso.</p>
+            <p>Con trabajo y energía podemos saber, antes de instalar el lector y programar el software, a qué rapidez van a pasar los paquetes, si la etiqueta se va a poder leer y cuánto recorrido necesita el tope. También podemos ver qué pasa si cambia la altura o se gasta la lámina, sin hacer pruebas con paquetes reales.</p>
           </article>
         </div>
       </div>
@@ -609,97 +677,135 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
 
   /* ================= física ================= */
   // <sim>
-  var G = 9.8, MR = 145, MUR = 0.02, KRATIO = 0.8, HALF = 0.40;
-  // p = {ta: tiempo de arranque [s], mus: μs estiba–plataforma, mc: masa estiba [kg], v: crucero [m/s]}
-  function simulate(p){
-    var a = p.v / p.ta, aMax = p.mus * G, muk = KRATIO * p.mus, aK = muk * G;
-    var slips = a > aMax;                        // f_s necesaria (m_C·a) > f_s,máx (μs·m_C·g)
-    var fr = MUR * (MR + p.mc) * G;
+  var G = 9.8, D23 = 1.0, D34 = 0.5, VMAX = 3.0;
+
+  // Resultados exactos con energía, punto a punto. p = {h [m], th [grados], mu, m [kg], k [N/m]}
+  function analyze(p){
+    var th = p.th * Math.PI / 180, sn = Math.sin(th), cs = Math.cos(th);
+    var w = p.m * G, dx12 = p.h / Math.tan(th), E1 = w * p.h, fPlano = p.mu * w;
     var r = {
-      a:a, aMax:aMax, muk:muk, slips:slips, fr:fr,
-      fsNeed:p.mc * a, fsMax:aMax * p.mc, tMin:p.v / aMax, muMin:a / G,
-      // si desliza, la carga empuja al robot hacia atrás con f_k (tercera ley)
-      Fstart: slips ? MR * a + muk * p.mc * G + fr : (MR + p.mc) * a + fr,
-      Fcruise: fr, sMax:0, tLost:null, tCatch:null, tEnd:0,
-      T:[], VR:[], VL:[], S:[], M:[]           // muestras cada 0,01 s; M: 0 pegada, 1 desliza, 2 se cayó
+      E1:E1, dx12:dx12, sr:p.h / sn, v0:Math.sqrt(2 * G * p.h),
+      moves: sn > p.mu * cs,
+      v2:null, v3:null, v4:null, E2:null, E3:null, E4:null,
+      x:null, Fe:null, a:null, Ue:null, lost:null, stop:null, stopD:null
     };
-    var dt = 0.0005, t = 0, vR = 0, vL = 0, s = 0, mode = slips ? 1 : 0, nextRec = 0, end = null, n = 0;
-    while (n++ < 40000) {
-      if (t >= nextRec - 1e-9) { r.T.push(t); r.VR.push(vR); r.VL.push(vL); r.S.push(s); r.M.push(mode); nextRec += 0.01; }
-      if (end !== null && t >= end) break;
-      var vR1 = Math.min(p.v, a * (t + dt)), vL1;
-      if (mode === 0) vL1 = vR1;
-      else if (mode === 1) { vL1 = vL + aK * dt; if (vL1 >= vR1) { vL1 = vR1; mode = 0; r.tCatch = t + dt; } }
-      else vL1 = Math.max(0, vL - aK * dt);    // ya en el piso: solo para el dibujo
-      s += ((vR + vR1) - (vL + vL1)) / 2 * dt; // corrimiento = ∫(v_robot − v_carga) dt
-      vR = vR1; vL = vL1; t += dt;
-      if (mode === 1 && s >= HALF) { mode = 2; r.tLost = t; }
-      if (mode !== 2 && s > r.sMax) r.sMax = s;
-      if (end === null) {
-        if (mode === 2) end = t + 1.4;
-        else if (mode === 0 && t >= p.ta) end = t + 0.6;
-      }
-    }
-    r.tEnd = t;
+    if (!r.moves) { r.stop = 'rampa'; return r; }
+    r.E2 = E1 - fPlano * dx12;                      // W_fk = -mu m g dx (ec. 6)
+    r.v2 = Math.sqrt(2 * r.E2 / p.m);
+    r.E3 = r.E2 - fPlano * D23;
+    if (r.E3 <= 0) { r.stop = 'plano'; r.stopD = r.E2 / fPlano; return r; }   // se detiene antes del lector
+    r.v3 = Math.sqrt(2 * r.E3 / p.m);
+    r.E4 = r.E3 - fPlano * D34;
+    if (r.E4 <= 0) { r.stop = 'antes'; r.stopD = D23 + r.E3 / fPlano; return r; } // pasa el lector, no llega al tope
+    r.v4 = Math.sqrt(2 * r.E4 / p.m);
+    // 1/2 k x^2 + f x - E4 = 0
+    r.x = (-fPlano + Math.sqrt(fPlano * fPlano + 2 * p.k * r.E4)) / p.k;
+    r.Fe = p.k * r.x;
+    r.a = (r.Fe + fPlano) / p.m;
+    r.Ue = 0.5 * p.k * r.x * r.x;
+    r.lost = E1 - r.Ue;
     return r;
+  }
+
+  // Movimiento completo sobre la pista, incluido el rebote. s = 0 arriba; muestras cada 0,01 s.
+  function simulate(p){
+    var A = analyze(p), th = p.th * Math.PI / 180, sn = Math.sin(th), cs = Math.cos(th);
+    var sr = A.sr, s3 = sr + D23, s4 = s3 + D34;
+    var res = {A:A, T:[], S:[], V:[], Ug:[], K:[], Ue:[], L:[], F:[], tStop:null, sStop:0, vReb:null, sMaxC:0, t3:null, tEnd:0};
+    var dt = 0.0002, t = 0, s = 0, v = 0, lost = 0, nextRec = 0, n = 0, stopped = false, leftSpring = false;
+    function fric(pos){ return p.mu * (pos < sr ? G * cs : G); }                 // fricción por unidad de masa
+    function drive(pos){ return (pos < sr ? G * sn : 0) - p.k * Math.max(0, pos - s4) / p.m; }
+    while (n++ < 150000) {
+      var x = Math.max(0, s - s4);
+      if (t >= nextRec - 1e-9) {
+        res.T.push(t); res.S.push(s); res.V.push(v);
+        res.Ug.push(p.m * G * (s < sr ? p.h - s * sn : 0)); res.K.push(0.5 * p.m * v * v);
+        res.Ue.push(0.5 * p.k * x * x); res.L.push(lost); res.F.push(fric(s) * p.m);
+        nextRec += 0.01;
+      }
+      if (stopped) { if (t >= res.tStop + 0.6) break; t += dt; continue; }
+      var d0 = drive(s), f0 = fric(s), dir = v > 0 ? 1 : -1;
+      if (v === 0) {
+        if (Math.abs(d0) <= f0 + 1e-9) { stopped = true; res.tStop = t; res.sStop = s; continue; }
+        dir = d0 > 0 ? 1 : -1;
+      }
+      // Verlet de velocidad: conserva bien la energía con el resorte
+      var a0 = d0 - dir * f0, s1 = s + v * dt + 0.5 * a0 * dt * dt;
+      var a1 = drive(s1) - dir * fric(s1), v1 = v + 0.5 * (a0 + a1) * dt;
+      if (v !== 0 && v * v1 < 0) {                                               // se detiene dentro del paso
+        var ts = -v / a0;
+        s1 = s + v * ts + 0.5 * a0 * ts * ts; v1 = 0;
+      }
+      var ds = s1 - s;
+      if (x > 0 && s1 <= s4 && v1 < 0 && !leftSpring) { leftSpring = true; res.vReb = -v1; }
+      if (res.t3 === null && s1 >= s3) res.t3 = t;
+      lost += 0.5 * (fric(s) + fric(s1)) * p.m * Math.abs(ds);
+      s = s1; v = v1; t += dt;
+      if (s - s4 > res.sMaxC) res.sMaxC = s - s4;
+    }
+    res.tEnd = res.T[res.T.length - 1];
+    return res;
   }
   // </sim>
 
   /* ================= estado ================= */
-  var P = {ta:0.8, mus:0.30, mc:150, v:1.5};
+  var P = {h:1.8, th:30, mu:0.35, m:4, k:1200};
   var R = simulate(P), simT = 0, hold = 0, speed = 0.5, last = 0;
   var $ = function(id){ return document.getElementById(id); };
   function fmt(x, lo, hi){
     return x.toLocaleString('es-CO', {minimumFractionDigits:lo, maximumFractionDigits:(hi === undefined ? lo : hi), useGrouping:false});
   }
-  function robotX(t){ var ta = P.v / R.a; return t < ta ? 0.5 * R.a * t * t : 0.5 * R.a * ta * ta + P.v * (t - ta); }
   function at(t){ return Math.max(0, Math.min(R.T.length - 1, Math.round(t / 0.01))); }
 
   function readouts(){
-    $('o-ta').textContent = fmt(P.ta, 2) + ' s';
-    $('o-mus').textContent = fmt(P.mus, 2);
-    $('o-mc').textContent = fmt(P.mc, 0) + ' kg';
-    $('o-v').textContent = fmt(P.v, 1) + ' m/s';
-    $('r-a').textContent = fmt(R.a, 2, 3) + ' m/s²';
-    $('r-amax').textContent = fmt(R.aMax, 2) + ' m/s²';
-    $('r-ta').textContent = fmt(P.ta, 2) + ' s';
-    $('r-tmin').textContent = fmt(R.tMin, 2) + ' s';
-    $('r-mus').textContent = fmt(P.mus, 2);
-    $('r-mumin').textContent = fmt(R.muMin, 2);
-    ['row-a', 'row-t', 'row-mu'].forEach(function(id){ $(id).classList.toggle('bad', R.slips); });
-    $('r-F').textContent = fmt(R.Fstart, 0) + ' N';
-    $('r-Fnote').textContent = R.slips ? 'acelera el robot; la estiba desliza' : 'acelera robot y estiba';
-    $('r-Fc').textContent = fmt(R.Fcruise, 1) + ' N';
-    var scale = Math.max(R.fsMax * 1.6, R.fsNeed * 1.08);
-    $('fill').style.width = Math.min(100, R.fsNeed / scale * 100) + '%';
-    $('fill').classList.toggle('over', R.slips);
-    $('limit').style.left = (R.fsMax / scale * 100) + '%';
-    $('g-need').textContent = fmt(R.fsNeed, 0) + ' N';
-    $('g-max').textContent = fmt(R.fsMax, 0) + ' N';
-    $('track').setAttribute('aria-label', 'Fricción necesaria ' + fmt(R.fsNeed,0) + ' N, disponible ' + fmt(R.fsMax,0) + ' N');
-    var v = $('verdict');
-    if (!R.slips) {
-      $('vt').textContent = 'No desliza';
-      $('vs').textContent = 'usa el ' + Math.round(R.fsNeed / R.fsMax * 100) + ' % de la fricción disponible';
-      v.classList.remove('bad');
-    } else if (R.tLost === null) {
-      $('vt').textContent = 'Desliza';
-      $('vs').textContent = 'la estiba se corre ' + fmt(R.sMax * 100, 0) + ' cm hacia atrás sobre la plataforma';
-      v.classList.add('bad');
-    } else {
-      $('vt').textContent = 'Se cae';
-      $('vs').textContent = 'se corre más de 40 cm y sale de la plataforma';
-      v.classList.add('bad');
+    var A = R.A;
+    $('o-h').textContent = fmt(P.h, 2) + ' m';
+    $('o-th').textContent = fmt(P.th, 0) + '°';
+    $('o-mu').textContent = fmt(P.mu, 2);
+    $('o-m').textContent = fmt(P.m, 1) + ' kg';
+    $('o-k').textContent = fmt(P.k, 0) + ' N/m';
+    var dash = '—';
+    $('r-v0').textContent = fmt(A.v0, 2) + ' m/s';
+    $('r-v2').textContent = A.v2 === null ? dash : fmt(A.v2, 2) + ' m/s';
+    $('r-v3').textContent = A.v3 === null ? dash : fmt(A.v3, 2) + ' m/s';
+    $('r-v4').textContent = A.v4 === null ? dash : fmt(A.v4, 2) + ' m/s';
+    $('r-e4').textContent = A.E4 === null || A.E4 <= 0 ? dash : fmt(A.E4, 1) + ' J';
+    $('r-x').textContent = A.x === null ? dash : fmt(A.x * 100, 1) + ' cm';
+    $('r-fe').textContent = A.Fe === null ? dash : fmt(A.Fe, 1) + ' N';
+    $('r-a').textContent = A.a === null ? dash : fmt(A.a, 1) + ' m/s²';
+    $('r-g').textContent = A.a === null ? dash : fmt(A.a / G, 1) + ' g';
+    var perdido = A.lost === null ? A.E1 : A.lost;
+    $('r-l').textContent = fmt(perdido, 2) + ' J';
+    $('r-p').textContent = fmt(perdido / A.E1 * 100, 1) + ' %';
+    $('r-pl').textContent = A.lost === null ? 'de la energía:' : 'hasta el punto 5:';
+
+    var v3 = A.v3 === null ? 0 : A.v3, scale = Math.max(VMAX * 1.5, v3 * 1.08), over = v3 > VMAX;
+    $('fill').style.width = Math.min(100, v3 / scale * 100) + '%';
+    $('fill').classList.toggle('over', over);
+    $('limit').style.left = (VMAX / scale * 100) + '%';
+    $('g-v').textContent = A.v3 === null ? dash : fmt(v3, 2) + ' m/s';
+    $('track').setAttribute('aria-label', 'Rapidez en el lector ' + fmt(v3, 2) + ' m/s; límite 3,0 m/s');
+    $('row-v3').classList.toggle('bad', over);
+
+    var vd = $('verdict'), vt = $('vt'), vs = $('vs'), bad = true;
+    if (!A.moves) { vt.textContent = 'No baja'; vs.textContent = 'la parte del peso a lo largo de la rampa no alcanza a vencer la fricción'; }
+    else if (A.v3 === null) { vt.textContent = 'No llega al lector'; vs.textContent = 'se detiene a ' + fmt(A.stopD, 2) + ' m del pie de la rampa'; }
+    else if (over) { vt.textContent = 'No lee la etiqueta'; vs.textContent = 'pasa a ' + fmt(v3, 2) + ' m/s, por encima de 3,0 m/s: va a revisión manual'; }
+    else {
+      bad = false; vt.textContent = 'Lee la etiqueta';
+      vs.textContent = 'pasa por el lector a ' + fmt(v3, 2) + ' m/s, por debajo de 3,0 m/s';
+      if (A.v4 === null) vs.textContent += '; se detiene antes del tope';
     }
+    vd.classList.toggle('bad', bad);
   }
   function restart(){ R = simulate(P); simT = 0; hold = 0; readouts(); }
 
-  var inputs = {ta:$('p-ta'), mus:$('p-mus'), mc:$('p-mc'), v:$('p-v')};
+  var inputs = {h:$('p-h'), th:$('p-th'), mu:$('p-mu'), m:$('p-m'), k:$('p-k')};
   var presets = [].slice.call(document.querySelectorAll('.preset'));
   function markPresets(){
     presets.forEach(function(b){
-      var q = JSON.parse(b.getAttribute('data-p'));
-      var same = Math.abs(q.ta-P.ta) < 1e-9 && Math.abs(q.mus-P.mus) < 1e-9 && q.mc === P.mc && Math.abs(q.v-P.v) < 1e-9;
+      var q = JSON.parse(b.getAttribute('data-p')), same = true;
+      Object.keys(q).forEach(function(k){ if (Math.abs(q[k] - P[k]) > 1e-9) same = false; });
       b.setAttribute('aria-pressed', same ? 'true' : 'false');
     });
   }
@@ -738,7 +844,7 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
   function pal(){
     var cs = getComputedStyle(document.documentElement), g = function(n){ return cs.getPropertyValue(n).trim(); };
     return {bg:g('--bg'), panel:g('--panel'), ink:g('--ink'), muted:g('--muted'), line:g('--line'),
-            acc:g('--accent'), force:g('--force'), bad:g('--bad'), good:g('--good')};
+            acc:g('--accent'), force:g('--force'), bad:g('--bad'), good:g('--good'), violet:g('--violet')};
   }
   function arrow(c, x1, y1, x2, y2, col, w){
     var ang = Math.atan2(y2-y1, x2-x1), h = 6 + w * 2;
@@ -749,102 +855,117 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
     c.lineTo(x2 - Math.cos(ang+.45)*h, y2 - Math.sin(ang+.45)*h);
     c.closePath(); c.fill();
   }
-
-  // estiba en coordenadas locales: origen en su esquina trasera inferior, x hacia adelante, y hacia arriba (m)
-  function drawLoad(c, S, k, bad){
-    function rect(x0, y0, x1, y1, fill, stroke){
-      c.beginPath(); c.rect(x0*S, -y1*S, (x1-x0)*S, (y1-y0)*S);
-      c.fillStyle = fill; c.fill(); c.strokeStyle = stroke; c.lineWidth = 2; c.stroke();
-    }
-    var edge = bad ? k.bad : k.ink;
-    rect(0, 0, 0.8, 0.09, k.bg, k.acc);
-    c.save(); c.globalAlpha = .16; c.fillStyle = k.acc; c.fillRect(0, -0.09*S, 0.8*S, 0.09*S); c.restore();
-    rect(0.03, 0.09, 0.39, 0.37, k.panel, edge);
-    rect(0.41, 0.09, 0.77, 0.37, k.panel, edge);
-    rect(0.16, 0.37, 0.64, 0.60, k.panel, edge);
+  function ptMark(c, x, y, txt, k, fs){
+    c.beginPath(); c.arc(x, y, fs * .85, 0, Math.PI * 2); c.fillStyle = k.ink; c.fill();
+    c.fillStyle = k.bg; c.textAlign = 'center'; c.fillText(txt, x, y + fs * .36); c.textAlign = 'left';
   }
 
   function drawScene(k){
     var c = SC.c, W = SC.w, H = SC.h; if (!W || !H) return;
     c.clearRect(0, 0, W, H);
-    var i = at(simT), t = R.T[i], vR = R.VR[i], vL = R.VL[i], s = R.S[i], m = R.M[i];
-    var S = Math.max(40, Math.min(W / 3.6, (H - 30) / 1.12));
-    var floorY = H - Math.max(18, H * 0.1), cx = W * 0.56;
-    var X = function(xm){ return cx + xm * S; }, Y = function(ym){ return floorY - ym * S; };
-    var xw = robotX(t);
+    var A = R.A, i = at(simT), t = R.T[i], s = R.S[i], v = R.V[i], fr = R.F[i];
+    var th = P.th * Math.PI / 180, dx = A.dx12, sr = A.sr;
+    var L = 0.30, B = 0.2;                                     // tamaño del paquete en el dibujo [m]
+    var fs = Math.max(11, Math.min(15, W / 62));
+    var S = Math.min((W - 60) / (dx + 2.75), (H - 58) / (P.h + 0.62));
+    var floorY = H - Math.max(24, H * 0.1), x0 = 50 + 0.34 * S;
+    var X = function(x){ return x0 + x * S; }, Y = function(y){ return floorY - y * S; };
 
-    // piso con marcas cada 0,5 m que se desplazan
+    // piso
     c.strokeStyle = k.muted; c.lineWidth = 2;
     c.beginPath(); c.moveTo(0, floorY); c.lineTo(W, floorY); c.stroke();
-    c.strokeStyle = k.line; c.lineWidth = 2; c.beginPath();
-    var step = 0.25, off = xw % step;
-    for (var gx = -Math.ceil(cx / S / step) * step - off; X(gx) < W + 20; gx += step) {
-      c.moveTo(X(gx), floorY + 3); c.lineTo(X(gx) - 10, floorY + 14);
-    }
-    c.stroke();
+    // mezanine
+    c.strokeStyle = k.ink; c.lineWidth = 2;
+    c.beginPath(); c.moveTo(X(-0.34), Y(P.h)); c.lineTo(X(0), Y(P.h));
+    c.moveTo(X(-0.28), Y(P.h)); c.lineTo(X(-0.28), floorY); c.moveTo(X(-0.06), Y(P.h)); c.lineTo(X(-0.06), floorY); c.stroke();
+    // rampa
+    c.strokeStyle = k.force; c.lineWidth = 3.5;
+    c.beginPath(); c.moveTo(X(0), Y(P.h)); c.lineTo(X(dx), floorY); c.stroke();
+    // altura
+    c.font = '500 ' + fs + 'px "JetBrains Mono", Consolas, monospace';
+    c.fillStyle = k.muted; c.fillText('h = ' + fmt(P.h, 2) + ' m', X(-0.34) - 2, Y(P.h) - 7);
+    c.fillText('θ = ' + fmt(P.th, 0) + '°', X(dx) - 8.5 * fs, floorY - 7);
 
-    // robot (0,8 m de largo)
-    c.fillStyle = k.panel; c.strokeStyle = k.ink; c.lineWidth = 2;
-    c.beginPath();
-    if (c.roundRect) c.roundRect(X(-0.4), Y(0.27), 0.8*S, 0.22*S, 6); else c.rect(X(-0.4), Y(0.27), 0.8*S, 0.22*S);
-    c.fill(); c.stroke();
-    c.fillStyle = k.bg; c.strokeStyle = k.force;
-    c.beginPath(); c.rect(X(-0.4), Y(0.30), 0.8*S, 0.03*S); c.fill(); c.stroke();
-    [-0.27, 0.27].forEach(function(wx){
-      var r = 0.065 * S, ang = xw / 0.065;
-      c.beginPath(); c.arc(X(wx), Y(0.065), r, 0, Math.PI*2);
-      c.fillStyle = k.bg; c.fill(); c.strokeStyle = k.ink; c.lineWidth = 2; c.stroke();
-      c.save(); c.translate(X(wx), Y(0.065)); c.rotate(ang);
-      c.strokeStyle = k.muted; c.beginPath(); c.moveTo(-r*.7, 0); c.lineTo(r*.7, 0); c.moveTo(0, -r*.7); c.lineTo(0, r*.7); c.stroke();
-      c.restore();
-    });
+    // lector
+    var xr = X(dx + D23), ar = Math.min(0.72 * S, floorY - 40), lee = A.v3 !== null && A.v3 <= VMAX;
+    var pasado = R.t3 !== null && t >= R.t3;
+    var colR = pasado ? (lee ? k.good : k.bad) : k.acc;
+    c.strokeStyle = colR; c.lineWidth = 2.5;
+    c.beginPath(); c.moveTo(xr - 0.2 * S, floorY); c.lineTo(xr - 0.2 * S, floorY - ar); c.lineTo(xr + 0.2 * S, floorY - ar); c.lineTo(xr + 0.2 * S, floorY); c.stroke();
+    c.setLineDash([4, 4]); c.lineWidth = 1.2; c.beginPath(); c.moveTo(xr, floorY - ar); c.lineTo(xr, floorY); c.stroke(); c.setLineDash([]);
+    c.fillStyle = colR; c.textAlign = 'center';
+    c.fillText(pasado ? (lee ? 'leído ✓' : 'no leído') : 'lector', xr, floorY - ar - 6);
+    c.textAlign = 'left';
 
-    // estiba
-    c.save();
-    if (m !== 2) {
-      c.translate(X(-s - 0.4), Y(0.30));
-      drawLoad(c, S, k, m === 1);
-    } else {
-      var tau = t - R.tLost;
-      var drop = Math.min(0.30, 0.5 * G * tau * tau), th = Math.min(1.25, tau * 5);
-      c.translate(X(-s - 0.4), Y(0.30 - drop)); c.rotate(-th);
-      drawLoad(c, S, k, true);
-    }
+    // tope: resorte y pared
+    var xs = Math.max(0, s - (sr + D23 + D34));
+    var xPlate = X(dx + D23 + D34 + xs), xWall = X(dx + D23 + D34 + 0.7), ys = floorY - 0.13 * S;
+    c.strokeStyle = k.ink; c.lineWidth = 5; c.beginPath(); c.moveTo(xWall, floorY); c.lineTo(xWall, floorY - 0.62 * S); c.stroke();
+    c.strokeStyle = k.force; c.lineWidth = 1.8; c.beginPath(); c.moveTo(xPlate, ys);
+    var nz = 8; for (var q = 1; q < nz; q++) c.lineTo(xPlate + (xWall - xPlate) * q / nz, ys + (q % 2 ? -1 : 1) * 0.09 * S);
+    c.lineTo(xWall, ys); c.stroke();
+    c.lineWidth = 3.5; c.beginPath(); c.moveTo(xPlate, floorY); c.lineTo(xPlate, floorY - 0.26 * S); c.stroke();
+
+    // puntos 1 a 4
+    c.font = '700 ' + (fs * .92) + 'px "JetBrains Mono", Consolas, monospace';
+    ptMark(c, X(0) + fs * 1.5, Y(P.h) - fs * 2.2, '1', k, fs);
+    ptMark(c, X(dx) , floorY + fs * 1.1, '2', k, fs);
+    ptMark(c, xr, floorY + fs * 1.1, '3', k, fs);
+    ptMark(c, X(dx + D23 + D34), floorY + fs * 1.1, '4', k, fs);
+    if (A.x !== null) ptMark(c, X(dx + D23 + D34 + A.x) + fs * 1.7, floorY + fs * 1.1, '5', k, fs);
+
+    // paquete: s es su borde delantero
+    var cen = s - L / 2, b = Math.max(0, Math.min(1, (sr + L / 4 - cen) / (L / 2)));
+    var ang = th * b, px, py;
+    if (cen <= sr) { px = cen * Math.cos(th); py = P.h - cen * Math.sin(th); } else { px = dx + (cen - sr); py = 0; }
+    c.save(); c.translate(X(px), Y(py)); c.rotate(ang);
+    c.fillStyle = k.panel; c.strokeStyle = k.acc; c.lineWidth = 2;
+    c.beginPath(); c.rect(-L / 2 * S, -B * S, L * S, B * S); c.fill(); c.stroke();
+    c.save(); c.globalAlpha = .18; c.fillStyle = k.acc; c.fillRect(-L / 2 * S, -B * S, L * S, B * S); c.restore();
     c.restore();
 
-    // fricción sobre la estiba
-    var fs = Math.max(12, Math.min(16, W / 52));
-    c.font = '600 ' + fs + 'px "JetBrains Mono", Consolas, monospace';
-    var fx = X(-s + 0.4) + 6, fy = Y(0.345);
-    if (m === 0 && t < P.ta) {
-      var L1 = Math.max(0.12, Math.min(1.0, R.fsNeed / 650)) * S;
-      arrow(c, fx, fy, fx + L1, fy, k.force, 3);
-      c.fillStyle = k.force; c.fillText('fs = ' + fmt(R.fsNeed, 0) + ' N', fx + 4, fy - 10);
-    } else if (m === 1) {
-      var fk = R.muk * P.mc * G, L2 = Math.max(0.12, Math.min(1.0, fk / 650)) * S;
-      arrow(c, fx, fy, fx + L2, fy, k.bad, 3);
-      c.fillStyle = k.bad; c.fillText('fk = ' + fmt(fk, 0) + ' N', fx + 4, fy - 10);
-    } else if (m === 0) {
-      c.fillStyle = k.muted; c.fillText('fs = 0', fx + 4, fy - 10);
+    // fuerzas sobre el paquete, en la dirección de la pista
+    var moving = Math.abs(v) > 0.01, dirx = Math.cos(ang), diry = Math.sin(ang);
+    var cx = X(px) + Math.sin(ang) * B * S * .5, cy = Y(py) - Math.cos(ang) * B * S * .5;      // centro del paquete
+    if (moving) {
+      var sgn = v > 0 ? -1 : 1, lenF = Math.max(26, Math.min(120, fr * 2.6));
+      var fx0 = cx + sgn * dirx * L / 2 * S, fy0 = cy + sgn * diry * L / 2 * S;
+      var tipx = fx0 + sgn * dirx * lenF, tipy = fy0 + sgn * diry * lenF;
+      arrow(c, fx0, fy0, tipx, tipy, k.acc, 3);
+      c.font = '600 ' + fs + 'px "JetBrains Mono", Consolas, monospace'; c.fillStyle = k.acc;
+      var lbl = 'fk = ' + fmt(fr, 1) + ' N', lw = c.measureText(lbl).width;
+      c.fillText(lbl, Math.min(W - lw - 8, cx + 0.14 * S), cy - 0.28 * S - fs * .3);
+    }
+    if (xs > 0.0005) {
+      var Fe = P.k * xs, lenE = Math.max(16, Math.min(110, Fe * 0.6));
+      var bx = X(px) - L / 2 * S, by = Y(py) - B * S * .72;
+      arrow(c, bx, by, bx - lenE, by, k.violet, 3);
+      c.fillStyle = k.violet; c.font = '600 ' + fs + 'px "JetBrains Mono", Consolas, monospace';
+      c.fillText('Fe = ' + fmt(Fe, 1) + ' N', bx - lenE - 0.5 * fs, by - 10);
     }
 
     // tablero
+    c.font = '600 ' + fs + 'px "JetBrains Mono", Consolas, monospace';
     c.textAlign = 'right'; c.fillStyle = k.muted;
     var lh = fs * 1.45, y0 = 10 + fs;
     c.fillText('tiempo ' + fmt(t, 2) + ' s', W - 12, y0);
-    c.fillText('vel. robot ' + fmt(vR, 2) + ' m/s', W - 12, y0 + lh);
-    c.fillText('vel. estiba ' + fmt(vL, 2) + ' m/s', W - 12, y0 + 2*lh);
-    c.fillStyle = (m === 2 || s > 0.005) ? k.bad : k.muted;
-    c.fillText('la estiba se corrió ' + (m === 2 ? '> 40' : fmt(Math.max(0, s) * 100, 0)) + ' cm', W - 12, y0 + 3*lh);
+    c.fillText('rapidez ' + fmt(Math.abs(v), 2) + ' m/s', W - 12, y0 + lh);
+    var E = R.Ug[i] + R.K[i] + R.Ue[i];
+    c.fillText('energía mecánica ' + fmt(E, 2) + ' J', W - 12, y0 + 2 * lh);
+    c.fillStyle = k.acc; c.fillText('perdida por fricción ' + fmt(R.L[i], 2) + ' J', W - 12, y0 + 3 * lh);
     c.textAlign = 'left';
 
     // bandera de estado
-    var txt, bad;
-    if (m === 2) { txt = 'La estiba se cayó'; bad = true; }
-    else if (m === 1) { txt = 'La estiba desliza'; bad = true; }
-    else if (t < P.ta) { txt = 'Arrancando · la carga va pegada'; bad = false; }
-    else if (R.slips) { txt = 'Crucero · quedó corrida ' + fmt(R.sMax * 100, 0) + ' cm'; bad = true; }
-    else { txt = 'Crucero · a = 0 y fs = 0'; bad = false; }
+    var s3 = sr + D23, s4 = s3 + D34, txt, bad = false;
+    if (R.tStop !== null && t >= R.tStop) {
+      txt = A.moves ? 'Paquete detenido' : 'No baja: fricción ≥ m g sen θ'; bad = !A.moves;
+      if (A.moves && R.sStop < s3 && A.v3 === null) { txt = 'Se detuvo antes del lector'; bad = true; }
+    }
+    else if (xs > 0) txt = v >= 0 ? 'Comprimiendo el resorte' : 'El resorte lo devuelve';
+    else if (v < 0) txt = 'Rebote: retrocede';
+    else if (s < sr) txt = 'Bajando por la rampa';
+    else if (s < s3) txt = 'Plano: la fricción lo frena';
+    else txt = 'Hacia el tope';
     var fl = $('flag');
     if (fl.textContent !== txt) { fl.textContent = txt; fl.classList.toggle('bad', bad); }
   }
@@ -852,77 +973,69 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
   function drawChart(k){
     var c = CH.c, W = CH.w, H = CH.h; if (!W || !H) return;
     c.clearRect(0, 0, W, H);
-    var fs = Math.max(11, Math.min(14, W / 60));
+    var fs = Math.max(11, Math.min(14, W / 62));
     c.font = '500 ' + fs + 'px "JetBrains Mono", Consolas, monospace';
-    var L = fs * 3.4, Rm = fs * 1.5, T = fs * 1.9, B = fs * 2.2, pw = W - L - Rm, ph = H - T - B;
-    if (pw < 40 || ph < 30) return;
-    var tMax = Math.max(1.5, Math.ceil(R.tEnd * 2) / 2);
-    var yMax = Math.max(1, Math.ceil(P.v * 1.15 * 2) / 2);
-    var px = function(t){ return L + t / tMax * pw; }, py = function(v){ return T + ph - v / yMax * ph; };
+    var L = fs * 3.6, Rm = fs * 1.5, T = fs * 2.3, B = fs * 2.0, pw = W - L - Rm, ph = H - T - B;
+    if (pw < 40 || ph < 24) return;
+    var n = R.T.length, tMax = R.tEnd, E1 = R.A.E1;
+    var nice = [5, 10, 20, 25, 50, 100, 200, 250, 500, 1000], yStep = nice[nice.length - 1];
+    for (var ni = 0; ni < nice.length; ni++) if (E1 / nice[ni] <= 4.2) { yStep = nice[ni]; break; }
+    var yMax = E1;
+    var px = function(t){ return L + t / tMax * pw; }, py = function(e){ return T + ph - e / yMax * ph; };
+    var nowI = at(simT);
 
-    // rejilla y ejes
-    c.strokeStyle = k.line; c.lineWidth = 1; c.fillStyle = k.muted;
+    // capas apiladas: gravitacional, cinética, elástica, perdida
+    var layers = [{a:R.Ug, col:k.force}, {a:R.K, col:k.acc}, {a:R.Ue, col:k.violet}, {a:null, col:k.muted}];
+    var base = new Array(n).fill(0);
+    layers.forEach(function(lay, li){
+      var top = new Array(n);
+      for (var j = 0; j < n; j++) top[j] = lay.a ? base[j] + lay.a[j] : E1;
+      [[n - 1, .22], [nowI, li === 3 ? .55 : .9]].forEach(function(pass){
+        var end = pass[0]; if (end < 1) return;
+        c.save(); c.globalAlpha = pass[1]; c.fillStyle = lay.col; c.beginPath();
+        c.moveTo(px(R.T[0]), py(top[0]));
+        for (var q = 1; q <= end; q++) c.lineTo(px(R.T[q]), py(top[q]));
+        for (var w = end; w >= 0; w--) c.lineTo(px(R.T[w]), py(base[w]));
+        c.closePath(); c.fill(); c.restore();
+      });
+      base = top;
+    });
+
+    // ejes
+    c.strokeStyle = k.muted; c.lineWidth = 1; c.fillStyle = k.muted;
     c.textAlign = 'right';
-    for (var yv = 0; yv <= yMax + 1e-9; yv += 0.5) {
-      c.beginPath(); c.moveTo(L, py(yv)); c.lineTo(L + pw, py(yv)); c.stroke();
-      c.fillText(fmt(yv, 1), L - 6, py(yv) + fs * 0.35);
+    for (var yv = 0; yv <= yMax + 1e-9; yv += yStep) {
+      c.beginPath(); c.moveTo(L - 4, py(yv)); c.lineTo(L, py(yv)); c.stroke();
+      c.fillText(fmt(yv, 0), L - 6, py(yv) + fs * 0.35);
     }
     c.textAlign = 'center';
-    var xs = tMax > 4 ? 1 : 0.5;
+    var xs = tMax > 6 ? 2 : (tMax > 3 ? 1 : 0.5);
     for (var tv = 0; tv <= tMax + 1e-9; tv += xs) {
       c.beginPath(); c.moveTo(px(tv), T + ph); c.lineTo(px(tv), T + ph + 4); c.stroke();
       c.fillText(fmt(tv, tv % 1 ? 1 : 0), px(tv), T + ph + fs * 1.3);
     }
-    c.textAlign = 'left'; c.fillText('v (m/s)', 4, fs * 1.1);
-    c.textAlign = 'right'; c.fillText('t (s)', L + pw - 4, T + ph - 7); c.textAlign = 'left';
+    c.textAlign = 'left'; c.fillText('E (J)', 4, fs * 1.1);
+    c.textAlign = 'right'; c.fillText('t (s)', L + pw, T + ph + fs * 1.3 + fs * .02 > H ? H - 2 : H - fs * .3 - 1); c.textAlign = 'left';
     c.strokeStyle = k.muted; c.beginPath(); c.moveTo(L, T); c.lineTo(L, T + ph); c.lineTo(L + pw, T + ph); c.stroke();
 
-    // fin del arranque
-    c.setLineDash([4, 4]); c.strokeStyle = k.muted;
-    c.beginPath(); c.moveTo(px(P.ta), T); c.lineTo(px(P.ta), T + ph); c.stroke(); c.setLineDash([]);
-    c.fillStyle = k.muted; c.fillText('ta', px(P.ta) + 4, T + fs);
-
-    var n = R.T.length, lostI = n;
-    for (var j = 0; j < n; j++) if (R.M[j] === 2) { lostI = j; break; }
-    var nowI = at(simT);
-
-    // área entre curvas = corrimiento
-    if (R.sMax > 0.002) {
-      c.beginPath();
-      for (j = 0; j < lostI; j++) c.lineTo(px(R.T[j]), py(R.VR[j]));
-      for (j = lostI - 1; j >= 0; j--) c.lineTo(px(R.T[j]), py(R.VL[j]));
-      c.closePath(); c.save(); c.globalAlpha = .22; c.fillStyle = k.bad; c.fill(); c.restore();
+    // instante en que pasa por el lector
+    if (R.t3 !== null) {
+      c.setLineDash([4, 3]); c.strokeStyle = k.ink; c.lineWidth = 1.3;
+      c.beginPath(); c.moveTo(px(R.t3), T); c.lineTo(px(R.t3), T + ph); c.stroke(); c.setLineDash([]);
+      c.fillStyle = k.ink; c.fillText('lector', px(R.t3) + 4, T + fs);
     }
-
-    function curve(arr, upto, col, w, dash, alpha){
-      c.save(); c.globalAlpha = alpha; c.strokeStyle = col; c.lineWidth = w; c.setLineDash(dash);
-      c.beginPath();
-      for (var q = 0; q <= upto && q < arr.length; q++) { var X = px(R.T[q]), Yy = py(arr[q]); if (q) c.lineTo(X, Yy); else c.moveTo(X, Yy); }
-      c.stroke(); c.restore();
-    }
-    curve(R.VR, n - 1, k.ink, 2, [], .25);
-    curve(R.VL, lostI - 1, k.force, 2.5, [7, 5], .25);
-    curve(R.VR, nowI, k.ink, 2.5, [], 1);
-    curve(R.VL, Math.min(nowI, lostI - 1), k.force, 3, [7, 5], 1);
-    if (R.tLost !== null && nowI >= lostI) {
-      var lx = px(R.T[lostI - 1]), ly = py(R.VL[lostI - 1]);
-      c.strokeStyle = k.bad; c.lineWidth = 2.5; c.beginPath();
-      c.moveTo(lx - 6, ly - 6); c.lineTo(lx + 6, ly + 6); c.moveTo(lx + 6, ly - 6); c.lineTo(lx - 6, ly + 6); c.stroke();
-    }
-    // cursor de tiempo
-    c.strokeStyle = k.acc; c.lineWidth = 1.5;
+    // cursor
+    c.strokeStyle = k.ink; c.lineWidth = 2;
     c.beginPath(); c.moveTo(px(R.T[nowI]), T); c.lineTo(px(R.T[nowI]), T + ph); c.stroke();
 
     // leyenda
-    var lx0 = L + pw - fs * 17, ly0 = T + fs * 0.6;
-    c.lineWidth = 2.5; c.strokeStyle = k.ink; c.beginPath(); c.moveTo(lx0, ly0); c.lineTo(lx0 + 22, ly0); c.stroke();
-    c.fillStyle = k.ink; c.fillText('robot', lx0 + 28, ly0 + fs * 0.35);
-    c.strokeStyle = k.force; c.setLineDash([7, 5]); c.beginPath(); c.moveTo(lx0 + fs * 7, ly0); c.lineTo(lx0 + fs * 7 + 22, ly0); c.stroke(); c.setLineDash([]);
-    c.fillStyle = k.force; c.fillText('estiba', lx0 + fs * 7 + 28, ly0 + fs * 0.35);
-    if (R.sMax > 0.002) {
-      c.fillStyle = k.bad;
-      c.fillText('área sombreada = corrimiento', lx0, ly0 + fs * 1.6);
-    }
+    var items = [['gravitacional Ug', k.force], ['cinética K', k.acc], ['elástica Ue', k.violet], ['perdida por fricción', k.muted]];
+    var lx = L + fs * 3, ly = fs * .55;
+    items.forEach(function(it){
+      c.fillStyle = it[1]; c.fillRect(lx, ly, fs * .9, fs * .9);
+      c.fillStyle = k.ink; c.fillText(it[0], lx + fs * 1.2, ly + fs * .82);
+      lx += fs * 1.2 + c.measureText(it[0]).width + fs * 1.3;
+    });
   }
 
   function frame(ts){
@@ -936,6 +1049,7 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
     requestAnimationFrame(frame);
   }
 
+  window.__sim = {get tEnd(){ return R.tEnd; }};
   go(0); readouts(); markPresets();
   requestAnimationFrame(frame);
 })();
