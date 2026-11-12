@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rampa de paquetes</title>
+<title>Choque de la camioneta</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=JetBrains+Mono:wght@400;500;700&display=swap">
@@ -41,6 +41,7 @@ body{
 sub{font-size:.7em; line-height:0}
 sup{font-size:.7em; line-height:0}
 b{font-weight:650}
+.nw{white-space:nowrap}
 
 /* ---------- marco ---------- */
 .deck{height:100%; display:grid; grid-template-rows:auto minmax(0,1fr) auto}
@@ -80,16 +81,19 @@ h3{font-size:1.05em; font-stretch:85%; font-weight:750; text-transform:uppercase
 .fig .t-acc{fill:var(--accent-ink); font-weight:700}
 .fig .t-force{fill:var(--force)}
 .fig .t-violet{fill:var(--violet); font-weight:700}
+.fig .t-good{fill:var(--good)}
 .fig .t-title{font-family:var(--display); font-weight:700; letter-spacing:.08em; font-size:15px; fill:var(--muted)}
 .fig .t-name{font-family:var(--display); font-stretch:82%; font-size:17px; fill:var(--muted)}
 .fig .t-pt{font-family:var(--mono); font-weight:700; font-size:14px; fill:var(--bg)}
 .fig .t-sym{font-weight:700}
+.fig .t-veh{font-family:var(--display); font-weight:800; font-size:24px}
 .s-ink{stroke:var(--ink); fill:none}
 .s-muted{stroke:var(--muted); fill:none}
 .s-line{stroke:var(--line); fill:none}
 .s-acc{stroke:var(--accent); fill:none}
 .s-force{stroke:var(--force); fill:none}
 .s-violet{stroke:var(--violet); fill:none}
+.s-good{stroke:var(--good); fill:none}
 .f-panel{fill:var(--panel)}
 .f-bg{fill:var(--bg)}
 .f-ink{fill:var(--ink)}
@@ -97,7 +101,11 @@ h3{font-size:1.05em; font-stretch:85%; font-weight:750; text-transform:uppercase
 .f-force{fill:var(--force)}
 .f-violet{fill:var(--violet)}
 .f-muted{fill:var(--muted)}
-.f-box{fill:var(--accent); fill-opacity:.16}
+.f-good{fill:var(--good)}
+.f-bad{fill:var(--bad)}
+.f-van{fill:var(--force); fill-opacity:.15}
+.f-car{fill:var(--accent); fill-opacity:.16}
+.f-area{fill:var(--violet); fill-opacity:.16}
 
 /* ---------- lámina 1 ---------- */
 .s1{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(18px,3vw,56px); align-items:center}
@@ -128,8 +136,6 @@ h3{font-size:1.05em; font-stretch:85%; font-weight:750; text-transform:uppercase
 .dcl{margin:0; display:flex; flex-direction:column; gap:3px; min-width:0}
 .dcl figcaption{font-size:.8em; line-height:1.3; color:var(--muted)}
 .dcl figcaption b{color:var(--ink)}
-.nw{white-space:nowrap}
-.dcl2{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px}
 .s2-grid{font-size:min(1em,1.7vh)}
 .steps{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:clamp(5px,1vh,12px); min-width:0}
 .step{display:flex; flex-direction:column; gap:4px; min-width:0}
@@ -143,21 +149,23 @@ h3{font-size:1.05em; font-stretch:85%; font-weight:750; text-transform:uppercase
 .law .name{font-size:.68em; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--accent-ink); line-height:1.25; margin-bottom:1px}
 .law .name i{font-style:normal; font-weight:500; color:var(--muted); text-transform:none; letter-spacing:.02em}
 .law .f{font-size:.92em; line-height:1.42; font-variant-numeric:tabular-nums}
-.law .f b{font-weight:700}
+.law .f b{font-weight:700; white-space:nowrap}
+.law.n{flex-grow:.75}
 .result{flex:0 0 clamp(130px,10.6vw,204px); display:flex; flex-direction:column; justify-content:center; gap:2px; border:2px solid var(--ink); padding:5px 9px}
 .result .v{font-family:var(--mono); font-weight:700; font-size:1.12em; line-height:1.18}
 .result .v.ok{color:var(--good)}
+.result .v.warn{color:var(--bad)}
 .result .w{font-size:.76em; color:var(--muted); line-height:1.25}
 
 /* ---------- lámina 3 ---------- */
 .s3-grid{flex:1; min-height:0; display:grid; grid-template-columns:minmax(0,1.85fr) minmax(0,1fr); gap:clamp(14px,2vw,36px)}
-.sim{display:grid; grid-template-rows:minmax(170px,1.65fr) minmax(100px,.8fr) auto auto auto; gap:9px; min-height:0; min-width:0}
+.sim{display:grid; grid-template-rows:minmax(150px,1.25fr) minmax(110px,1fr) auto auto auto; gap:9px; min-height:0; min-width:0}
 .cbox{position:relative; border:1px solid var(--line); background:var(--panel); min-height:0}
 .cbox canvas{position:absolute; inset:0; width:100%; height:100%; display:block}
 .flag{
   position:absolute; left:10px; top:10px; margin:0; padding:4px 10px;
   font-family:var(--display); font-stretch:85%; font-weight:700; letter-spacing:.08em; text-transform:uppercase; font-size:.78em;
-  border:1.5px solid currentColor; background:var(--panel); color:var(--good);
+  border:1.5px solid currentColor; background:var(--panel); color:var(--muted);
 }
 .flag.bad{color:var(--bad)}
 .controls{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px 16px}
@@ -180,19 +188,29 @@ input[type=range]{width:100%; margin:0; accent-color:var(--accent)}
 .verdict .vs{font-size:.9em; color:var(--muted)}
 .verdict.bad{border-color:var(--bad)}
 .verdict.bad .vt{color:var(--bad)}
-.gauge{display:flex; flex-direction:column; gap:5px}
+.verdict.mid{border-color:var(--accent)}
+.verdict.mid .vt{color:var(--accent-ink)}
+.verdict.off{border-color:var(--muted)}
+.verdict.off .vt{color:var(--muted)}
+.dv{display:flex; flex-direction:column; gap:5px}
+.dvgrid{display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:6px 10px; align-items:center}
+.dvgrid .k{font-size:.84em}
+.dvgrid b{font-family:var(--mono); text-align:right; white-space:nowrap}
+.marks{position:relative; height:1.2em; font-size:.72em}
+.marks span{position:absolute; bottom:0; transform:translateX(-50%); white-space:nowrap; font-family:var(--mono); color:var(--muted)}
+.marks .hi{color:var(--bad); font-weight:700}
 .track{position:relative; height:14px; border:1px solid var(--line); background:var(--panel)}
 .fill{position:absolute; left:0; top:0; bottom:0; background:var(--force); transition:width .15s linear}
-.fill.over{background:var(--bad)}
+.fill.b{background:var(--accent)}
 .limit{position:absolute; top:-5px; bottom:-5px; width:3px; margin-left:-1px; background:var(--ink)}
-.grow{display:flex; justify-content:space-between; gap:10px; font-size:.78em; color:var(--muted)}
-.grow b{font-family:var(--mono); color:var(--ink)}
+.limit.hi{background:var(--bad)}
 .cmp{display:flex; flex-direction:column}
 .cmp h3{margin-bottom:5px}
 .cmp .row{display:grid; grid-template-columns:minmax(0,1.3fr) auto minmax(0,1fr); gap:10px; align-items:baseline; padding:5px 0; border-bottom:1px solid var(--line)}
 .cmp .row:first-of-type{border-top:2px solid var(--ink)}
 .cmp .k{font-size:.84em; line-height:1.25}
 .cmp .val{font-family:var(--mono); font-weight:700; white-space:nowrap}
+.cmp .val.bad{color:var(--bad)}
 .cmp .lim{font-size:.76em; color:var(--muted); text-align:right; line-height:1.25}
 .cmp .lim b{font-family:var(--mono); color:var(--ink)}
 .cta{
@@ -240,16 +258,15 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <marker id="m-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto"><path class="f-acc" d="M0 0L10 5L0 10z"/></marker>
   <marker id="m-force" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto"><path class="f-force" d="M0 0L10 5L0 10z"/></marker>
+  <marker id="m-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto"><path class="f-acc" d="M0 0L10 5L0 10z"/></marker>
   <marker id="m-violet" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto"><path class="f-violet" d="M0 0L10 5L0 10z"/></marker>
   <marker id="m-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="f-muted" d="M0 0L10 5L0 10z"/></marker>
-  <marker id="m-dim" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="f-muted" d="M0 1L10 5L0 9z"/></marker>
 </defs></svg>
 
 <div class="deck">
   <header class="top">
-    <div class="brand"><span class="tape" aria-hidden="true"></span>Ejercicio de aplicación · Trabajo y energía</div>
+    <div class="brand"><span class="tape" aria-hidden="true"></span>Ejercicio de aplicación · Momento lineal y choques</div>
     <div>Juan David Rincón Muñoz · Daniel Santiago Rosas Osorio · Ingeniería de Sistemas</div>
   </header>
 
@@ -260,90 +277,100 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
       <div class="left">
         <div class="head">
           <p class="eyebrow">Tema</p>
-          <h1>Trabajo y energía, conservación de la energía</h1>
-          <p class="app">Aplicado a Ingeniería de Sistemas: el software que lee el código de barras y decide la ruta de cada paquete.</p>
+          <h1>Momento lineal, impulso y choques</h1>
+          <p class="app">Aplicado a Ingeniería de Sistemas: software de flotas que detecta choques con el acelerómetro y el GPS.</p>
         </div>
         <div class="enun">
           <h3>Enunciado</h3>
-          <p>En un centro de distribución, los paquetes bajan del mezanine por una rampa de lámina inclinada <b>30°</b>, con la parte alta a <b>1,8 m</b> del piso. Un paquete de <b>4,0 kg</b> se suelta desde el reposo. Sigue un plano de la misma lámina: a <b>1,0 m</b> del pie está el lector de código de barras, que lee bien hasta <b>3,0 m/s</b>, y a <b>1,5 m</b>, el tope: un resorte de <b>1200 N/m</b>. El coeficiente de fricción cinética es <b>0,35</b> en todo el recorrido (rampa, plano y resorte). Determine:</p>
+          <p>En Bogotá, una camioneta de reparto A de <b>2000 kg</b> (con carga) viene a <b>36 km/h</b> y choca por detrás a un carro B de <b>1000 kg</b> quieto en un semáforo. El golpe dura <b>0,12 s</b> y no quedan pegados. Solo A tiene sensor: la fuerza sube en línea recta hasta <b>125 kN</b> a los 0,06 s y baja igual hasta 0. No contamos la fricción durante el golpe. El software guarda el evento si |Δv| ≥ <b>8 km/h</b> en 150 ms o menos, y llama al 123 si alguno tiene |Δv| ≥ <b>16 km/h</b>. Determine:</p>
           <ol class="qs" aria-label="Preguntas">
-            <li><span>¿Con qué rapidez llega al pie de la rampa? <i>→ De ahí sale todo lo demás.</i></span></li>
-            <li><span>¿Cuánta energía se pierde por fricción en la rampa? <i>→ Mide cuánto frena la lámina, sin motores.</i></span></li>
-            <li><span>¿Con qué rapidez pasa por el lector? ¿Se lee la etiqueta? <i>→ Si no, el paquete va a revisión manual.</i></span></li>
-            <li><span>¿Cuánto se comprime el resorte al detenerlo? <i>→ El recorrido que necesita el tope y si frena sin dañar el paquete.</i></span></li>
+            <li><span>¿Qué impulso recibe cada uno y cuál es la fuerza media? <i>→ Con J arranca el software.</i></span></li>
+            <li><span>¿A qué velocidad queda cada uno? <i>→ Así sabemos qué le pasó a B, que no tiene sensor.</i></span></li>
+            <li><span>¿Qué tipo de choque es y cuánta energía se pierde? <i>→ Es la energía que se fue en daños.</i></span></li>
+            <li><span>¿Qué Δv y aceleración tiene cada uno? ¿Se guarda? ¿Se llama al 123? <i>→ Es la decisión del software.</i></span></li>
           </ol>
         </div>
       </div>
       <div class="right">
         <figure class="fig" style="margin:0">
-          <svg viewBox="0 0 800 340" role="img" aria-label="Dibujo a escala: mezanine a 1,8 m, rampa de 30 grados, tramo plano con el lector a 1,0 m del pie y el tope con resorte a 1,5 m. Los puntos 1 a 5 marcan los momentos que se comparan.">
-            <!-- piso -->
-            <path class="s-muted" stroke-width="2" d="M20 292H790"/>
-            <path class="s-line" stroke-width="2" d="M30 304l11-11M70 304l11-11M110 304l11-11M150 304l11-11M190 304l11-11M230 304l11-11M270 304l11-11M310 304l11-11M350 304l11-11M390 304l11-11M430 304l11-11M470 304l11-11M510 304l11-11M550 304l11-11M590 304l11-11M630 304l11-11M670 304l11-11M710 304l11-11M750 304l11-11"/>
-            <!-- mezanine -->
-            <rect x="52" y="90" width="66" height="8" class="s-ink" stroke-width="2" style="fill:var(--panel)"/>
-            <path class="s-ink" stroke-width="3" d="M62 98V292M108 98V292"/>
-            <text x="46" y="80" class="t-name">mezanine</text>
-            <!-- rampa -->
-            <path class="s-force" stroke-width="5" d="M118 90L468 292"/>
-            <!-- paquete -->
-            <g transform="translate(161 92) rotate(30)">
-              <rect x="-27" y="-16" width="54" height="32" class="f-box"/><rect x="-27" y="-16" width="54" height="32" class="s-acc" stroke-width="2"/>
-              <text x="0" y="6" text-anchor="middle" class="t-acc">m</text>
+          <svg viewBox="0 0 800 332" role="img" aria-label="Dibujo de lado. Punto 1, justo antes del golpe: la camioneta A llega a 10,0 m/s y el carro B está quieto antes del semáforo en rojo. Punto 2, justo cuando termina el golpe: los dos avanzan con velocidades desconocidas.">
+            <!-- punto 1 -->
+            <circle cx="16" cy="16" r="13" class="f-ink"/><text x="16" y="21" text-anchor="middle" class="t-pt">1</text>
+            <text x="38" y="22" class="t-name">justo antes del golpe</text>
+            <path class="s-muted" stroke-width="2" d="M8 150H792"/>
+            <g transform="translate(150 150)">
+              <path class="f-van s-force" stroke-width="2" d="M0 -9.6V-69H93L117 -39.6L144 -31.2V-9.6Z"/>
+              <path class="f-panel s-force" stroke-width="1.4" d="M92.4 -61.2V-40.8H112.8L96 -61.2Z"/>
+              <circle cx="33" cy="-13.2" r="13.2" class="f-ink"/><circle cx="33" cy="-13.2" r="5.5" class="f-panel"/>
+              <circle cx="112.8" cy="-13.2" r="13.2" class="f-ink"/><circle cx="112.8" cy="-13.2" r="5.5" class="f-panel"/>
+              <text x="44" y="-30" text-anchor="middle" class="t-veh">A</text>
+              <circle cx="79" cy="-24" r="5.5" class="f-good"/>
             </g>
-            <text x="205" y="62"><tspan class="t-name">paquete </tspan><tspan>m = 4,0 kg</tspan></text>
-            <text x="205" y="82" class="t-name">se suelta desde el reposo</text>
-            <!-- h -->
-            <path class="s-muted" stroke-width="1.6" d="M28 96V286" marker-start="url(#m-dim)" marker-end="url(#m-dim)"/>
-            <text transform="translate(20 236) rotate(-90)">h = 1,8 m</text>
-            <!-- angulo -->
-            <path class="s-ink" stroke-width="1.6" d="M422 292A46 46 0 0 1 428 269"/>
-            <text x="374" y="285">30°</text>
-            <!-- friccion -->
-            <text transform="translate(246 138) rotate(30)"><tspan class="t-name">lámina con fricción: </tspan><tspan class="t-acc">μ</tspan><tspan class="t-acc" font-size="12" dy="4">k</tspan><tspan class="t-acc" dy="-4"> = 0,35</tspan></text>
-            <!-- lector -->
-            <path class="s-acc" stroke-width="3" d="M556 292V222M604 292V222"/>
-            <path class="s-acc" stroke-width="7" d="M548 220H612"/>
-            <path class="s-acc" stroke-width="1.6" stroke-dasharray="5 5" d="M580 226V290"/>
-            <text x="612" y="186" text-anchor="end" class="t-name">lector de código de barras</text>
-            <text x="612" y="206" text-anchor="end">lee hasta 3,0 m/s</text>
-            <!-- tope -->
-            <path class="s-ink" stroke-width="7" d="M712 216V292"/>
-            <path class="s-force" stroke-width="2.4" fill="none" d="M636 272L642 262L654 282L666 262L678 282L690 262L702 282L709 272"/>
-            <path class="s-force" stroke-width="5" d="M636 250V292"/>
-            <text x="636" y="186" class="t-name">tope con resorte</text>
-            <text x="636" y="206">k = 1200 N/m</text>
-            <!-- puntos -->
-            <circle cx="122" cy="62" r="13" class="f-ink"/><text x="122" y="67" text-anchor="middle" class="t-pt">1</text>
-            <circle cx="468" cy="262" r="13" class="f-ink"/><text x="468" y="267" text-anchor="middle" class="t-pt">2</text>
-            <circle cx="580" cy="256" r="13" class="f-ink"/><text x="580" y="261" text-anchor="middle" class="t-pt">3</text>
-            <circle cx="636" cy="232" r="13" class="f-ink"/><text x="636" y="237" text-anchor="middle" class="t-pt">4</text>
-            <!-- cotas -->
-            <path class="s-muted" stroke-width="1.6" d="M470 322H578" marker-start="url(#m-dim)" marker-end="url(#m-dim)"/>
-            <text x="524" y="316" text-anchor="middle" style="font-size:14px">1,0 m</text>
-            <path class="s-muted" stroke-width="1.6" d="M582 322H634" marker-start="url(#m-dim)" marker-end="url(#m-dim)"/>
-            <text x="608" y="316" text-anchor="middle" style="font-size:14px">0,5 m</text>
-            <circle cx="656" cy="322" r="12" class="f-ink"/><text x="656" y="327" text-anchor="middle" class="t-pt">5</text>
-            <text x="674" y="327" class="t-name">resorte comprimido</text>
-            <text x="130" y="326" class="t-name">nivel de referencia: y = 0 en el piso</text>
+            <g transform="translate(300 150)">
+              <path class="f-car s-acc" stroke-width="2" d="M0 -9.6V-32.4L19.2 -35.4L31.2 -54H66L81.6 -35.4L102 -30V-9.6Z"/>
+              <path class="f-panel s-acc" stroke-width="1.4" d="M33.6 -49.8L26.4 -35.4H74.4L64.2 -49.8Z"/>
+              <circle cx="23.4" cy="-12" r="12" class="f-ink"/><circle cx="23.4" cy="-12" r="5" class="f-panel"/>
+              <circle cx="78.6" cy="-12" r="12" class="f-ink"/><circle cx="78.6" cy="-12" r="5" class="f-panel"/>
+              <text x="51" y="-14" text-anchor="middle" class="t-veh">B</text>
+            </g>
+            <path class="s-force" stroke-width="3" d="M160 65H262" marker-end="url(#m-force)"/>
+            <text x="160" y="52"><tspan class="t-force t-sym">v</tspan><tspan class="t-force" font-size="12" dy="4">A1</tspan><tspan class="t-force" dy="-4"> = 10,0 m/s</tspan></text>
+            <text x="300" y="84"><tspan class="t-sym">v</tspan><tspan font-size="12" dy="4">B1</tspan><tspan dy="-4"> = 0 </tspan><tspan class="t-name">quieto</tspan></text>
+            <text x="140" y="108" text-anchor="end" class="t-name">acelerómetro y GPS</text>
+            <text x="140" y="127" text-anchor="end" class="t-name">se activa con 2,5 g</text>
+            <path class="s-good" stroke-width="1.4" d="M144 116L223 125"/>
+            <path class="s-ink" stroke-width="4" d="M560 150V78"/>
+            <rect x="550" y="38" width="20" height="42" class="f-ink"/>
+            <circle cx="560" cy="50" r="6.5" class="f-bad"/><circle cx="560" cy="68" r="5" class="f-muted"/>
+            <text x="578" y="62" class="t-name">semáforo</text><text x="578" y="81" class="t-name">en rojo</text>
+            <!-- punto 2 -->
+            <circle cx="16" cy="186" r="13" class="f-ink"/><text x="16" y="191" text-anchor="middle" class="t-pt">2</text>
+            <text x="38" y="192" class="t-name">justo cuando termina el golpe</text>
+            <path class="s-muted" stroke-width="2" d="M8 320H792"/>
+            <g transform="translate(228 320)">
+              <path class="f-van s-force" stroke-width="2" d="M0 -9.6V-69H93L117 -39.6L140 -31.2V-9.6Z"/>
+              <path class="f-panel s-force" stroke-width="1.4" d="M92.4 -61.2V-40.8H112.8L96 -61.2Z"/>
+              <path class="s-ink" stroke-width="1.6" d="M140 -31L136 -27L140 -23L136 -19L140 -15L136 -11"/>
+              <circle cx="33" cy="-13.2" r="13.2" class="f-ink"/><circle cx="33" cy="-13.2" r="5.5" class="f-panel"/>
+              <circle cx="112.8" cy="-13.2" r="13.2" class="f-ink"/><circle cx="112.8" cy="-13.2" r="5.5" class="f-panel"/>
+              <text x="44" y="-30" text-anchor="middle" class="t-veh">A</text>
+              <circle cx="79" cy="-24" r="5.5" class="f-good"/>
+            </g>
+            <g transform="translate(380 320)">
+              <path class="f-car s-acc" stroke-width="2" d="M4 -9.6V-32.4L19.2 -35.4L31.2 -54H66L81.6 -35.4L102 -30V-9.6Z"/>
+              <path class="f-panel s-acc" stroke-width="1.4" d="M33.6 -49.8L26.4 -35.4H74.4L64.2 -49.8Z"/>
+              <path class="s-ink" stroke-width="1.6" d="M4 -32L8 -28L4 -24L8 -20L4 -16L8 -12"/>
+              <circle cx="23.4" cy="-12" r="12" class="f-ink"/><circle cx="23.4" cy="-12" r="5" class="f-panel"/>
+              <circle cx="78.6" cy="-12" r="12" class="f-ink"/><circle cx="78.6" cy="-12" r="5" class="f-panel"/>
+              <text x="51" y="-14" text-anchor="middle" class="t-veh">B</text>
+            </g>
+            <path class="s-force" stroke-width="3" d="M238 235H300" marker-end="url(#m-force)"/>
+            <text x="238" y="222"><tspan class="t-force t-sym">v</tspan><tspan class="t-force" font-size="12" dy="4">A2</tspan><tspan class="t-force" dy="-4"> = ?</tspan></text>
+            <path class="s-acc" stroke-width="3" d="M390 250H470" marker-end="url(#m-acc)"/>
+            <text x="390" y="237"><tspan class="t-acc">v</tspan><tspan class="t-acc" font-size="12" dy="4">B2</tspan><tspan class="t-acc" dy="-4"> = ?</tspan></text>
+            <path class="s-ink" stroke-width="4" d="M560 320V248"/>
+            <rect x="550" y="208" width="20" height="42" class="f-ink"/>
+            <circle cx="560" cy="220" r="6.5" class="f-bad"/><circle cx="560" cy="238" r="5" class="f-muted"/>
+            <path class="s-muted" stroke-width="1.6" d="M20 296H80" marker-end="url(#m-muted)"/>
+            <text x="88" y="301" class="t-muted">+x</text>
           </svg>
         </figure>
         <div class="block">
           <h3>Datos</h3>
           <dl class="data">
-            <div><dt>Masa</dt><dd>m = 4,0 kg</dd></div>
-            <div><dt>Altura</dt><dd>h = 1,8 m</dd></div>
-            <div><dt>Inclinación</dt><dd>θ = 30°</dd></div>
-            <div><dt>Fricción cinética</dt><dd>μ<sub>k</sub> = 0,35</dd></div>
+            <div><dt>Camioneta A</dt><dd>m<sub>A</sub> = 2000 kg</dd></div>
+            <div><dt>Carro B</dt><dd>m<sub>B</sub> = 1000 kg</dd></div>
+            <div><dt>Rapidez de A</dt><dd>v<sub>A1</sub> = 10,0 m/s</dd></div>
+            <div><dt>B quieto</dt><dd>v<sub>B1</sub> = 0</dd></div>
+            <div><dt>Duración</dt><dd>Δt = 0,12 s</dd></div>
+            <div><dt>Fuerza máxima</dt><dd>F<sub>máx</sub> = 125 kN</dd></div>
             <div><dt>Gravedad</dt><dd>g = 9,8 m/s²</dd></div>
-            <div><dt>Pie → lector</dt><dd>Δx<sub>23</sub> = 1,0 m</dd></div>
-            <div><dt>Lector → resorte</dt><dd>Δx<sub>34</sub> = 0,5 m</dd></div>
-            <div><dt>Resorte</dt><dd>k = 1200 N/m</dd></div>
-            <div><dt>Límite del lector</dt><dd>v<sub>máx</sub> = 3,0 m/s</dd></div>
-            <div><dt>Partida</dt><dd>v<sub>1</sub> = 0</dd></div>
+            <div><dt>Llanta–piso</dt><dd>μ<sub>k</sub> = 0,80</dd></div>
+            <div><dt>Guarda el evento</dt><dd>|Δv| ≥ 8 km/h</dd></div>
+            <div><dt>Llama al 123</dt><dd>|Δv| ≥ 16 km/h</dd></div>
           </dl>
         </div>
-        <p class="real"><b>¿Los valores son reales?</b> Los supusimos; no los medimos en una bodega. v<sub>máx</sub> y μ<sub>k</sub> sí se acercan a datos reales (túneles de lectura de unos 3,3 m/s; cartón contra cartón ≈ 0,35). Una rampa comercial suele ser menos inclinada (16–20°).</p>
+        <p class="real"><b>¿Los valores son reales?</b> Sí, pero este choque no lo medimos: las masas salen de fichas técnicas (Renault Kangoo y Kia Picanto), 36 km/h está bajo el límite de 50 km/h en ciudad y un golpe real dura unos 130 ms. Supusimos el triángulo y el límite de 16 km/h.</p>
       </div>
     </section>
 
@@ -351,163 +378,156 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
     <section class="slide" id="s2" aria-label="Solución paso a paso">
       <div class="head">
         <p class="eyebrow">Solución paso a paso</p>
-        <h2>Energía punto a punto: E<sub>B</sub> = E<sub>A</sub> + W<sub>fk</sub></h2>
+        <h2>Impulso y conservación: J = Δp y P<sub>1</sub> = P<sub>2</sub></h2>
       </div>
       <div class="s2-grid">
         <div class="dcls">
           <figure class="fig dcl">
-            <svg viewBox="0 0 460 236" role="img" aria-label="Diagrama de cuerpo libre del paquete en la rampa: normal perpendicular a la rampa, fricción cinética rampa arriba y peso vertical con sus dos componentes.">
-              <text x="0" y="16" class="t-title">(A) EN LA RAMPA</text>
-              <g transform="translate(205 118) rotate(30)"><rect x="-30" y="-20" width="60" height="40" class="s-ink" stroke-width="2" style="fill:var(--panel)"/></g>
-              <path class="s-force" stroke-width="3" d="M215 101L250 40" marker-end="url(#m-force)"/>
-              <text x="258" y="46"><tspan class="t-name">Normal </tspan><tspan class="t-force t-sym">n</tspan></text>
-              <path class="s-acc" stroke-width="4" d="M179 103L112 64" marker-end="url(#m-acc)"/>
-              <text x="4" y="52"><tspan class="t-name">Fricción cinética </tspan><tspan class="t-acc">f</tspan><tspan class="t-acc" font-size="12" dy="4">k</tspan></text>
-              <path class="s-force" stroke-width="3" d="M205 138V226" marker-end="url(#m-force)"/>
-              <text x="214" y="226"><tspan class="t-name">Peso </tspan><tspan class="t-force t-sym">w = m g</tspan></text>
-              <path class="s-muted" stroke-width="2" stroke-dasharray="6 4" d="M231 133L284 164"/>
-              <text x="290" y="172" class="t-muted" style="font-size:15px">m g sen θ</text>
-              <path class="s-muted" stroke-width="2" stroke-dasharray="6 4" d="M195 135L164 188"/>
-              <text x="70" y="202" class="t-muted" style="font-size:15px">m g cos θ</text>
-              <g transform="translate(372 78)">
-                <path class="s-muted" stroke-width="1.8" d="M0 0L48 28" marker-end="url(#m-muted)"/><path class="s-muted" stroke-width="1.8" d="M0 0L24 -42" marker-end="url(#m-muted)"/>
-                <text x="52" y="38" class="t-muted" style="font-size:14px">+x</text><text x="30" y="-40" class="t-muted" style="font-size:14px">+y</text>
+            <svg viewBox="0 0 460 212" role="img" aria-label="Diagramas de cuerpo libre durante el golpe. Camioneta A: normal hacia arriba, peso hacia abajo y la fuerza de B hacia atrás. Carro B: normal, peso y la fuerza de A hacia adelante.">
+              <text x="0" y="16" class="t-title">CAMIONETA A</text>
+              <text x="244" y="16" class="t-title">CARRO B</text>
+              <rect x="96" y="84" width="60" height="44" class="s-ink" stroke-width="2" style="fill:var(--panel)"/>
+              <text x="126" y="114" text-anchor="middle" class="t-veh">A</text>
+              <path class="s-force" stroke-width="3" d="M126 84V36" marker-end="url(#m-force)"/>
+              <text x="134" y="46"><tspan class="t-name">Normal </tspan><tspan class="t-force t-sym">n</tspan><tspan class="t-force" font-size="12" dy="4">A</tspan></text>
+              <path class="s-force" stroke-width="3" d="M126 128V184" marker-end="url(#m-force)"/>
+              <text x="134" y="182"><tspan class="t-name">Peso </tspan><tspan class="t-force t-sym">w</tspan><tspan class="t-force" font-size="12" dy="4">A</tspan></text>
+              <path class="s-violet" stroke-width="4" d="M96 106H22" marker-end="url(#m-violet)"/>
+              <text x="8" y="94"><tspan class="t-violet">F</tspan><tspan class="t-violet" font-size="12" dy="4">BA</tspan><tspan class="t-name" dy="-4"> de B</tspan></text>
+              <rect x="300" y="84" width="60" height="44" class="s-ink" stroke-width="2" style="fill:var(--panel)"/>
+              <text x="330" y="114" text-anchor="middle" class="t-veh">B</text>
+              <path class="s-force" stroke-width="3" d="M330 84V36" marker-end="url(#m-force)"/>
+              <text x="338" y="46"><tspan class="t-name">Normal </tspan><tspan class="t-force t-sym">n</tspan><tspan class="t-force" font-size="12" dy="4">B</tspan></text>
+              <path class="s-force" stroke-width="3" d="M330 128V184" marker-end="url(#m-force)"/>
+              <text x="338" y="182"><tspan class="t-name">Peso </tspan><tspan class="t-force t-sym">w</tspan><tspan class="t-force" font-size="12" dy="4">B</tspan></text>
+              <path class="s-violet" stroke-width="4" d="M360 106H438" marker-end="url(#m-violet)"/>
+              <text x="372" y="94"><tspan class="t-violet">F</tspan><tspan class="t-violet" font-size="12" dy="4">AB</tspan><tspan class="t-name" dy="-4"> de A</tspan></text>
+              <g transform="translate(14 202)">
+                <path class="s-muted" stroke-width="1.8" d="M0 0H38" marker-end="url(#m-muted)"/><path class="s-muted" stroke-width="1.8" d="M0 0V-38" marker-end="url(#m-muted)"/>
+                <text x="42" y="5" class="t-muted" style="font-size:14px">+x</text><text x="6" y="-32" class="t-muted" style="font-size:14px">+y</text>
               </g>
             </svg>
-            <figcaption><b>En la rampa.</b> Baja porque la parte del peso a lo largo de la rampa, <span class="nw">m g sen θ = 19,6 N</span>, supera la fricción <span class="nw">f<sub>k</sub> = μ<sub>k</sub> n = 11,88 N</span>, con <span class="nw">n = m g cos θ = 33,95 N</span>.</figcaption>
+            <figcaption><b>Durante el golpe.</b> Peso y normal se cancelan; en x solo queda la fuerza del otro: <span class="nw">F<sub>AB</sub> = −F<sub>BA</sub></span>.</figcaption>
           </figure>
-          <div class="dcl2">
-            <figure class="fig dcl">
-              <svg viewBox="0 0 230 200" role="img" aria-label="Diagrama de cuerpo libre del paquete en el plano: normal hacia arriba, peso hacia abajo y fricción hacia atrás.">
-                <text x="0" y="16" class="t-title">(B) EN EL PLANO</text>
-                <rect x="96" y="82" width="58" height="40" class="s-ink" stroke-width="2" style="fill:var(--panel)"/>
-                <path class="s-force" stroke-width="3" d="M125 82V34" marker-end="url(#m-force)"/>
-                <text x="133" y="46"><tspan class="t-name">Normal </tspan><tspan class="t-force t-sym">n</tspan></text>
-                <path class="s-force" stroke-width="3" d="M125 122V186" marker-end="url(#m-force)"/>
-                <text x="133" y="184"><tspan class="t-name">Peso </tspan><tspan class="t-force t-sym">w</tspan></text>
-                <path class="s-acc" stroke-width="4" d="M96 102H26" marker-end="url(#m-acc)"/>
-                <text x="4" y="90"><tspan class="t-name">Fricción </tspan><tspan class="t-acc">f</tspan><tspan class="t-acc" font-size="12" dy="4">k</tspan></text>
-                <g transform="translate(14 186)"><path class="s-muted" stroke-width="1.8" d="M0 0H38" marker-end="url(#m-muted)"/><path class="s-muted" stroke-width="1.8" d="M0 0V-38" marker-end="url(#m-muted)"/>
-                <text x="42" y="5" class="t-muted" style="font-size:14px">+x</text><text x="6" y="-30" class="t-muted" style="font-size:14px">+y</text></g>
-              </svg>
-              <figcaption><b>En el plano.</b> La fricción lo frena: <span class="nw">n = m g = 39,2 N</span> y <span class="nw">f<sub>k</sub> = 13,72 N</span>.</figcaption>
-            </figure>
-            <figure class="fig dcl">
-              <svg viewBox="0 0 230 200" role="img" aria-label="Diagrama de cuerpo libre del paquete comprimiendo el resorte: normal hacia arriba, peso hacia abajo, y fricción y fuerza del resorte hacia atrás.">
-                <text x="0" y="16" class="t-title">(C) EN EL RESORTE</text>
-                <rect x="112" y="82" width="58" height="40" class="s-ink" stroke-width="2" style="fill:var(--panel)"/>
-                <path class="s-force" stroke-width="3" d="M141 82V34" marker-end="url(#m-force)"/>
-                <text x="149" y="46"><tspan class="t-name">Normal </tspan><tspan class="t-force t-sym">n</tspan></text>
-                <path class="s-force" stroke-width="3" d="M141 122V186" marker-end="url(#m-force)"/>
-                <text x="149" y="184"><tspan class="t-name">Peso </tspan><tspan class="t-force t-sym">w</tspan></text>
-                <path class="s-acc" stroke-width="4" d="M112 92H48" marker-end="url(#m-acc)"/>
-                <text x="0" y="80"><tspan class="t-name">Fricción </tspan><tspan class="t-acc">f</tspan><tspan class="t-acc" font-size="12" dy="4">k</tspan></text>
-                <path class="s-violet" stroke-width="4" d="M112 112H16" marker-end="url(#m-violet)"/>
-                <text x="0" y="138"><tspan class="t-name">Resorte </tspan><tspan class="t-violet">F</tspan><tspan class="t-violet" font-size="12" dy="4">e</tspan><tspan class="t-violet" dy="-4"> = k x</tspan></text>
-              </svg>
-              <figcaption><b>En el resorte.</b> El resorte y la fricción lo frenan juntos.</figcaption>
-            </figure>
-          </div>
+          <figure class="fig dcl">
+            <svg viewBox="0 0 460 200" role="img" aria-label="Gráfica de fuerza contra tiempo: sube en línea recta de 0 a 125 kN en 0,06 s y baja igual hasta 0 a los 0,12 s. El área del triángulo es el impulso, 7500 N·s; la fuerza media es 62,5 kN.">
+              <text x="0" y="16" class="t-title">FUERZA DEL GOLPE · ACELERÓMETRO DE A</text>
+              <path class="s-line" stroke-width="1" d="M56 107.5H344M56 45H344"/>
+              <path class="f-area s-violet" stroke-width="2.6" d="M56 170L200 45L344 170Z"/>
+              <path class="s-ink" stroke-width="1.8" stroke-dasharray="7 5" d="M56 107.5H344"/>
+              <path class="s-muted" stroke-width="1.6" d="M56 30V170H446"/>
+              <text x="200" y="152" text-anchor="middle" class="t-violet">J = área = 7500 N·s</text>
+              <text x="208" y="40"><tspan class="t-violet">F</tspan><tspan class="t-violet" font-size="12" dy="4">máx</tspan></text>
+              <text x="350" y="112"><tspan class="t-sym">F</tspan><tspan font-size="12" dy="4">med</tspan></text>
+              <text x="50" y="50" text-anchor="end" class="t-muted" style="font-size:14px">125</text>
+              <text x="50" y="112" text-anchor="end" class="t-muted" style="font-size:14px">62,5</text>
+              <text x="50" y="175" text-anchor="end" class="t-muted" style="font-size:14px">0</text>
+              <text x="56" y="190" text-anchor="middle" class="t-muted" style="font-size:14px">0</text>
+              <text x="200" y="190" text-anchor="middle" class="t-muted" style="font-size:14px">0,06</text>
+              <text x="344" y="190" text-anchor="middle" class="t-muted" style="font-size:14px">0,12</text>
+              <text x="446" y="190" text-anchor="end" class="t-muted" style="font-size:14px">t (s)</text>
+              <text x="62" y="36" class="t-muted" style="font-size:14px">F (kN)</text>
+            </svg>
+          </figure>
         </div>
 
         <ol class="steps">
           <li class="step">
-            <h3><span>1</span>Rapidez al pie de la rampa · punto 1 → 2</h3>
+            <h3><span>1</span>Impulso y fuerza media del golpe</h3>
             <div class="laws">
               <div class="law">
-                <span class="name">Energía en el punto 1 <i>· K<sub>1</sub> = 0, U<sub>e</sub> = 0, ec. (2)</i></span>
-                <span class="f">E<sub>1</sub> = m g h</span>
-                <span class="f">E<sub>1</sub> = (4,0 kg)(9,8 m/s²)(1,8 m)</span>
-                <span class="f">E<sub>1</sub> = <b>70,56 J</b></span>
+                <span class="name">Momento lineal antes <i>· ec. (1) y (2)</i></span>
+                <span class="f">p<sub>A1</sub> = (2000 kg)(10,0 m/s) = 20 000 kg·m/s</span>
+                <span class="f">p<sub>B1</sub> = (1000 kg)(0 m/s) = 0 kg·m/s</span>
+                <span class="f">P<sub>1</sub> = <b>20 000 kg·m/s</b></span>
               </div>
               <div class="law">
-                <span class="name">Trabajo de la fricción <i>· ec. (6) y (9)</i></span>
-                <span class="f">Δx<sub>12</sub> = h / tan θ = (1,8 m) / (tan 30°) = 3,118 m</span>
-                <span class="f">W<sub>fk</sub> = −μ<sub>k</sub> m g Δx<sub>12</sub></span>
-                <span class="f">W<sub>fk</sub> = −(0,35)(4,0 kg)(9,8 m/s²)(3,118 m)</span>
-                <span class="f">W<sub>fk</sub> = <b>−42,78 J</b></span>
+                <span class="name">Impulso: área del triángulo <i>· ec. (4)</i></span>
+                <span class="f">J = ½ (0,12 s)(125 000 N) = <b>7500 N·s</b></span>
+                <span class="f">Tercera ley: J<sub>A</sub> = −7500 N·s y J<sub>B</sub> = +7500 N·s</span>
               </div>
-              <div class="law">
-                <span class="name">Energía y rapidez en 2 <i>· ec. (5) y (10)</i></span>
-                <span class="f">E<sub>2</sub> = E<sub>1</sub> + W<sub>fk</sub></span>
-                <span class="f">E<sub>2</sub> = 70,56 J − 42,78 J = 27,78 J</span>
-                <span class="f">v<sub>2</sub> = √( 2 E<sub>2</sub> / m )</span>
-                <span class="f">v<sub>2</sub> = √( 2(27,78 J) / (4,0 kg) ) = <b>3,73 m/s</b></span>
+              <div class="law n">
+                <span class="name">Fuerza media <i>· ec. (3)</i></span>
+                <span class="f">F<sub>med</sub> = J / Δt = (7500 N·s) / (0,12 s)</span>
+                <span class="f">F<sub>med</sub> = <b>62 500 N</b></span>
               </div>
-              <div class="result"><span class="v">3,73 m/s</span><span class="w">Sin fricción sería √(2 g h) = 5,94 m/s.</span></div>
+              <div class="result"><span class="v">7500 N·s</span></div>
             </div>
           </li>
           <li class="step">
-            <h3><span>2</span>Energía perdida por fricción en la rampa</h3>
+            <h3><span>2</span>Velocidades justo después · punto 2</h3>
             <div class="laws">
               <div class="law">
-                <span class="name">Diferencia de energía entre 1 y 2</span>
-                <span class="f">E<sub>1</sub> − E<sub>2</sub> = 70,56 J − 27,78 J = <b>42,78 J</b> = |W<sub>fk</sub>|</span>
+                <span class="name">Camioneta A: impulso y momento <i>· ec. (5)</i></span>
+                <span class="f">−7500 N·s = (2000 kg) v<sub>A2</sub> − 20 000 kg·m/s</span>
+                <span class="f">v<sub>A2</sub> = (20 000 − 7500) kg·m/s / (2000 kg) = <b>6,25 m/s</b></span>
               </div>
               <div class="law">
-                <span class="name">Porcentaje de la energía inicial</span>
-                <span class="f">(42,78 J / 70,56 J) × 100 % = <b>60,6 %</b></span>
+                <span class="name">Carro B: conservación <i>· ec. (6)</i></span>
+                <span class="f">20 000 kg·m/s = (2000 kg)(6,25 m/s) + (1000 kg) v<sub>B2</sub></span>
+                <span class="f">v<sub>B2</sub> = (20 000 − 12 500) kg·m/s / (1000 kg) = <b>7,50 m/s</b></span>
               </div>
-              <div class="result"><span class="v">42,78 J</span><span class="w">60,6 %; se vuelven calor.</span></div>
+              <div class="result"><span class="v">6,25 y <span class="nw">7,50 m/s</span></span></div>
             </div>
           </li>
           <li class="step">
-            <h3><span>3</span>Rapidez al pasar por el lector · punto 2 → 3</h3>
+            <h3><span>3</span>Tipo de choque y energía perdida</h3>
             <div class="laws">
               <div class="law">
-                <span class="name">Trabajo de la fricción en el plano <i>· ec. (6)</i></span>
-                <span class="f">W<sub>fk</sub> = −μ<sub>k</sub> m g Δx<sub>23</sub></span>
-                <span class="f">W<sub>fk</sub> = −(0,35)(4,0 kg)(9,8 m/s²)(1,0 m) = <b>−13,72 J</b></span>
+                <span class="name">Energía cinética <i>· ec. (7)</i></span>
+                <span class="f">K<sub>1</sub> = ½ (2000 kg)(10,0 m/s)² + 0 J = 100 000 J</span>
+                <span class="f">K<sub>2</sub> = ½ (2000 kg)(6,25 m/s)² + ½ (1000 kg)(7,50 m/s)²</span>
+                <span class="f">K<sub>2</sub> = 39 063 J + 28 125 J = 67 188 J</span>
               </div>
               <div class="law">
-                <span class="name">Energía y rapidez en 3 <i>· ec. (5) y (10)</i></span>
-                <span class="f">E<sub>3</sub> = E<sub>2</sub> + W<sub>fk</sub> = 27,78 J − 13,72 J = 14,06 J</span>
-                <span class="f">v<sub>3</sub> = √( 2(14,06 J) / (4,0 kg) ) = <b>2,65 m/s</b></span>
+                <span class="name">Cambio de energía <i>· ec. (8)</i></span>
+                <span class="f">ΔK = 67 188 J − 100 000 J = <b>−32 812 J</b></span>
+                <span class="f">(32 812 J / 100 000 J) × 100 % = <b>32,8 %</b></span>
+                <span class="f">Se separan a 7,50 m/s − 6,25 m/s = 1,25 m/s</span>
               </div>
-              <div class="result"><span class="v ok">Sí lee</span><span class="w">2,65 m/s &lt; 3,0 m/s</span></div>
+              <div class="result"><span class="v">Inelástico</span><span class="w">K baja y no quedan pegados.</span></div>
             </div>
           </li>
           <li class="step">
-            <h3><span>4</span>Compresión máxima del resorte · punto 3 → 4 → 5</h3>
+            <h3><span>4</span>Δv, aceleración y decisión del software</h3>
             <div class="laws">
               <div class="law">
-                <span class="name">Energía al tocar el resorte <i>· ec. (6) y (5)</i></span>
-                <span class="f">W<sub>fk</sub> = −(0,35)(4,0 kg)(9,8 m/s²)(0,5 m)</span>
-                <span class="f">W<sub>fk</sub> = −6,86 J</span>
-                <span class="f">E<sub>4</sub> = 14,06 J − 6,86 J = <b>7,20 J</b></span>
+                <span class="name">Cambio de velocidad <i>· ec. (9)</i></span>
+                <span class="f">Δv<sub>A</sub> = 6,25 m/s − 10,0 m/s = −3,75 m/s = <b>−13,5 km/h</b></span>
+                <span class="f">Δv<sub>B</sub> = 7,50 m/s − 0 m/s = +7,50 m/s = <b>+27,0 km/h</b></span>
               </div>
               <div class="law">
-                <span class="name">Energía en 5, con K<sub>5</sub> = 0 <i>· ec. (3) y (5)</i></span>
-                <span class="f">½ k x² = E<sub>4</sub> − μ<sub>k</sub> m g x</span>
-                <span class="f">(600 N/m) x² + (13,72 N) x − 7,20 J = 0</span>
+                <span class="name">Aceleración media <i>· ec. (10)</i></span>
+                <span class="f">a<sub>A</sub> = (−62 500 N) / (2000 kg) = −31,25 m/s²</span>
+                <span class="f">Frena: (31,25 m/s²) / (9,8 m/s²) = <b>3,2 g</b></span>
+                <span class="f">a<sub>B</sub> = (62 500 N) / (1000 kg) = 62,5 m/s² = <b>6,4 g</b></span>
+                <span class="f">Pico en A: (125 000 N) / (2000 kg) = 6,4 g &gt; 2,5 g</span>
               </div>
-              <div class="law">
-                <span class="name">Ecuación cuadrática <i>· ec. (11)</i></span>
-                <span class="f">a = 600 N/m;  b = 13,72 N;  c = −7,20 J</span>
-                <span class="f">x = [−b + √(b² − 4 a c)] / (2 a)</span>
-                <span class="f">x = (−13,72 N + 132,17 N) / (1200 N/m) = <b>0,0987 m</b></span>
+              <div class="law n">
+                <span class="name">Decisión <i>· Δv en 0,12 s &lt; 150 ms</i></span>
+                <span class="f">Guardar: 13,5 ≥ 8 km/h → sí</span>
+                <span class="f">123 por A: 13,5 &lt; 16 km/h → no</span>
+                <span class="f">123 por B: 27,0 ≥ 16 km/h → <b>sí</b></span>
               </div>
-              <div class="result"><span class="v">x = 9,9 cm</span><span class="w">La otra raíz es negativa y no sirve.</span></div>
+              <div class="result"><span class="v warn">Llamar al 123</span><span class="w">Por el Δv de B.</span></div>
             </div>
           </li>
           <li class="step">
-            <h3><span>5</span>Desaceleración en el tope y balance de energía</h3>
+            <h3><span>5</span>¿Podemos confiar en el modelo?</h3>
             <div class="laws">
               <div class="law">
-                <span class="name">Segunda ley en x <i>· compresión máxima</i></span>
-                <span class="f">F<sub>e</sub> = k x = (1200 N/m)(0,0987 m) = 118,5 N</span>
-                <span class="f">ΣF<sub>x</sub> = −F<sub>e</sub> − f<sub>k</sub> = m a</span>
-                <span class="f">a = −(118,5 N + 13,72 N) / (4,0 kg) = <b>−33,1 m/s²</b></span>
-                <span class="f">Frena (signo −): (33,1 m/s²) / (9,8 m/s²) = <b>3,4 g</b></span>
+                <span class="name">Si B tenía el freno puesto <i>· ec. (11)</i></span>
+                <span class="f">f<sub>k</sub> = (0,80)(1000 kg)(9,8 m/s²) = 7840 N = 12,5 % de F<sub>med</sub></span>
+                <span class="f">J<sub>f</sub> = (7840 N)(0,12 s) = 941 N·s</span>
+                <span class="f">v<sub>B2</sub> = (7500 − 941) N·s / (1000 kg) = 6,56 m/s = <b>23,6 km/h</b></span>
               </div>
               <div class="law">
-                <span class="name">Balance de energía hasta el punto 5</span>
-                <span class="f">U<sub>e</sub> = ½ (1200 N/m)(0,0987 m)² = 5,85 J</span>
-                <span class="f">|W<sub>fk</sub>| al comprimir = 7,20 J − 5,85 J = 1,35 J</span>
-                <span class="f">Total = 42,78 J + 13,72 J + 6,86 J + 1,35 J = <b>64,71 J</b></span>
-                <span class="f">(64,71 J / 70,56 J) × 100 % = <b>91,7 %</b></span>
+                <span class="name">Frenazo de A, sin choque <i>· ec. (11) y (5)</i></span>
+                <span class="f">f<sub>k</sub> = (0,80)(2000 kg)(9,8 m/s²) = 15 680 N</span>
+                <span class="f">J = (15 680 N)(0,15 s) = 2352 N·s</span>
+                <span class="f">|Δv| = (2352 N·s) / (2000 kg) = 1,18 m/s = <b>4,2 km/h</b></span>
               </div>
-              <div class="result"><span class="v">3,4 g</span><span class="w">Frena suave; la fricción se lleva el 91,7 %.</span></div>
+              <div class="result"><span class="v">Misma decisión</span><span class="w">Y sin falsa alarma.</span></div>
             </div>
           </li>
         </ol>
@@ -518,51 +538,51 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
     <section class="slide" id="s3" aria-label="Simulación y conclusiones">
       <div class="head">
         <p class="eyebrow">Simulación</p>
-        <h2>¿Qué pasa si cambiamos la rampa o la lámina?</h2>
+        <h2>¿Qué pasa si cambia la carga, la velocidad o el carro?</h2>
       </div>
       <div class="s3-grid">
         <div class="sim">
-          <div class="cbox"><canvas id="scene" aria-label="Animación del paquete bajando por la rampa hasta el tope con resorte"></canvas><p class="flag" id="flag">Bajando</p></div>
-          <div class="cbox"><canvas id="chart" aria-label="Gráfica de energía contra tiempo: gravitacional, cinética, elástica y perdida por fricción"></canvas></div>
+          <div class="cbox"><canvas id="scene" aria-label="Animación de la camioneta chocando al carro por detrás, con el golpe en cámara lenta"></canvas><p class="flag" id="flag">Antes del golpe</p></div>
+          <div class="cbox"><canvas id="chart" aria-label="Gráficas durante el golpe: fuerza contra tiempo y momento lineal de cada vehículo y del total"></canvas></div>
           <div class="controls">
-            <div class="ctl"><label for="p-h"><span>Altura h</span> <output id="o-h" for="p-h">1,8 m</output></label><input type="range" id="p-h" min="1" max="3" step="0.05" value="1.8"></div>
-            <div class="ctl"><label for="p-th"><span>Inclinación θ</span> <output id="o-th" for="p-th">30°</output></label><input type="range" id="p-th" min="15" max="45" step="1" value="30"></div>
-            <div class="ctl"><label for="p-mu"><span>Fricción μ<sub>k</sub></span> <output id="o-mu" for="p-mu">0,35</output></label><input type="range" id="p-mu" min="0.1" max="0.6" step="0.01" value="0.35"></div>
-            <div class="ctl"><label for="p-m"><span>Masa m</span> <output id="o-m" for="p-m">4,0 kg</output></label><input type="range" id="p-m" min="1" max="20" step="0.5" value="4"></div>
-            <div class="ctl"><label for="p-k"><span>Resorte k</span> <output id="o-k" for="p-k">1200 N/m</output></label><input type="range" id="p-k" min="200" max="3000" step="50" value="1200"></div>
+            <div class="ctl"><label for="p-ma"><span>Camioneta m<sub>A</sub></span> <output id="o-ma" for="p-ma">2000 kg</output></label><input type="range" id="p-ma" min="1200" max="2500" step="50" value="2000"></div>
+            <div class="ctl"><label for="p-mb"><span>Carro m<sub>B</sub></span> <output id="o-mb" for="p-mb">1000 kg</output></label><input type="range" id="p-mb" min="700" max="2500" step="50" value="1000"></div>
+            <div class="ctl"><label for="p-v"><span>Rapidez de A</span> <output id="o-v" for="p-v">36 km/h</output></label><input type="range" id="p-v" min="10" max="60" step="1" value="36"></div>
+            <div class="ctl"><label for="p-dt"><span>Duración Δt</span> <output id="o-dt" for="p-dt">0,12 s</output></label><input type="range" id="p-dt" min="0.06" max="0.15" step="0.01" value="0.12"></div>
+            <div class="ctl"><label for="p-e"><span>Rebote e</span> <output id="o-e" for="p-e">0,125</output></label><input type="range" id="p-e" min="0" max="0.6" step="0.005" value="0.125"></div>
           </div>
           <div class="btns">
             <span class="lbl">Casos</span>
-            <button type="button" class="chip preset" data-p='{"h":1.8,"th":30,"mu":0.35,"m":4,"k":1200}' aria-pressed="true">Ejercicio</button>
-            <button type="button" class="chip preset" data-p='{"h":1.8,"th":30,"mu":0.35,"m":15,"k":1200}' aria-pressed="false">Paquete de 15 kg</button>
-            <button type="button" class="chip preset" data-p='{"h":1.8,"th":30,"mu":0.3,"m":4,"k":1200}' aria-pressed="false">Lámina pulida (μ 0,30)</button>
-            <button type="button" class="chip preset" data-p='{"h":2.5,"th":30,"mu":0.35,"m":4,"k":1200}' aria-pressed="false">Mezanine de 2,5 m</button>
+            <button type="button" class="chip preset" data-p='{"mA":2000,"mB":1000,"v":36,"dt":0.12,"e":0.125}' aria-pressed="true">Ejercicio</button>
+            <button type="button" class="chip preset" data-p='{"mA":1400,"mB":1000,"v":36,"dt":0.12,"e":0.125}' aria-pressed="false">Camioneta vacía (1400 kg)</button>
+            <button type="button" class="chip preset" data-p='{"mA":2000,"mB":1000,"v":50,"dt":0.12,"e":0.125}' aria-pressed="false">A 50 km/h</button>
+            <button type="button" class="chip preset" data-p='{"mA":2000,"mB":1000,"v":15,"dt":0.12,"e":0.125}' aria-pressed="false">Golpe a 15 km/h</button>
             <span class="sep"></span>
-            <span class="lbl">Velocidad</span>
-            <button type="button" class="chip speed" data-s="1" aria-pressed="false">1×</button>
-            <button type="button" class="chip speed" data-s="0.5" aria-pressed="true">½×</button>
-            <button type="button" class="chip speed" data-s="0.25" aria-pressed="false">¼×</button>
             <button type="button" class="chip" id="replay">Repetir</button>
           </div>
-          <p class="note">Supuestos: μ<sub>k</sub> en todo el recorrido (también para ver si arranca, porque no dan μ<sub>s</sub>), sin pérdidas al pasar de la rampa al plano y resorte ideal.</p>
+          <p class="note">Rebote e = (v<sub>B2</sub> − v<sub>A2</sub>) / (v<sub>A1</sub> − v<sub>B1</sub>): 0 si quedan pegados, 1 si es elástico; en el ejercicio, 1,25 / 10,0 = 0,125.</p>
         </div>
 
         <div class="side">
-          <div class="verdict" id="verdict" aria-live="polite"><span class="vt" id="vt">Lee la etiqueta</span><span class="vs" id="vs">el software lo manda a su ruta</span></div>
-          <div class="gauge">
-            <div class="grow"><span>Rapidez en el lector<br><b id="g-v">2,65 m/s</b></span><span style="text-align:right">Límite del lector<br><b>3,0 m/s</b></span></div>
-            <div class="track" role="img" id="track" aria-label="Rapidez en el lector frente al límite"><div class="fill" id="fill"></div><div class="limit" id="limit"></div></div>
+          <div class="verdict bad" id="verdict" aria-live="polite"><span class="vt" id="vt">Llamar al 123</span><span class="vs" id="vs">B no tiene sensor, pero su Δv pasa de 16 km/h</span></div>
+          <div class="dv">
+            <h3>Cambio de velocidad |Δv|</h3>
+            <div class="dvgrid">
+              <span></span><div class="marks"><span id="m8">8 · guarda</span><span id="m16" class="hi">16 · 123</span></div><span></span>
+              <span class="k">Camioneta A</span><div class="track"><div class="fill" id="fillA"></div><div class="limit" id="l8a"></div><div class="limit hi" id="l16a"></div></div><b id="dvA">13,5 km/h</b>
+              <span class="k">Carro B</span><div class="track"><div class="fill b" id="fillB"></div><div class="limit" id="l8b"></div><div class="limit hi" id="l16b"></div></div><b id="dvB">27,0 km/h</b>
+            </div>
           </div>
           <div class="cmp">
-            <h3>Rapidez del paquete</h3>
-            <div class="row"><span class="k">Al pie de la rampa</span><span class="val" id="r-v2">3,73 m/s</span><span class="lim">sin fricción <b id="r-v0">5,94 m/s</b></span></div>
-            <div class="row"><span class="k">Al tocar el resorte</span><span class="val" id="r-v4">1,90 m/s</span><span class="lim">le quedan <b id="r-e4">7,2 J</b></span></div>
+            <h3>Justo después del golpe</h3>
+            <div class="row"><span class="k">Camioneta A</span><span class="val" id="r-va">6,25 m/s</span><span class="lim">la mide su sensor</span></div>
+            <div class="row"><span class="k">Carro B</span><span class="val" id="r-vb">7,50 m/s</span><span class="lim">sale de P<sub>1</sub> = P<sub>2</sub></span></div>
           </div>
           <div class="cmp">
-            <h3>Tope y energía</h3>
-            <div class="row"><span class="k">Compresión máxima</span><span class="val" id="r-x">9,9 cm</span><span class="lim">fuerza <b id="r-fe">118,5 N</b></span></div>
-            <div class="row"><span class="k">Desaceleración máxima</span><span class="val" id="r-a">33,1 m/s²</span><span class="lim">= <b id="r-g">3,4 g</b></span></div>
-            <div class="row"><span class="k">Perdida por fricción</span><span class="val" id="r-l">64,71 J</span><span class="lim"><span id="r-pl">hasta el punto 5:</span> <b id="r-p">91,7 %</b></span></div>
+            <h3>El golpe</h3>
+            <div class="row"><span class="k">Impulso J</span><span class="val" id="r-j">7500 N·s</span><span class="lim">F<sub>med</sub> <b id="r-fm">62 500 N</b></span></div>
+            <div class="row"><span class="k">Pico en A</span><span class="val" id="r-pk">6,4 g</span><span class="lim">se activa desde <b>2,5 g</b></span></div>
+            <div class="row"><span class="k">Energía perdida</span><span class="val" id="r-dk">32 812 J</span><span class="lim"><b id="r-pc">32,8 %</b> · <span id="r-tipo">inelástico</span></span></div>
           </div>
           <button type="button" class="cta" id="open-concl" aria-controls="cpanel">Ver conclusiones →</button>
         </div>
@@ -578,24 +598,24 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
         </div>
         <div class="cgrid">
           <article>
-            <h3>El lector sí lee la etiqueta, pero por poco</h3>
-            <p>El paquete pasa a <b>2,65 m/s</b> y el lector aguanta hasta <b>3,0 m/s</b>: sobran 3,0 m/s − 2,65 m/s = 0,35 m/s, apenas el 12 % del límite. Si no lee, el software manda el paquete a revisión manual y el despacho se demora.</p>
+            <h3>El software sí debe llamar al 123</h3>
+            <p>Con su propio sensor no llamaría: A cambió <b>13,5 km/h</b>, menos de 16. Pero por conservación del momento lineal, el carro B pasó de 0 a <b>27,0 km/h</b>.</p>
           </article>
           <article>
-            <h3>La fricción es el freno del sistema</h3>
-            <p>De los <b>70,56 J</b> iniciales, hasta que el resorte lo detiene, la fricción se lleva <b>64,71 J (91,7 %)</b>, la mayor parte en la rampa (42,78 J). Los otros 5,85 J quedan en el resorte. Todo sin motores.</p>
+            <h3>¿Por qué el carro sale peor?</h3>
+            <p>Los dos reciben el mismo impulso, <b>7500 N·s</b>. Como Δv = J / m y B tiene la mitad de la masa, cambia el doble: <b>7,50</b> contra <b>3,75 m/s</b>.</p>
           </article>
           <article>
-            <h3>El tope necesita unos 10 cm y no frena tan duro</h3>
-            <p>El resorte se comprime <b>9,9 cm</b> y frena como máximo a <b>33,1 m/s² (3,4 g)</b>. Pero no lo deja quieto: le devuelve 5,85 J − 1,35 J = 4,50 J, así que sale a √(2(4,50 J) / (4,0 kg)) = 1,50 m/s y retrocede (4,50 J) / (13,72 N) = 0,33 m. Al tope le falta un amortiguador.</p>
+            <h3>Qué se conservó y qué no</h3>
+            <p>P siguió en <b>20 000 kg·m/s</b>, pero se perdieron <b>32 812 J (32,8 %)</b> de energía cinética en deformación, calor y sonido: es inelástico.</p>
           </article>
           <article>
-            <h3>Todo depende de la lámina y de la altura</h3>
-            <p>Deja de leer si E<sub>3</sub> pasa de ½ (4,0 kg)(3,0 m/s)² = 18,0 J. Eso pasa si μ<sub>k</sub> baja a (70,56 J − 18,0 J) / [(39,2 N)(4,118 m)] = <b>0,326</b>, apenas un 7 % menos, o si la rampa sube de <b>2,05 m</b>. Toca revisar la lámina y poner una alarma en el software si aumentan los paquetes en revisión manual.</p>
+            <h3>¿Podemos confiar?</h3>
+            <p>Aunque B tuviera el freno puesto, Δv<sub>B</sub> da <b>23,6 km/h</b>, y un frenazo solo da <b>4,2 km/h</b>: la decisión no cambia y no hay falsa alarma.</p>
           </article>
           <article>
             <h3>Utilidad de la física</h3>
-            <p>Con trabajo y energía sabemos, antes de instalar el lector y programar el software, a qué rapidez pasan los paquetes, si se leen y cuánto recorrido necesita el tope, y podemos probar otra altura u otra lámina sin usar paquetes reales.</p>
+            <p>Con impulso y conservación del momento lineal, el software pasa de la gráfica del acelerómetro a una decisión, incluso sobre el carro que no tiene sensor.</p>
           </article>
         </div>
       </div>
@@ -643,7 +663,7 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
     dots.forEach(function(d, i){ d.setAttribute('aria-current', i === cur ? 'true' : 'false'); });
     counter.textContent = (cur+1) + ' / ' + slides.length;
     prevB.disabled = cur === 0; nextB.disabled = cur === slides.length-1;
-    if (cur === 2) { fitAll(); simT = 0; hold = 0; }
+    if (cur === 2) { fitAll(); simD = 0; hold = 0; }
   }
   prevB.addEventListener('click', function(){ go(cur-1); });
   nextB.addEventListener('click', function(){ go(cur+1); });
@@ -675,128 +695,147 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
 
   /* ================= física ================= */
   // <sim>
-  var G = 9.8, D23 = 1.0, D34 = 0.5, VMAX = 3.0;
+  var G = 9.8, ACT = 2.5, SAVE = 8, CALL = 16;           // se activa con 2,5 g; límites de |Δv| en km/h
+  var LA = 4.3, LB = 3.6, D0 = 4, XL = 5.6, TAFTER = 0.5; // largos [m], distancia inicial [m], semáforo [m], tiempo después [s]
+  var NORMAL = 0.5, SLOW = 0.05;                         // segundos de choque por segundo de animación
+  function r1(x){ return Math.round(x * 10) / 10; }
 
-  // Resultados exactos con energía, punto a punto. p = {h [m], th [grados], mu, m [kg], k [N/m]}
+  // Resultados exactos, como en la lámina 2. p = {mA [kg], mB [kg], v [km/h], dt [s], e}
   function analyze(p){
-    var th = p.th * Math.PI / 180, sn = Math.sin(th), cs = Math.cos(th);
-    var w = p.m * G, dx12 = p.h / Math.tan(th), E1 = w * p.h, fPlano = p.mu * w;
+    var v1 = p.v / 3.6, mu = p.mA * p.mB / (p.mA + p.mB);
+    var J = (1 + p.e) * mu * v1;                          // el impulso que deja ese rebote
+    var vA2 = v1 - J / p.mA, vB2 = J / p.mB;              // ec. (5) en cada vehículo
+    var K1 = 0.5 * p.mA * v1 * v1, K2 = 0.5 * p.mA * vA2 * vA2 + 0.5 * p.mB * vB2 * vB2;
     var r = {
-      E1:E1, dx12:dx12, sr:p.h / sn, v0:Math.sqrt(2 * G * p.h),
-      moves: sn > p.mu * cs,
-      v2:null, v3:null, v4:null, E2:null, E3:null, E4:null,
-      x:null, Fe:null, a:null, Ue:null, lost:null, stop:null, stopD:null
+      v1:v1, P1:p.mA * v1, J:J, Fmed:J / p.dt, Fmax:2 * J / p.dt, vA2:vA2, vB2:vB2, K1:K1, K2:K2,
+      dvA:(vA2 - v1) * 3.6, dvB:vB2 * 3.6, crushT:v1 * p.dt * (1 - p.e) / 2
     };
-    if (!r.moves) { r.stop = 'rampa'; return r; }
-    r.E2 = E1 - fPlano * dx12;                      // W_fk = -mu m g dx (ec. 6)
-    r.v2 = Math.sqrt(2 * r.E2 / p.m);
-    r.E3 = r.E2 - fPlano * D23;
-    if (r.E3 <= 0) { r.stop = 'plano'; r.stopD = r.E2 / fPlano; return r; }   // se detiene antes del lector
-    r.v3 = Math.sqrt(2 * r.E3 / p.m);
-    r.E4 = r.E3 - fPlano * D34;
-    if (r.E4 <= 0) { r.stop = 'antes'; r.stopD = D23 + r.E3 / fPlano; return r; } // pasa el lector, no llega al tope
-    r.v4 = Math.sqrt(2 * r.E4 / p.m);
-    // 1/2 k x^2 + f x - E4 = 0
-    r.x = (-fPlano + Math.sqrt(fPlano * fPlano + 2 * p.k * r.E4)) / p.k;
-    r.Fe = p.k * r.x;
-    r.a = (r.Fe + fPlano) / p.m;
-    r.Ue = 0.5 * p.k * r.x * r.x;
-    r.lost = E1 - r.Ue;
+    r.aA = -r.Fmed / p.mA; r.aB = r.Fmed / p.mB; r.peakG = r.Fmax / p.mA / G;
+    var dv = Math.max(r1(Math.abs(r.dvA)), r1(Math.abs(r.dvB)));
+    r.decision = r1(r.peakG) < ACT ? 'off' : dv >= CALL ? 'call' : dv >= SAVE ? 'save' : 'minor';
     return r;
   }
 
-  // Movimiento completo sobre la pista, incluido el rebote. s = 0 arriba; muestras cada 0,01 s.
+  // Durante el golpe: F(t) en triángulo, −F sobre A y +F sobre B (tercera ley), segunda ley paso a paso.
+  // xa es el frente de A sin deformar y xb la cola de B; xa − xb es cuánto se aplastan entre los dos.
   function simulate(p){
-    var A = analyze(p), th = p.th * Math.PI / 180, sn = Math.sin(th), cs = Math.cos(th);
-    var sr = A.sr, s3 = sr + D23, s4 = s3 + D34;
-    var res = {A:A, T:[], S:[], V:[], Ug:[], K:[], Ue:[], L:[], F:[], tStop:null, sStop:0, vReb:null, sMaxC:0, t3:null, tEnd:0};
-    var dt = 0.0002, t = 0, s = 0, v = 0, lost = 0, nextRec = 0, n = 0, stopped = false, leftSpring = false;
-    function fric(pos){ return p.mu * (pos < sr ? G * cs : G); }                 // fricción por unidad de masa
-    function drive(pos){ return (pos < sr ? G * sn : 0) - p.k * Math.max(0, pos - s4) / p.m; }
-    while (n++ < 150000) {
-      var x = Math.max(0, s - s4);
-      if (t >= nextRec - 1e-9) {
-        res.T.push(t); res.S.push(s); res.V.push(v);
-        res.Ug.push(p.m * G * (s < sr ? p.h - s * sn : 0)); res.K.push(0.5 * p.m * v * v);
-        res.Ue.push(0.5 * p.k * x * x); res.L.push(lost); res.F.push(fric(s) * p.m);
-        nextRec += 0.01;
-      }
-      if (stopped) { if (t >= res.tStop + 0.6) break; t += dt; continue; }
-      var d0 = drive(s), f0 = fric(s), dir = v > 0 ? 1 : -1;
-      if (v === 0) {
-        if (Math.abs(d0) <= f0 + 1e-9) { stopped = true; res.tStop = t; res.sStop = s; continue; }
-        dir = d0 > 0 ? 1 : -1;
-      }
-      // Verlet de velocidad: conserva bien la energía con el resorte
-      var a0 = d0 - dir * f0, s1 = s + v * dt + 0.5 * a0 * dt * dt;
-      var a1 = drive(s1) - dir * fric(s1), v1 = v + 0.5 * (a0 + a1) * dt;
-      if (v !== 0 && v * v1 < 0) {                                               // se detiene dentro del paso
-        var ts = -v / a0;
-        s1 = s + v * ts + 0.5 * a0 * ts * ts; v1 = 0;
-      }
-      var ds = s1 - s;
-      if (x > 0 && s1 <= s4 && v1 < 0 && !leftSpring) { leftSpring = true; res.vReb = -v1; }
-      if (res.t3 === null && s1 >= s3) res.t3 = t;
-      lost += 0.5 * (fric(s) + fric(s1)) * p.m * Math.abs(ds);
-      s = s1; v = v1; t += dt;
-      if (s - s4 > res.sMaxC) res.sMaxC = s - s4;
+    var A = analyze(p), T = p.dt, N = 240, h = T / N;
+    function force(t){ var u = Math.min(t, T - t); return u <= 0 ? 0 : A.Fmax * u / (T / 2); }
+    var xa = 0, xb = 0, va = A.v1, vb = 0, J = 0;
+    var c = {t:[0], xa:[0], xb:[0], va:[va], vb:[0], F:[0], J:[0]};
+    for (var i = 0; i < N; i++) {
+      var f0 = force(i * h), f1 = force((i + 1) * h);       // la fuerza es lineal dentro de cada paso: estas fórmulas son exactas
+      xa += va * h - (2 * f0 + f1) * h * h / (6 * p.mA);
+      xb += vb * h + (2 * f0 + f1) * h * h / (6 * p.mB);
+      va -= (f0 + f1) * h / (2 * p.mA);
+      vb += (f0 + f1) * h / (2 * p.mB);
+      J += (f0 + f1) * h / 2;
+      c.t.push((i + 1) * h); c.xa.push(xa); c.xb.push(xb); c.va.push(va); c.vb.push(vb); c.F.push(f1); c.J.push(J);
     }
-    res.tEnd = res.T[res.T.length - 1];
-    return res;
+    var t0 = -D0 / A.v1, xaE = xa + va * TAFTER, xbE = xb + vb * TAFTER;
+    return {
+      A:A, p:p, T:T, h:h, t0:t0, c:c, vA2:va, vB2:vb, Jsum:J,
+      dEnd:-t0 / NORMAL + T / SLOW + TAFTER / NORMAL,
+      xmin:Math.min(-D0, xaE) - LA - 0.6, xmax:Math.max(XL + 1.2, xbE + LB + 0.6, xaE + 0.6)
+    };
+  }
+
+  // Estado en el tiempo t [s] (t = 0 cuando se tocan). d: aplastamiento total, que queda después del golpe.
+  function state(R, t){
+    var c = R.c, n = c.t.length - 1;
+    if (t <= 0) return {xa:R.A.v1 * t, xb:0, va:R.A.v1, vb:0, F:0, J:0, d:0};
+    if (t >= R.T) {
+      var u = t - R.T;
+      return {xa:c.xa[n] + R.vA2 * u, xb:c.xb[n] + R.vB2 * u, va:R.vA2, vb:R.vB2, F:0, J:R.Jsum, d:c.xa[n] - c.xb[n]};
+    }
+    var k = Math.min(n - 1, Math.floor(t / R.h)), w = (t - c.t[k]) / R.h;
+    function L(a){ return a[k] + (a[k + 1] - a[k]) * w; }
+    return {xa:L(c.xa), xb:L(c.xb), va:L(c.va), vb:L(c.vb), F:L(c.F), J:L(c.J), d:L(c.xa) - L(c.xb)};
+  }
+
+  // Segundos de animación → tiempo del choque: el acercamiento a ½ de velocidad y el golpe en cámara lenta ×20.
+  function physT(R, s){
+    var d1 = -R.t0 / NORMAL, d2 = R.T / SLOW;
+    if (s < d1) return R.t0 + s * NORMAL;
+    if (s < d1 + d2) return (s - d1) * SLOW;
+    return Math.min(R.T + TAFTER, R.T + (s - d1 - d2) * NORMAL);
   }
   // </sim>
 
   /* ================= estado ================= */
-  var P = {h:1.8, th:30, mu:0.35, m:4, k:1200};
-  var R = simulate(P), simT = 0, hold = 0, speed = 0.5, last = 0;
+  var P = {mA:2000, mB:1000, v:36, dt:0.12, e:0.125};
+  var R, simD = 0, hold = 0, last = 0;
   var $ = function(id){ return document.getElementById(id); };
   function fmt(x, lo, hi){
-    return x.toLocaleString('es-CO', {minimumFractionDigits:lo, maximumFractionDigits:(hi === undefined ? lo : hi), useGrouping:false});
+    var s = x.toLocaleString('en-US', {minimumFractionDigits:lo, maximumFractionDigits:(hi === undefined ? lo : hi), useGrouping:false});
+    var neg = s.charAt(0) === '-'; if (neg) s = s.slice(1);
+    if (!/[1-9]/.test(s)) neg = false;
+    var q = s.split('.'), ip = q[0];
+    if (ip.length > 4) ip = ip.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return (neg ? '−' : '') + ip + (q[1] ? ',' + q[1] : '');
   }
-  function at(t){ return Math.max(0, Math.min(R.T.length - 1, Math.round(t / 0.01))); }
+
+  var TMIN = -0.02, TMAX = 0.17;
+  function series(get){
+    var c = R.c, n = c.t.length, out = [[TMIN, get(0)]];
+    for (var i = 0; i < n; i++) out.push([c.t[i], get(i)]);
+    out.push([TMAX, get(n - 1)]);
+    return out;
+  }
+  function restart(){
+    R = simulate(P); simD = 0; hold = 0;
+    var c = R.c;
+    R.ser = {
+      F:series(function(i){ return c.F[i] / 1000; }),
+      pA:series(function(i){ return P.mA * c.va[i]; }),
+      pB:series(function(i){ return P.mB * c.vb[i]; }),
+      P:series(function(i){ return P.mA * c.va[i] + P.mB * c.vb[i]; })
+    };
+    readouts();
+  }
 
   function readouts(){
     var A = R.A;
-    $('o-h').textContent = fmt(P.h, 2) + ' m';
-    $('o-th').textContent = fmt(P.th, 0) + '°';
-    $('o-mu').textContent = fmt(P.mu, 2);
-    $('o-m').textContent = fmt(P.m, 1) + ' kg';
-    $('o-k').textContent = fmt(P.k, 0) + ' N/m';
-    var dash = '—';
-    $('r-v0').textContent = fmt(A.v0, 2) + ' m/s';
-    $('r-v2').textContent = A.v2 === null ? dash : fmt(A.v2, 2) + ' m/s';
-    $('r-v4').textContent = A.v4 === null ? dash : fmt(A.v4, 2) + ' m/s';
-    $('r-e4').textContent = A.E4 === null || A.E4 <= 0 ? dash : fmt(A.E4, 1) + ' J';
-    $('r-x').textContent = A.x === null ? dash : fmt(A.x * 100, 1) + ' cm';
-    $('r-fe').textContent = A.Fe === null ? dash : fmt(A.Fe, 1) + ' N';
-    $('r-a').textContent = A.a === null ? dash : fmt(A.a, 1) + ' m/s²';
-    $('r-g').textContent = A.a === null ? dash : fmt(A.a / G, 1) + ' g';
-    var perdido = A.lost === null ? A.E1 : A.lost;
-    $('r-l').textContent = fmt(perdido, 2) + ' J';
-    $('r-p').textContent = fmt(perdido / A.E1 * 100, 1) + ' %';
-    $('r-pl').textContent = A.lost === null ? 'de la energía:' : 'hasta el punto 5:';
+    $('o-ma').textContent = fmt(P.mA, 0) + ' kg';
+    $('o-mb').textContent = fmt(P.mB, 0) + ' kg';
+    $('o-v').textContent = fmt(P.v, 0) + ' km/h';
+    $('o-dt').textContent = fmt(P.dt, 2) + ' s';
+    $('o-e').textContent = fmt(P.e, 2, 3);
 
-    var v3 = A.v3 === null ? 0 : A.v3, scale = Math.max(VMAX * 1.5, v3 * 1.08), over = v3 > VMAX;
-    $('fill').style.width = Math.min(100, v3 / scale * 100) + '%';
-    $('fill').classList.toggle('over', over);
-    $('limit').style.left = (VMAX / scale * 100) + '%';
-    $('g-v').textContent = A.v3 === null ? dash : fmt(v3, 2) + ' m/s';
-    $('track').setAttribute('aria-label', 'Rapidez en el lector ' + fmt(v3, 2) + ' m/s; límite 3,0 m/s');
+    var dA = Math.abs(A.dvA), dB = Math.abs(A.dvB), top = Math.max(32, 1.1 * Math.max(dA, dB));
+    var pc = function(x){ return (x / top * 100) + '%'; };
+    $('fillA').style.width = pc(dA); $('fillB').style.width = pc(dB);
+    ['l8a', 'l8b', 'm8'].forEach(function(id){ $(id).style.left = pc(SAVE); });
+    ['l16a', 'l16b', 'm16'].forEach(function(id){ $(id).style.left = pc(CALL); });
+    $('dvA').textContent = fmt(dA, 1) + ' km/h';
+    $('dvB').textContent = fmt(dB, 1) + ' km/h';
 
-    var vd = $('verdict'), vt = $('vt'), vs = $('vs'), bad = true;
-    if (!A.moves) { vt.textContent = 'No baja'; vs.textContent = 'la parte del peso a lo largo de la rampa no vence la fricción'; }
-    else if (A.v3 === null) { vt.textContent = 'No llega al lector'; vs.textContent = 'se detiene a ' + fmt(A.stopD, 2) + ' m del pie de la rampa'; }
-    else if (over) { vt.textContent = 'No lee la etiqueta'; vs.textContent = 'pasa muy rápido y va a revisión manual'; }
-    else {
-      bad = false; vt.textContent = 'Lee la etiqueta';
-      vs.textContent = 'el software lo manda a su ruta';
-      if (A.v4 === null) vs.textContent += '; se detiene antes del tope';
+    $('r-va').textContent = fmt(A.vA2, 2) + ' m/s';
+    $('r-vb').textContent = fmt(A.vB2, 2) + ' m/s';
+    $('r-j').textContent = fmt(A.J, 0) + ' N·s';
+    $('r-fm').textContent = fmt(A.Fmed, 0) + ' N';
+    $('r-pk').textContent = fmt(A.peakG, 1) + ' g';
+    $('r-pk').classList.toggle('bad', A.decision === 'off');
+    $('r-dk').textContent = fmt(Math.round(A.K1) - Math.round(A.K2), 0) + ' J';
+    $('r-pc').textContent = fmt((A.K1 - A.K2) / A.K1 * 100, 1) + ' %';
+    $('r-tipo').textContent = P.e === 0 ? 'totalmente inelástico' : 'inelástico';
+
+    var vt = $('vt'), vs = $('vs'), cls = '', bigA = r1(dA) >= CALL, bigB = r1(dB) >= CALL;
+    if (A.decision === 'call') {
+      vt.textContent = 'Llamar al 123'; cls = 'bad';
+      vs.textContent = bigA && bigB ? 'los dos pasan de 16 km/h' : bigB ? 'B no tiene sensor, pero su Δv pasa de 16 km/h' : 'el Δv de la camioneta pasa de 16 km/h';
+    } else if (A.decision === 'save') {
+      vt.textContent = 'Guarda el evento'; cls = 'mid'; vs.textContent = 'pasa de 8 km/h pero no de 16 km/h: no llama';
+    } else if (A.decision === 'minor') {
+      vt.textContent = 'Golpe leve'; vs.textContent = 'ningún Δv llega a 8 km/h: no guarda nada';
+    } else {
+      vt.textContent = 'No se activa'; cls = bigB ? 'bad' : 'off';
+      vs.textContent = 'el pico en A no llega a 2,5 g' + (bigB ? ', pero B pasa de 16 km/h' : '');
     }
-    vd.classList.toggle('bad', bad);
+    $('verdict').className = 'verdict' + (cls ? ' ' + cls : '');
   }
-  function restart(){ R = simulate(P); simT = 0; hold = 0; readouts(); }
 
-  var inputs = {h:$('p-h'), th:$('p-th'), mu:$('p-mu'), m:$('p-m'), k:$('p-k')};
+  var inputs = {mA:$('p-ma'), mB:$('p-mb'), v:$('p-v'), dt:$('p-dt'), e:$('p-e')};
   var presets = [].slice.call(document.querySelectorAll('.preset'));
   function markPresets(){
     presets.forEach(function(b){
@@ -815,14 +854,7 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
       markPresets(); restart();
     });
   });
-  var speeds = [].slice.call(document.querySelectorAll('.speed'));
-  speeds.forEach(function(b){
-    b.addEventListener('click', function(){
-      speed = parseFloat(b.getAttribute('data-s'));
-      speeds.forEach(function(o){ o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
-    });
-  });
-  $('replay').addEventListener('click', function(){ simT = 0; hold = 0; });
+  $('replay').addEventListener('click', function(){ simD = 0; hold = 0; });
 
   /* ================= lienzos ================= */
   function box(id){ var cv = $(id); return {cv:cv, c:cv.getContext('2d'), w:0, h:0}; }
@@ -842,6 +874,7 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
     return {bg:g('--bg'), panel:g('--panel'), ink:g('--ink'), muted:g('--muted'), line:g('--line'),
             acc:g('--accent'), force:g('--force'), bad:g('--bad'), good:g('--good'), violet:g('--violet')};
   }
+  var MONO = '"JetBrains Mono", Consolas, monospace';
   function arrow(c, x1, y1, x2, y2, col, w){
     var ang = Math.atan2(y2-y1, x2-x1), h = 6 + w * 2;
     c.strokeStyle = col; c.fillStyle = col; c.lineWidth = w;
@@ -851,202 +884,198 @@ button:focus-visible, input:focus-visible{outline:2px solid var(--accent); outli
     c.lineTo(x2 - Math.cos(ang+.45)*h, y2 - Math.sin(ang+.45)*h);
     c.closePath(); c.fill();
   }
-  function ptMark(c, x, y, txt, k, fs){
-    c.beginPath(); c.arc(x, y, fs * .85, 0, Math.PI * 2); c.fillStyle = k.ink; c.fill();
-    c.fillStyle = k.bg; c.textAlign = 'center'; c.fillText(txt, x, y + fs * .36); c.textAlign = 'left';
+
+  // Perfiles de los vehículos en unidades del dibujo (u a lo largo, w de alto)
+  var VAN = {L:LA, H:1.85, U:24, V:11.5, wheels:[5.5, 18.8], r:2.2, lu:7.4, lw:6.4,
+             body:[[0,1.6],[0,11.5],[15.5,11.5],[19.5,6.6],[24,5.2],[24,1.6]], win:[[15.4,10.2],[15.4,6.8],[18.8,6.8],[16,10.2]]};
+  var CAR = {L:LB, H:1.5, U:17, V:9, wheels:[3.9, 13.1], r:2, lu:8.5, lw:3.7,
+             body:[[0,1.6],[0,5.4],[3.2,5.9],[5.2,9],[11,9],[13.6,5.9],[17,5],[17,1.6]], win:[[5.6,8.3],[4.4,5.9],[12.4,5.9],[10.7,8.3]]};
+
+  // Dibuja un vehículo con la cola en x0 [m], aplastado cf adelante o cr atrás [m]
+  function vehicle(c, g, k, o, x0, cf, cr, col, name, dev){
+    var sx = o.L / o.U, sy = o.H / o.V, uMax = o.U - cf / sx, uMin = cr / sx;
+    var map = function(q){ return [g.X(x0 + Math.max(uMin, Math.min(uMax, q[0])) * sx), g.Y(q[1] * sy)]; };
+    function poly(pts){ c.beginPath(); pts.forEach(function(q, i){ var m = map(q); if (i) c.lineTo(m[0], m[1]); else c.moveTo(m[0], m[1]); }); c.closePath(); }
+    poly(o.body); c.fillStyle = k.panel; c.fill();
+    c.save(); c.globalAlpha = .2; c.fillStyle = col; c.fill(); c.restore();
+    c.strokeStyle = col; c.lineWidth = 2; c.stroke();
+    poly(o.win); c.fillStyle = k.bg; c.fill(); c.lineWidth = 1.2; c.stroke();
+    var r = o.r * sy * g.S;
+    o.wheels.forEach(function(u){
+      var x = g.X(x0 + u * sx), y = g.Y(o.r * sy);
+      c.beginPath(); c.arc(x, y, r, 0, 2 * Math.PI); c.fillStyle = k.ink; c.fill();
+      c.beginPath(); c.arc(x, y, r * .42, 0, 2 * Math.PI); c.fillStyle = k.panel; c.fill();
+    });
+    if (dev) { c.beginPath(); c.arc(g.X(x0 + 13.2 * sx), g.Y(3.6 * sy), Math.max(3, .9 * sy * g.S), 0, 2 * Math.PI); c.fillStyle = k.good; c.fill(); }
+    var fz = Math.max(12, Math.min(26, o.H * g.S * .3));
+    c.font = '800 ' + fz + 'px Archivo, Arial, sans-serif'; c.fillStyle = k.ink; c.textAlign = 'center';
+    c.fillText(name, g.X(x0 + o.lu * sx), g.Y(o.lw * sy) + fz * .35); c.textAlign = 'left';
+    var crush = cf > 0.004 ? map([o.U, 0])[0] : cr > 0.004 ? map([0, 0])[0] : null;   // borde aplastado
+    if (crush !== null) {
+      var y1 = g.Y(1.6 * sy), y2 = g.Y(5.2 * sy), n = 6, sgn = cf > 0 ? -1 : 1;
+      c.strokeStyle = k.ink; c.lineWidth = 1.6; c.beginPath();
+      for (var i = 0; i <= n; i++) c.lineTo(crush + (i % 2 ? sgn * 4 : 0), y1 + (y2 - y1) * i / n);
+      c.stroke();
+    }
   }
 
   function drawScene(k){
     var c = SC.c, W = SC.w, H = SC.h; if (!W || !H) return;
     c.clearRect(0, 0, W, H);
-    var A = R.A, i = at(simT), t = R.T[i], s = R.S[i], v = R.V[i], fr = R.F[i];
-    var th = P.th * Math.PI / 180, dx = A.dx12, sr = A.sr;
-    var L = 0.30, B = 0.2;                                     // tamaño del paquete en el dibujo [m]
+    var A = R.A, t = physT(R, simD), s = state(R, t), dd = s.d / 2;
     var fs = Math.max(11, Math.min(15, W / 62));
-    var S = Math.min((W - 60) / (dx + 2.75), (H - 58) / (P.h + 0.62));
-    var floorY = H - Math.max(24, H * 0.1), x0 = 50 + 0.34 * S;
-    var X = function(x){ return x0 + x * S; }, Y = function(y){ return floorY - y * S; };
+    var span = R.xmax - R.xmin, floorY = H - Math.max(26, fs * 2.2);
+    var S = Math.min((W - 24) / span, (floorY - 7 * fs) / 3.0);
+    var ox = (W - span * S) / 2;
+    var g = {S:S, X:function(x){ return ox + (x - R.xmin) * S; }, Y:function(hh){ return floorY - hh * S; }};
 
-    // piso
-    c.strokeStyle = k.muted; c.lineWidth = 2;
-    c.beginPath(); c.moveTo(0, floorY); c.lineTo(W, floorY); c.stroke();
-    // mezanine
-    c.strokeStyle = k.ink; c.lineWidth = 2;
-    c.beginPath(); c.moveTo(X(-0.34), Y(P.h)); c.lineTo(X(0), Y(P.h));
-    c.moveTo(X(-0.28), Y(P.h)); c.lineTo(X(-0.28), floorY); c.moveTo(X(-0.06), Y(P.h)); c.lineTo(X(-0.06), floorY); c.stroke();
-    // rampa
-    c.strokeStyle = k.force; c.lineWidth = 3.5;
-    c.beginPath(); c.moveTo(X(0), Y(P.h)); c.lineTo(X(dx), floorY); c.stroke();
-    // altura
-    c.font = '500 ' + fs + 'px "JetBrains Mono", Consolas, monospace';
-    c.fillStyle = k.muted; c.fillText('h = ' + fmt(P.h, 2) + ' m', X(-0.34) - 2, Y(P.h) - 7);
-    c.fillText('θ = ' + fmt(P.th, 0) + '°', X(dx) - 8.5 * fs, floorY - 7);
+    // piso y semáforo
+    c.strokeStyle = k.muted; c.lineWidth = 2; c.beginPath(); c.moveTo(0, floorY); c.lineTo(W, floorY); c.stroke();
+    c.strokeStyle = k.line; c.lineWidth = 1; c.setLineDash([14, 12]);
+    c.beginPath(); c.moveTo(0, floorY + 8); c.lineTo(W, floorY + 8); c.stroke(); c.setLineDash([]);
+    var xl = g.X(XL);
+    c.strokeStyle = k.ink; c.lineWidth = 4; c.beginPath(); c.moveTo(xl, floorY); c.lineTo(xl, g.Y(2.3)); c.stroke();
+    c.fillStyle = k.ink; c.fillRect(xl - .17 * S, g.Y(2.95), .34 * S, .65 * S);
+    c.beginPath(); c.arc(xl, g.Y(2.79), .11 * S, 0, 2 * Math.PI); c.fillStyle = k.bad; c.fill();
+    c.beginPath(); c.arc(xl, g.Y(2.5), .08 * S, 0, 2 * Math.PI); c.fillStyle = k.muted; c.fill();
 
-    // lector
-    var xr = X(dx + D23), ar = Math.min(0.72 * S, floorY - 40), lee = A.v3 !== null && A.v3 <= VMAX;
-    var pasado = R.t3 !== null && t >= R.t3;
-    var colR = pasado ? (lee ? k.good : k.bad) : k.acc;
-    c.strokeStyle = colR; c.lineWidth = 2.5;
-    c.beginPath(); c.moveTo(xr - 0.2 * S, floorY); c.lineTo(xr - 0.2 * S, floorY - ar); c.lineTo(xr + 0.2 * S, floorY - ar); c.lineTo(xr + 0.2 * S, floorY); c.stroke();
-    c.setLineDash([4, 4]); c.lineWidth = 1.2; c.beginPath(); c.moveTo(xr, floorY - ar); c.lineTo(xr, floorY); c.stroke(); c.setLineDash([]);
-    c.fillStyle = colR; c.textAlign = 'center';
-    c.fillText(pasado ? (lee ? 'leído ✓' : 'no leído') : 'lector', xr, floorY - ar - 6);
+    // vehículos: cada uno se aplasta la mitad de d
+    vehicle(c, g, k, VAN, s.xa - LA, dd, 0, k.force, 'A', true);
+    vehicle(c, g, k, CAR, s.xb, 0, dd, k.acc, 'B', false);
+
+    // velocidades
+    var kv = 0.5 * LA * S / A.v1;
+    c.font = '600 ' + fs + 'px ' + MONO; c.textAlign = 'center';
+    [[s.xa - LA / 2, VAN.H, s.va, k.force, 'vA'], [s.xb + LB / 2, CAR.H, s.vb, k.acc, 'vB']].forEach(function(q){
+      var xc = g.X(q[0]), y = g.Y(q[1]) - fs * .9, len = q[2] * kv;
+      if (Math.abs(len) > 6) arrow(c, xc - len / 2, y, xc + len / 2, y, q[3], 3);
+      c.fillStyle = q[3]; c.fillText(q[4] + ' = ' + fmt(q[2], 2) + ' m/s', xc, y - fs * .75);
+    });
+
+    // fuerzas del golpe: iguales y contrarias, cada una sobre un vehículo
+    if (s.F > 1) {
+      var xc = g.X(s.xa - dd), yb = g.Y(0.8), lf = Math.max(10, s.F / A.Fmax * 0.45 * LA * S);
+      arrow(c, xc, yb, xc - lf, yb, k.violet, 4);
+      arrow(c, xc, yb, xc + lf, yb, k.violet, 4);
+      c.fillStyle = k.violet; c.font = '700 ' + fs + 'px ' + MONO;
+      c.fillText('F = ' + fmt(s.F / 1000, 1) + ' kN', xc, floorY + fs * 1.45);
+    }
     c.textAlign = 'left';
 
-    // tope: resorte y pared
-    var xs = Math.max(0, s - (sr + D23 + D34));
-    var xPlate = X(dx + D23 + D34 + xs), xWall = X(dx + D23 + D34 + 0.7), ys = floorY - 0.13 * S;
-    c.strokeStyle = k.ink; c.lineWidth = 5; c.beginPath(); c.moveTo(xWall, floorY); c.lineTo(xWall, floorY - 0.62 * S); c.stroke();
-    c.strokeStyle = k.force; c.lineWidth = 1.8; c.beginPath(); c.moveTo(xPlate, ys);
-    var nz = 8; for (var q = 1; q < nz; q++) c.lineTo(xPlate + (xWall - xPlate) * q / nz, ys + (q % 2 ? -1 : 1) * 0.09 * S);
-    c.lineTo(xWall, ys); c.stroke();
-    c.lineWidth = 3.5; c.beginPath(); c.moveTo(xPlate, floorY); c.lineTo(xPlate, floorY - 0.26 * S); c.stroke();
-
-    // puntos 1 a 4
-    c.font = '700 ' + (fs * .92) + 'px "JetBrains Mono", Consolas, monospace';
-    ptMark(c, X(0) + fs * 1.5, Y(P.h) - fs * 2.2, '1', k, fs);
-    ptMark(c, X(dx) , floorY + fs * 1.1, '2', k, fs);
-    ptMark(c, xr, floorY + fs * 1.1, '3', k, fs);
-    ptMark(c, X(dx + D23 + D34), floorY + fs * 1.1, '4', k, fs);
-    if (A.x !== null) ptMark(c, X(dx + D23 + D34 + A.x) + fs * 1.7, floorY + fs * 1.1, '5', k, fs);
-
-    // paquete: s es su borde delantero
-    var cen = s - L / 2, b = Math.max(0, Math.min(1, (sr + L / 4 - cen) / (L / 2)));
-    var ang = th * b, px, py;
-    if (cen <= sr) { px = cen * Math.cos(th); py = P.h - cen * Math.sin(th); } else { px = dx + (cen - sr); py = 0; }
-    c.save(); c.translate(X(px), Y(py)); c.rotate(ang);
-    c.fillStyle = k.panel; c.strokeStyle = k.acc; c.lineWidth = 2;
-    c.beginPath(); c.rect(-L / 2 * S, -B * S, L * S, B * S); c.fill(); c.stroke();
-    c.save(); c.globalAlpha = .18; c.fillStyle = k.acc; c.fillRect(-L / 2 * S, -B * S, L * S, B * S); c.restore();
-    c.restore();
-
-    // fuerzas sobre el paquete, en la dirección de la pista
-    var moving = Math.abs(v) > 0.01, dirx = Math.cos(ang), diry = Math.sin(ang);
-    var cx = X(px) + Math.sin(ang) * B * S * .5, cy = Y(py) - Math.cos(ang) * B * S * .5;      // centro del paquete
-    if (moving) {
-      var sgn = v > 0 ? -1 : 1, lenF = Math.max(26, Math.min(120, fr * 2.6));
-      var fx0 = cx + sgn * dirx * L / 2 * S, fy0 = cy + sgn * diry * L / 2 * S;
-      var tipx = fx0 + sgn * dirx * lenF, tipy = fy0 + sgn * diry * lenF;
-      arrow(c, fx0, fy0, tipx, tipy, k.acc, 3);
-      c.font = '600 ' + fs + 'px "JetBrains Mono", Consolas, monospace'; c.fillStyle = k.acc;
-      var lbl = 'fk = ' + fmt(fr, 1) + ' N', lw = c.measureText(lbl).width;
-      c.fillText(lbl, Math.min(W - lw - 8, cx + 0.14 * S), cy - 0.28 * S - fs * .3);
-    }
-    if (xs > 0.0005) {
-      var Fe = P.k * xs, lenE = Math.max(16, Math.min(110, Fe * 0.6));
-      var bx = X(px) - L / 2 * S, by = Y(py) - B * S * .72;
-      arrow(c, bx, by, bx - lenE, by, k.violet, 3);
-      c.fillStyle = k.violet; c.font = '600 ' + fs + 'px "JetBrains Mono", Consolas, monospace';
-      c.fillText('Fe = ' + fmt(Fe, 1) + ' N', bx - lenE - 0.5 * fs, by - 10);
-    }
-
     // tablero
-    c.font = '600 ' + fs + 'px "JetBrains Mono", Consolas, monospace';
-    c.textAlign = 'right'; c.fillStyle = k.muted;
+    c.font = '600 ' + fs + 'px ' + MONO; c.textAlign = 'right';
     var lh = fs * 1.45, y0 = 10 + fs;
-    c.fillText('tiempo ' + fmt(t, 2) + ' s', W - 12, y0);
-    c.fillText('rapidez ' + fmt(Math.abs(v), 2) + ' m/s', W - 12, y0 + lh);
-    var E = R.Ug[i] + R.K[i] + R.Ue[i];
-    c.fillText('energía mecánica ' + fmt(E, 2) + ' J', W - 12, y0 + 2 * lh);
-    c.fillStyle = k.acc; c.fillText('perdida por fricción ' + fmt(R.L[i], 2) + ' J', W - 12, y0 + 3 * lh);
+    c.fillStyle = k.muted; c.fillText('t = ' + fmt(t, t >= 0 && t <= R.T ? 3 : 2) + ' s', W - 12, y0);
+    c.fillStyle = k.ink; c.fillText('P = ' + fmt(P.mA * s.va + P.mB * s.vb, 0) + ' kg·m/s', W - 12, y0 + lh);
+    c.fillStyle = k.muted; c.fillText('K = ' + fmt(0.5 * P.mA * s.va * s.va + 0.5 * P.mB * s.vb * s.vb, 0) + ' J', W - 12, y0 + 2 * lh);
     c.textAlign = 'left';
 
     // bandera de estado
-    var s3 = sr + D23, s4 = s3 + D34, txt, bad = false;
-    if (R.tStop !== null && t >= R.tStop) {
-      txt = A.moves ? 'Paquete detenido' : 'No baja: fricción ≥ m g sen θ'; bad = !A.moves;
-      if (A.moves && R.sStop < s3 && A.v3 === null) { txt = 'Se detuvo antes del lector'; bad = true; }
-    }
-    else if (xs > 0) txt = v >= 0 ? 'Comprimiendo el resorte' : 'El resorte lo devuelve';
-    else if (v < 0) txt = 'Rebote: retrocede';
-    else if (s < sr) txt = 'Bajando por la rampa';
-    else if (s < s3) txt = 'Plano: la fricción lo frena';
-    else txt = 'Hacia el tope';
+    var txt = t < 0 ? 'Antes del golpe' : t <= R.T ? 'Golpe · cámara lenta ×20' : P.e === 0 ? 'Después: quedan pegados' : 'Después: se separan';
     var fl = $('flag');
-    if (fl.textContent !== txt) { fl.textContent = txt; fl.classList.toggle('bad', bad); }
+    if (fl.textContent !== txt) { fl.textContent = txt; fl.classList.toggle('bad', t >= 0 && t <= R.T); }
+  }
+
+  function niceStep(range){
+    var steps = [1, 2, 2.5, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 2500, 5000, 10000, 20000, 25000, 50000];
+    for (var i = 0; i < steps.length; i++) if (range / steps[i] <= 4.2) return steps[i];
+    return steps[steps.length - 1];
+  }
+  function polyline(c, px, py, pts, upto, col, w, alpha){
+    c.save(); c.globalAlpha = alpha; c.strokeStyle = col; c.lineWidth = w; c.beginPath();
+    for (var i = 0; i < pts.length; i++) {
+      var q = pts[i];
+      if (q[0] > upto) {
+        var a = pts[i - 1], f = (upto - a[0]) / (q[0] - a[0]);
+        if (i > 0) c.lineTo(px(upto), py(a[1] + (q[1] - a[1]) * f));
+        break;
+      }
+      if (i) c.lineTo(px(q[0]), py(q[1])); else c.moveTo(px(q[0]), py(q[1]));
+    }
+    c.stroke(); c.restore();
+  }
+
+  function panel(c, k, ox, w, H, fs, t, cfg){
+    var Lm = fs * 4.4, Rm = fs * 1.2, Tm = fs * 2.2, Bm = fs * 2.2;
+    var pw = w - Lm - Rm, ph = H - Tm - Bm; if (pw < 40 || ph < 24) return;
+    var px = function(tt){ return ox + Lm + (tt - TMIN) / (TMAX - TMIN) * pw; };
+    var py = function(v){ return Tm + ph - (v - cfg.lo) / (cfg.hi - cfg.lo) * ph; };
+    c.font = '500 ' + fs + 'px ' + MONO; c.lineWidth = 1;
+    c.textAlign = 'right';
+    for (var yv = cfg.lo; yv <= cfg.hi + 1e-9; yv += cfg.step) {
+      c.strokeStyle = k.line; c.beginPath(); c.moveTo(ox + Lm, py(yv)); c.lineTo(ox + Lm + pw, py(yv)); c.stroke();
+      c.fillStyle = k.muted; c.fillText(fmt(yv, 0), ox + Lm - 6, py(yv) + fs * .35);
+    }
+    c.textAlign = 'center';
+    [0, 0.04, 0.08, 0.12, 0.16].forEach(function(tv){ c.fillText(fmt(tv, tv ? 2 : 0), px(tv), Tm + ph + fs * 1.4); });
+    c.strokeStyle = k.muted; c.beginPath(); c.moveTo(ox + Lm, Tm); c.lineTo(ox + Lm, Tm + ph); c.lineTo(ox + Lm + pw, Tm + ph); c.stroke();
+    var tc = Math.max(TMIN, Math.min(TMAX, t));
+    cfg.draw(px, py, tc);
+    c.strokeStyle = k.ink; c.lineWidth = 1.5; c.beginPath(); c.moveTo(px(tc), Tm); c.lineTo(px(tc), Tm + ph); c.stroke();
+    c.textAlign = 'left'; c.fillStyle = k.ink; c.font = '600 ' + fs + 'px ' + MONO; c.fillText(cfg.title, ox + Lm, fs * 1.25);
+    if (cfg.legend) {
+      var lx = ox + Lm + pw;
+      c.textAlign = 'right';
+      for (var i = cfg.legend.length - 1; i >= 0; i--) {
+        var it = cfg.legend[i]; c.fillStyle = it[1]; c.fillText(it[0], lx, fs * 1.25);
+        lx -= c.measureText(it[0]).width + fs * .9;
+      }
+      c.textAlign = 'left';
+    }
   }
 
   function drawChart(k){
     var c = CH.c, W = CH.w, H = CH.h; if (!W || !H) return;
     c.clearRect(0, 0, W, H);
-    var fs = Math.max(11, Math.min(14, W / 62));
-    c.font = '500 ' + fs + 'px "JetBrains Mono", Consolas, monospace';
-    var L = fs * 3.6, Rm = fs * 1.5, T = fs * 2.3, B = fs * 2.0, pw = W - L - Rm, ph = H - T - B;
-    if (pw < 40 || ph < 24) return;
-    var n = R.T.length, tMax = R.tEnd, E1 = R.A.E1;
-    var nice = [5, 10, 20, 25, 50, 100, 200, 250, 500, 1000], yStep = nice[nice.length - 1];
-    for (var ni = 0; ni < nice.length; ni++) if (E1 / nice[ni] <= 4.2) { yStep = nice[ni]; break; }
-    var yMax = E1;
-    var px = function(t){ return L + t / tMax * pw; }, py = function(e){ return T + ph - e / yMax * ph; };
-    var nowI = at(simT);
+    var fs = Math.max(10, Math.min(13, W / 70)), gap = fs * 2, pw = (W - gap) / 2;
+    var t = physT(R, simD), A = R.A, s = state(R, t), ser = R.ser;
 
-    // capas apiladas: gravitacional, cinética, elástica, perdida
-    var layers = [{a:R.Ug, col:k.force}, {a:R.K, col:k.acc}, {a:R.Ue, col:k.violet}, {a:null, col:k.muted}];
-    var base = new Array(n).fill(0);
-    layers.forEach(function(lay, li){
-      var top = new Array(n);
-      for (var j = 0; j < n; j++) top[j] = lay.a ? base[j] + lay.a[j] : E1;
-      [[n - 1, .22], [nowI, li === 3 ? .55 : .9]].forEach(function(pass){
-        var end = pass[0]; if (end < 1) return;
-        c.save(); c.globalAlpha = pass[1]; c.fillStyle = lay.col; c.beginPath();
-        c.moveTo(px(R.T[0]), py(top[0]));
-        for (var q = 1; q <= end; q++) c.lineTo(px(R.T[q]), py(top[q]));
-        for (var w = end; w >= 0; w--) c.lineTo(px(R.T[w]), py(base[w]));
-        c.closePath(); c.fill(); c.restore();
-      });
-      base = top;
+    var fTop = A.Fmax / 1000 * 1.06, fStep = niceStep(fTop);
+    panel(c, k, 0, pw, H, fs, t, {
+      lo:0, hi:Math.ceil(fTop / fStep) * fStep, step:fStep, title:'F del golpe (kN)',
+      legend:[['J = ' + fmt(s.J, 0) + ' N·s', k.violet]],
+      draw:function(px, py, tc){
+        var pts = ser.F;
+        if (tc > 0) {                                     // el área ya recorrida es el impulso acumulado
+          c.beginPath(); c.moveTo(px(0), py(0));
+          for (var i = 0; i < pts.length && pts[i][0] <= tc; i++) if (pts[i][0] >= 0) c.lineTo(px(pts[i][0]), py(pts[i][1]));
+          c.lineTo(px(tc), py(state(R, tc).F / 1000)); c.lineTo(px(tc), py(0)); c.closePath();
+          c.save(); c.globalAlpha = .28; c.fillStyle = k.violet; c.fill(); c.restore();
+        }
+        c.save(); c.setLineDash([6, 4]); c.strokeStyle = k.ink; c.lineWidth = 1.2;
+        c.beginPath(); c.moveTo(px(0), py(A.Fmed / 1000)); c.lineTo(px(R.T), py(A.Fmed / 1000)); c.stroke(); c.restore();
+        c.fillStyle = k.ink; c.fillText('Fmed', px(R.T) + 5, py(A.Fmed / 1000) + fs * .35);
+        polyline(c, px, py, pts, TMAX, k.violet, 1.4, .35);
+        polyline(c, px, py, pts, tc, k.violet, 2.6, 1);
+      }
     });
 
-    // ejes
-    c.strokeStyle = k.muted; c.lineWidth = 1; c.fillStyle = k.muted;
-    c.textAlign = 'right';
-    for (var yv = 0; yv <= yMax + 1e-9; yv += yStep) {
-      c.beginPath(); c.moveTo(L - 4, py(yv)); c.lineTo(L, py(yv)); c.stroke();
-      c.fillText(fmt(yv, 0), L - 6, py(yv) + fs * 0.35);
-    }
-    c.textAlign = 'center';
-    var xs = tMax > 6 ? 2 : (tMax > 3 ? 1 : 0.5);
-    for (var tv = 0; tv <= tMax + 1e-9; tv += xs) {
-      c.beginPath(); c.moveTo(px(tv), T + ph); c.lineTo(px(tv), T + ph + 4); c.stroke();
-      c.fillText(fmt(tv, tv % 1 ? 1 : 0), px(tv), T + ph + fs * 1.3);
-    }
-    c.textAlign = 'left'; c.fillText('E (J)', 4, fs * 1.1);
-    c.textAlign = 'right'; c.fillText('t (s)', L + pw, T + ph + fs * 1.3 + fs * .02 > H ? H - 2 : H - fs * .3 - 1); c.textAlign = 'left';
-    c.strokeStyle = k.muted; c.beginPath(); c.moveTo(L, T); c.lineTo(L, T + ph); c.lineTo(L + pw, T + ph); c.stroke();
-
-    // instante en que pasa por el lector
-    if (R.t3 !== null) {
-      c.setLineDash([4, 3]); c.strokeStyle = k.ink; c.lineWidth = 1.3;
-      c.beginPath(); c.moveTo(px(R.t3), T); c.lineTo(px(R.t3), T + ph); c.stroke(); c.setLineDash([]);
-      c.fillStyle = k.ink; c.fillText('lector', px(R.t3) + 4, T + fs);
-    }
-    // cursor
-    c.strokeStyle = k.ink; c.lineWidth = 2;
-    c.beginPath(); c.moveTo(px(R.T[nowI]), T); c.lineTo(px(R.T[nowI]), T + ph); c.stroke();
-
-    // leyenda
-    var items = [['gravitacional Ug', k.force], ['cinética K', k.acc], ['elástica Ue', k.violet], ['perdida por fricción', k.muted]];
-    var lx = L + fs * 3, ly = fs * .55;
-    items.forEach(function(it){
-      c.fillStyle = it[1]; c.fillRect(lx, ly, fs * .9, fs * .9);
-      c.fillStyle = k.ink; c.fillText(it[0], lx + fs * 1.2, ly + fs * .82);
-      lx += fs * 1.2 + c.measureText(it[0]).width + fs * 1.3;
+    var lo = Math.min(0, A.vA2 * P.mA), hi = Math.max(A.P1, A.vB2 * P.mB), pStep = niceStep((hi - lo) * 1.08);
+    panel(c, k, pw + gap, pw, H, fs, t, {
+      lo:Math.floor(lo / pStep) * pStep, hi:Math.ceil(hi * 1.04 / pStep) * pStep, step:pStep, title:'p (kg·m/s)',
+      legend:[['pA', k.force], ['pB', k.acc], ['P = pA + pB', k.ink]],
+      draw:function(px, py, tc){
+        [[ser.P, k.ink, 3], [ser.pA, k.force, 2.2], [ser.pB, k.acc, 2.2]].forEach(function(q){
+          polyline(c, px, py, q[0], TMAX, q[1], q[2] * .6, .3);
+          polyline(c, px, py, q[0], tc, q[1], q[2], 1);
+        });
+      }
     });
   }
 
   function frame(ts){
     var dtr = last ? Math.min((ts - last) / 1000, 0.1) : 0; last = ts;
     if (cur === 2) {
-      if (simT < R.tEnd) simT = Math.min(R.tEnd, simT + dtr * speed);
-      else if ((hold += dtr) > 1.6) { simT = 0; hold = 0; }
+      if (simD < R.dEnd) simD = Math.min(R.dEnd, simD + dtr);
+      else if ((hold += dtr) > 1.6) { simD = 0; hold = 0; }
       var k = pal();
       drawScene(k); drawChart(k);
     }
     requestAnimationFrame(frame);
   }
 
-  window.__sim = {get tEnd(){ return R.tEnd; }};
-  go(0); readouts(); markPresets();
+  window.__sim = {get dEnd(){ return R.dEnd; }};
+  restart(); go(0); markPresets();
   requestAnimationFrame(frame);
 })();
 </script>
